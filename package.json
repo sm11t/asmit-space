@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "gsap": "^3.12.7",
+    "howler": "^2.2.4"
+  }
+}
