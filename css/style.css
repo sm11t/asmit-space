@@ -158,3 +158,86 @@ body.theroom .pulsating-dot {
     top: 67%;
     left: 33%;
 }
+
+/* Resume Page Styles */
+.resume-page {
+    background: #121212;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center;
+    justify-content: flex-start; /* Ensure content starts from the top */
+    min-height: 100vh; /* Allow content to expand */
+    padding: 50px 20px; /* Add space at the top */
+    overflow-y: auto; /* Enable scrolling */
+}
+
+.resume-container {
+    max-width: 800px;
+    background: #1c1c1c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px; /* Ensure the top section is always visible */
+}
+.resume-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.resume-subtitle {
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.resume-section {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.resume-section h2 {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 5px;
+}
+
+.resume-section h3 {
+    margin-top: 10px;
+}
+
+.date-location {
+    font-size: 0.9em;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.resume-links {
+    margin-top: 20px;
+}
+
+.resume-links a {
+    text-decoration: none;
+    color: white;
+    background: #333;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 5px;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.resume-links a:hover {
+    background: #444;
+}
+
+.resume-btn {
+    background: #00c853;
+    font-weight: bold;
+}
+
+.resume-btn:hover {
+    background: #00a744;
+}
+
