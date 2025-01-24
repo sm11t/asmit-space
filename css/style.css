@@ -1,6 +1,7 @@
-/* Fullscreen Landing Page */
+/* General Styles */
 body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -8,43 +9,68 @@ body {
     height: 100vh;
     background: black;
     color: white;
-    font-family: Arial, sans-serif;
+    font-family: "Arial", sans-serif;
 }
 
-#landing-screen {
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+/* Fullscreen Landing Page */
+body.welcome-screen {
     background: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 1s ease-in-out;
+    text-align: center;
+    height: 100vh;
 }
 
+.welcome-container {
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Button Styles */
 button {
     background: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
-    margin: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
 }
 
-/* Hidden class to fade out */
+button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+}
+
+/* Hidden Class for Transitions */
 .hidden {
     opacity: 0;
     pointer-events: none;
+    transition: opacity 1s ease-in-out;
 }
 
 /* Main Render Section */
+body.theroom {
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 #main-content {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
-    background: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,6 +82,7 @@ button {
     object-fit: cover;
 }
 
+/* Play/Pause Button */
 #play-pause-btn {
     position: absolute;
     top: 20px;
@@ -65,4 +92,69 @@ button {
     font-size: 20px;
     padding: 10px;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#play-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+/* Hide Dots by Default */
+.pulsating-dot {
+    display: none;
+}
+
+/* Show Dots Only in The Room */
+body.theroom .pulsating-dot {
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 1); /* White dot */
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Pulsating Animation */
+.pulsating-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    background: rgba(200, 200, 200, 0.2); /* Faint grey expanding circle */
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulseEffect 1.8s infinite ease-out;
+    z-index: -1;
+}
+
+@keyframes pulseEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Positioning the Dots Correctly */
+#monitor-dot {
+    top: 42%;
+    left: 58%;
+}
+
+#laptop-dot {
+    top: 67%;
+    left: 33%;
 }

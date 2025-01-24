@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const landingScreen = document.getElementById("landing-screen");
-    const enterButton = document.getElementById("enter-site");
     const playPauseButton = document.getElementById("play-pause-btn");
-    const mainContent = document.getElementById("main-content");
-
-    let backgroundMusic; // Declare but don’t initialize yet
-    let isPlaying = false; // Default: Music is stopped
+    let backgroundMusic;
+    let isPlaying = false;
 
     // Function to create and start audio AFTER user enters
     function initializeAudio() {
@@ -19,33 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Enter the Main Page and Prepare Audio
-    enterButton.addEventListener("click", () => {
-        initializeAudio(); // Ensure Howler is created before playing
-
-        landingScreen.classList.add("hidden");
-        setTimeout(() => {
-            landingScreen.style.display = "none";
-            mainContent.classList.remove("hidden");
-
-            // Play audio automatically after entering
-            backgroundMusic.play();
-            isPlaying = true;
-            playPauseButton.textContent = "⏸"; // Set to pause icon
-        }, 1000);
-    });
-
     // Play/Pause Toggle Button
     playPauseButton.addEventListener("click", () => {
-        if (backgroundMusic) {
-            if (isPlaying) {
-                backgroundMusic.pause();
-                playPauseButton.textContent = "▶️"; // Play icon
-            } else {
-                backgroundMusic.play();
-                playPauseButton.textContent = "⏸"; // Pause icon
-            }
-            isPlaying = !isPlaying;
+        initializeAudio(); // Ensure Howler is created before playing
+
+        if (isPlaying) {
+            backgroundMusic.pause();
+            playPauseButton.textContent = "▶️"; // Play icon
+        } else {
+            backgroundMusic.play();
+            playPauseButton.textContent = "⏸"; // Pause icon
         }
+        isPlaying = !isPlaying;
+    });
+
+    // Make dots clickable
+    document.querySelectorAll('.pulsating-dot').forEach(dot => {
+        dot.addEventListener('click', function () {
+            window.open(this.getAttribute('data-url'), "_blank");
+        });
     });
 });
