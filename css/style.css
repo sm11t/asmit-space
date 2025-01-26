@@ -101,12 +101,15 @@ body.theroom {
 }
 
 /* Hide Dots by Default */
-.pulsating-dot {
+.external-url-dot {
+    display: none;
+}
+.change-view-dot {
     display: none;
 }
 
 /* Show Dots Only in The Room */
-body.theroom .pulsating-dot {
+body.theroom .external-url-dot {
     display: block;
     position: absolute;
     width: 12px;
@@ -118,8 +121,23 @@ body.theroom .pulsating-dot {
     z-index: 10;
 }
 
+body.theroom .change-view-dot {
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1.5px solid white; /* Thinner white boundary */
+    background-color: transparent; /* Fully transparent fill */
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 10;
+}
+
+
+
 /* Pulsating Animation */
-.pulsating-dot::before {
+.external-url-dot::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -133,6 +151,19 @@ body.theroom .pulsating-dot {
     z-index: -1;
 }
 
+.change-view-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    background: rgba(200, 200, 200, 0.2); /* Faint grey expanding circle */
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulseEffect 1.8s infinite ease-out;
+    z-index: -1;
+}
 @keyframes pulseEffect {
     0% {
         transform: translate(-50%, -50%) scale(1);

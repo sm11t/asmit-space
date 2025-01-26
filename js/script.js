@@ -30,9 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Make dots clickable
-    document.querySelectorAll('.pulsating-dot').forEach(dot => {
+    document.querySelectorAll('.external-url-dot').forEach(dot => {
         dot.addEventListener('click', function () {
-            window.open(this.getAttribute('data-url'), "_blank");
+            window.open(this.getAttribute('data-url'), "_blank"); // Opens in new tab
         });
     });
+
+    document.querySelectorAll('.change-view-dot').forEach(dot => {
+        dot.addEventListener('click', function () {
+            window.location.href = this.getAttribute('data-url'); // Opens in same tab
+        });
+    });
+
 });
