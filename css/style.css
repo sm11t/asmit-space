@@ -150,13 +150,13 @@ body.theroom .pulsating-dot {
 
 /* Positioning the Dots Correctly */
 #monitor-dot {
-    top: 42%;
-    left: 58%;
+    top: 34%;
+    left: 48.5%;
 }
 
 #laptop-dot {
-    top: 67%;
-    left: 33%;
+    top: 58%;
+    left: 33.5%;
 }
 
 /* Resume Page Styles */
