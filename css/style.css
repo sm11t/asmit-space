@@ -272,3 +272,56 @@ body.theroom .change-view-dot {
     background: #00a744;
 }
 
+/* Back Button - Starts as a Circle */
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 50%; /* Initially a circle */
+    padding: 10px;
+    width: 50px; /* Starts small */
+    height: 50px;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+/* SVG Icon inside the Button */
+.back-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hidden Text (Expands on Hover) */
+.back-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+/* Hover Effect - Expands to a Pill */
+.back-button:hover {
+    width: 160px; /* Expands */
+    border-radius: 30px; /* Becomes pill-shaped */
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.back-button:hover .back-text {
+    opacity: 1;
+    width: auto;
+}
+
+.back-button:hover .back-icon {
+    transform: scale(1.1); /* Slight zoom effect */
+}
