@@ -80,6 +80,8 @@ body.theroom {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: blur(10px); /* Initial blur */
+    transition: filter 1s ease; /* Blur removal transition */
 }
 
 /* Play/Pause Button */
@@ -93,6 +95,8 @@ body.theroom {
     padding: 10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
 }
 
 #play-pause-btn:hover {
@@ -100,7 +104,7 @@ body.theroom {
     transform: scale(1.1);
 }
 
-/* Hide Dots by Default */
+/* Dots - Initially Hidden */
 .external-url-dot {
     display: none;
 }
@@ -114,11 +118,13 @@ body.theroom .external-url-dot {
     position: absolute;
     width: 12px;
     height: 12px;
-    background-color: rgba(255, 255, 255, 1); /* White dot */
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 50%;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
     cursor: pointer;
     z-index: 10;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
 }
 
 body.theroom .change-view-dot {
@@ -127,14 +133,27 @@ body.theroom .change-view-dot {
     width: 12px;
     height: 12px;
     border-radius: 100%;
-    border: 1.5px solid white; /* Thinner white boundary */
-    background-color: transparent; /* Fully transparent fill */
+    border: 1.5px solid white;
+    background-color: transparent;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
     cursor: pointer;
     z-index: 10;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
 }
 
+/* Loaded State */
+body.theroom.loaded #background-image {
+    filter: blur(0); /* Remove blur */
+}
 
+body.theroom.loaded #play-pause-btn,
+body.theroom.loaded .external-url-dot,
+body.theroom.loaded .change-view-dot {
+    opacity: 1; /* Reveal elements */
+}
+
+/* Rest of your existing CSS remains unchanged below */
 
 /* Pulsating Animation */
 .external-url-dot::before {
@@ -144,7 +163,7 @@ body.theroom .change-view-dot {
     left: 50%;
     width: 35px;
     height: 35px;
-    background: rgba(200, 200, 200, 0.2); /* Faint grey expanding circle */
+    background: rgba(200, 200, 200, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
     animation: pulseEffect 1.8s infinite ease-out;
@@ -158,7 +177,7 @@ body.theroom .change-view-dot {
     left: 50%;
     width: 35px;
     height: 35px;
-    background: rgba(200, 200, 200, 0.2); /* Faint grey expanding circle */
+    background: rgba(200, 200, 200, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
     animation: pulseEffect 1.8s infinite ease-out;
@@ -196,12 +215,12 @@ body.theroom .change-view-dot {
     color: white;
     font-family: 'Inter', sans-serif;
     display: flex;
-    flex-direction: column; /* Stack content vertically */
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Ensure content starts from the top */
-    min-height: 100vh; /* Allow content to expand */
-    padding: 50px 20px; /* Add space at the top */
-    overflow-y: auto; /* Enable scrolling */
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 50px 20px;
+    overflow-y: auto;
 }
 
 .resume-container {
@@ -211,7 +230,7 @@ body.theroom .change-view-dot {
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-top: 20px; /* Ensure the top section is always visible */
+    margin-top: 20px;
 }
 .resume-container h1 {
     font-size: 2.5em;
@@ -272,7 +291,7 @@ body.theroom .change-view-dot {
     background: #00a744;
 }
 
-/* Back Button - Starts as a Circle */
+/* Back Button */
 .back-button {
     display: flex;
     align-items: center;
@@ -286,23 +305,21 @@ body.theroom .change-view-dot {
     font-size: 18px;
     font-weight: bold;
     border: 2px solid white;
-    border-radius: 50%; /* Initially a circle */
+    border-radius: 50%;
     padding: 10px;
-    width: 50px; /* Starts small */
+    width: 50px;
     height: 50px;
     overflow: hidden;
     transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
     white-space: nowrap;
 }
 
-/* SVG Icon inside the Button */
 .back-icon {
     width: 24px;
     height: 24px;
     transition: transform 0.3s ease-in-out;
 }
 
-/* Hidden Text (Expands on Hover) */
 .back-text {
     opacity: 0;
     width: 0;
@@ -310,10 +327,9 @@ body.theroom .change-view-dot {
     transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-/* Hover Effect - Expands to a Pill */
 .back-button:hover {
-    width: 160px; /* Expands */
-    border-radius: 30px; /* Becomes pill-shaped */
+    width: 160px;
+    border-radius: 30px;
     background: rgba(255, 255, 255, 0.2);
 }
 
@@ -323,5 +339,522 @@ body.theroom .change-view-dot {
 }
 
 .back-button:hover .back-icon {
-    transform: scale(1.1); /* Slight zoom effect */
+    transform: scale(1.1);
+}/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: black;
+    color: white;
+    font-family: "Arial", sans-serif;
+}
+
+/* Fullscreen Landing Page */
+body.welcome-screen {
+    background: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+}
+
+.welcome-container {
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Button Styles */
+button {
+    background: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+}
+
+/* Hidden Class for Transitions */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Main Render Section */
+body.theroom {
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px); /* Initial blur */
+    transition: filter 1s ease; /* Blur removal transition */
+}
+
+/* Play/Pause Button */
+#play-pause-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
+}
+
+#play-pause-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.1);
+}
+
+/* Dots - Initially Hidden */
+.external-url-dot {
+    display: none;
+}
+.change-view-dot {
+    display: none;
+}
+
+/* Show Dots Only in The Room */
+body.theroom .external-url-dot {
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
+}
+
+body.theroom .change-view-dot {
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1.5px solid white;
+    background-color: transparent;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease; /* Fade-in transition */
+}
+
+/* Loaded State */
+body.theroom.loaded #background-image {
+    filter: blur(0); /* Remove blur */
+}
+
+body.theroom.loaded #play-pause-btn,
+body.theroom.loaded .external-url-dot,
+body.theroom.loaded .change-view-dot {
+    opacity: 1; /* Reveal elements */
+}
+
+/* Rest of your existing CSS remains unchanged below */
+
+/* Pulsating Animation */
+.external-url-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    background: rgba(200, 200, 200, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulseEffect 1.8s infinite ease-out;
+    z-index: -1;
+}
+
+.change-view-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    background: rgba(200, 200, 200, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulseEffect 1.8s infinite ease-out;
+    z-index: -1;
+}
+@keyframes pulseEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Positioning the Dots Correctly */
+#monitor-dot {
+    top: 34%;
+    left: 48.5%;
+}
+
+#laptop-dot {
+    top: 58%;
+    left: 33.5%;
+}
+
+/* Resume Page Styles */
+.resume-page {
+    background: #121212;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 50px 20px;
+    overflow-y: auto;
+}
+
+.resume-container {
+    max-width: 800px;
+    background: #1c1c1c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px;
+}
+.resume-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.resume-subtitle {
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.resume-section {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.resume-section h2 {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 5px;
+}
+
+.resume-section h3 {
+    margin-top: 10px;
+}
+
+.date-location {
+    font-size: 0.9em;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.resume-links {
+    margin-top: 20px;
+}
+
+.resume-links a {
+    text-decoration: none;
+    color: white;
+    background: #333;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 5px;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.resume-links a:hover {
+    background: #444;
+}
+
+.resume-btn {
+    background: #00c853;
+    font-weight: bold;
+}
+
+.resume-btn:hover {
+    background: #00a744;
+}
+
+/* Back Button */
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+.back-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.back-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.back-button:hover {
+    width: 160px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.back-button:hover .back-text {
+    opacity: 1;
+    width: auto;
+}
+
+.back-button:hover .back-icon {
+    transform: scale(1.1);
+}
+
+/* Monitor View Styles */
+body.monitor-view {
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+.monitor-frame {
+    position: relative;
+    width: 80vw;
+    height: 70vh;
+    margin: 50px auto;
+}
+
+.monitor-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.screen-content {
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    background: #000;
+    top: 5%;
+    left: 5%;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Tab Navigation */
+.tabs {
+    margin-bottom: 20px;
+}
+
+.tab {
+    background: #333;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tab.active {
+    background: #00c853;
+}
+
+/* Content Panels */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.pdf-viewer {
+    width: 100%;
+    height: 600px;
+    border: none;
+}
+
+/* Gallery Grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Monitor View Specific Styles */
+body.monitorview #background-image {
+    filter: none; /* Remove blur if inherited */
+}
+
+.monitor-screen {
+    position: absolute;
+    width: 62%;
+    height: 74%;
+    top: 13%;
+    left: 19%;
+    background: #000;
+    overflow: hidden;
+}
+
+.monitor-tabs {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 2px solid #333;
+}
+
+.monitor-tab {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.monitor-tab.active {
+    color: #00c853;
+}
+
+.monitor-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00c853;
+}
+
+.monitor-tab:hover {
+    transform: translateY(-2px);
+}
+
+.content-section {
+    display: none;
+    height: calc(100% - 70px);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.pdf-viewer {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Project Grid */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.project-card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    z-index: 1000; /* Ensure it appears above everything */
 }
