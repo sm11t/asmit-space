@@ -1,0 +1,41 @@
+/* ========================= */
+/*    SCREEN FOLDER STYLES   */
+/* ========================= */
+
+#folders {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+}
+
+/* Folder Icon */
+.folder {
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Folder Image */
+.folder img {
+    width: 80px;
+    height: auto;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); /* Subtle shadow */
+}
+
+/* Folder Label */
+.folder span {
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    margin-top: 5px;
+}
+
+/* Hover Effect */
+.folder:hover {
+    transform: scale(1.1);
+}

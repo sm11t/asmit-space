@@ -1,0 +1,80 @@
+/* Taskbar Container */
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(20, 20, 20, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    z-index: 100;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Left: Weather */
+#weather {
+    color: white;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+/* Center: Start Button, Search Bar & Apps */
+#taskbar-center {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Start Button */
+#start-button img {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+/* Search Bar */
+#search-bar {
+    width: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+#search-bar input {
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* Pinned Apps */
+#pinned-apps {
+    display: flex;
+    gap: 10px;
+}
+
+#pinned-apps img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, opacity 0.2s;
+    border-radius: 5px;
+}
+
+#pinned-apps img:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Right: Clock */
+#taskbar-clock {
+    text-align: right;
+    color: white;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}

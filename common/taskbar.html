@@ -1,0 +1,32 @@
+<div id="taskbar">
+    <!-- Left Side: Weather -->
+    <div id="weather">
+        <span id="weather-info">Loading...</span>
+    </div>
+
+    <!-- Center: Start Button, Search Bar & Pinned Apps -->
+    <div id="taskbar-center">
+        <div id="start-button">
+            <img src="../assets/icons/windows.svg" alt="Start">
+        </div>
+
+        <div id="search-bar">
+            <input type="text" placeholder="Search" disabled>
+        </div>
+
+        <div id="pinned-apps">
+            <img src="../assets/icons/spotify.svg" alt="Spotify" onclick="openApp('spotify')">
+            <img src="../assets/icons/PyCharm.svg" alt="PyCharm">
+            <img src="../assets/icons/WebStorm.svg" alt="WebStorm">
+            <img src="../assets/icons/CLion.svg" alt="CLion">
+            <img src="../assets/icons/github.svg" alt="GitHub" onclick="openApp('github')">
+            <img src="../assets/icons/LinkedIn.svg" alt="LinkedIn" onclick="openApp('linkedin')">
+        </div>
+    </div>
+
+    <!-- Right Side: Clock -->
+    <div id="taskbar-clock">
+        <span id="clock"></span><br>
+        <span id="date"></span>
+    </div>
+</div>

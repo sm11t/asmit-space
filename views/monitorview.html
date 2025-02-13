@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor View - asmit.space</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/taskbar.css"> <!-- Taskbar Styles -->
+    <link rel="stylesheet" href="../css/screen.css"> <!-- Shared Screen Elements -->
+</head>
+<body class="monitorview">
+
+<!-- Monitor Desktop (Black Background) -->
+<div id="monitor-desktop">
+
+    <!-- Folders (Top Left) -->
+    <div id="folders">
+        <div class="folder" onclick="openFolder('work')">
+            <img src="../assets/icons/folder.svg" alt="Work">
+            <span>Work Experience</span>
+        </div>
+        <div class="folder" onclick="openFolder('projects')">
+            <img src="../assets/icons/folder.svg" alt="Projects">
+            <span>Projects</span>
+        </div>
+        <div class="folder" onclick="openFolder('research')">
+            <img src="../assets/icons/folder.svg" alt="Research">
+            <span>Research</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- Back Button -->
+<a href="../theroom.html" class="back-button">
+    <img src="../assets/arrow_back.svg" class="back-icon" alt="Back">
+    <span class="back-text">The Room</span>
+</a>
+
+<!-- Taskbar Container (Loaded Dynamically) -->
+<div id="taskbar-container"></div>
+
+<script>
+    // Load taskbar dynamically
+    fetch("../common/taskbar.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("taskbar-container").innerHTML = data;
+
+            // Load the taskbar JavaScript
+            let script = document.createElement("script");
+            script.src = "../common/taskbar.js";
+            document.body.appendChild(script);
+        });
+</script>
+
+<script src="../js/screen.js"></script> <!-- Folder Click Handling -->
+
+</body>
+</html>
