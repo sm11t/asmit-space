@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function initializeAudio() {
         if (!backgroundMusic) {
             backgroundMusic = new Howl({
-                src: ["audio/alabamaloop.mp3"],
+                src: ["../audio/alabamaloop.mp3"],
                 autoplay: false, // Will be triggered after entering
                 loop: true,
                 volume: 0.5
