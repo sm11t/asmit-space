@@ -1,13 +1,24 @@
 <div class="folder-window" id="folder-window">
     <div class="folder-header">
         <span class="folder-title">Folder Name</span>
-        <div class="folder-actions">
-            <button class="minimize">_</button>
-            <button class="maximize">□</button>
-            <button class="close" onclick="closeFolder()">✖</button>
+        <div class="window-controls">
+            <img src="../assets/icons/folder-icons/minimize.svg" class="minimize" alt="Minimize">
+            <img src="../assets/icons/folder-icons/maximize.svg" class="maximize" alt="Maximize">
+            <img src="../assets/icons/folder-icons/close.svg" class="close" alt="Close">
         </div>
     </div>
     <div class="folder-content">
-        <!-- Folder content will be loaded dynamically -->
+        <div class="folder-sidebar">
+            <ul id="folder-list">
+                <li class="folder-nav" data-folder="work">Work Experience</li>
+                <li class="folder-nav" data-folder="projects">Projects</li>
+                <li class="folder-nav" data-folder="research">Research</li>
+                <li class="folder-nav" data-folder="resume">Resume</li>
+                <li class="folder-nav" data-folder="personal">Personal</li>
+            </ul>
+        </div>
+        <div class="folder-body">
+            <p>Select a folder to view its contents.</p>
+        </div>
     </div>
 </div>

@@ -16,9 +16,13 @@ function openApp(app) {
     };
 
     if (links[app]) {
-        window.open(links[app], "_blank");
+        const newTab = window.open(links[app], "_blank");
+        if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
+            alert("Popup blocked! Please allow popups for this site.");
+        }
     }
 }
+
 
 // Fetch Weather Data
 async function fetchWeather() {
