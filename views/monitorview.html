@@ -6,31 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor View - asmit.space</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/taskbar.css"> <!-- Taskbar Styles -->
-    <link rel="stylesheet" href="../css/screen.css"> <!-- Shared Screen Elements -->
+    <link rel="stylesheet" href="../css/taskbar.css">
+    <link rel="stylesheet" href="../css/screen.css">
     <link rel="stylesheet" href="../css/folder_window.css">
+    <link rel="stylesheet" href="../content/resume/resume.css">
     <script src="../js/taskbar.js" defer></script>
-    <script src="../js/folder_window.js"></script>
-
+    <script src="../js/folder_window.js" defer></script>
+    <script src="../content/resume/resume.js" defer></script>
 </head>
+
 <body class="monitorview">
 
-<!-- Monitor Desktop (Black Background) -->
-<!-- Folders -->
-<div id="work-folder" class="folder">
-    <img src="../assets/icons/folder-icons/folder.svg" alt="Work Experience">
-    <span>Work Experience</span>
+<div class="desktop-items">
+    <div id="work-folder" class="folder">
+        <img src="../assets/icons/folder-icons/folder.svg" alt="Work Experience">
+        <span>Work Experience</span>
+    </div>
+    <div id="projects-folder" class="folder">
+        <img src="../assets/icons/folder-icons/folder.svg" alt="Projects">
+        <span>Projects</span>
+    </div>
+    <div id="research-folder" class="folder">
+        <img src="../assets/icons/folder-icons/folder.svg" alt="Research">
+        <span>Research</span>
+    </div>
 </div>
 
-<div id="projects-folder" class="folder">
-    <img src="../assets/icons/folder-icons/folder.svg" alt="Projects">
-    <span>Projects</span>
+<!-- Resume File -->
+<div id="resume-file" class="file">
+    <img src="../assets/icons/pdf.svg" alt="Resume">
+    <span>Resume</span>
 </div>
 
-<div id="research-folder" class="folder">
-    <img src="../assets/icons/folder-icons/folder.svg" alt="Research">
-    <span>Research</span>
-</div>
 
 <!-- Back Button -->
 <a href="theroom.html" class="back-button">
@@ -38,8 +45,27 @@
     <span class="back-text">The Room</span>
 </a>
 
-<!-- Taskbar Container (Loaded Dynamically) -->
+<!-- Taskbar Container -->
 <div id="taskbar-container"></div>
+
+<!-- Resume Window Template -->
+<template id="resume-window-template">
+    <div class="resume-window" id="resume-window">
+        <div class="resume-header">
+            <div class="window-title">
+                <img src="../assets/icons/pdf-icon.svg" alt="PDF Icon">
+                <span>Resume2025v3.pdf</span>
+            </div>
+            <div class="window-controls">
+                <button class="download" title="Download">⭳</button>
+                <button class="minimize">─</button>
+                <button class="maximize">□</button>
+                <button class="close">✕</button>
+            </div>
+        </div>
+        <iframe src="../content/resume/resume.html" class="resume-iframe"></iframe>
+    </div>
+</template>
 
 <script>
     // Load taskbar dynamically
@@ -47,15 +73,9 @@
         .then(response => response.text())
         .then(data => {
             document.getElementById("taskbar-container").innerHTML = data;
-
-            // Load the taskbar JavaScript
             let script = document.createElement("script");
-            script.src = "../common/taskbar.js";
             document.body.appendChild(script);
         });
 </script>
-
-<script src="../js/screen.js"></script> <!-- Folder Click Handling -->
-
 </body>
 </html>

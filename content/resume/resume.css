@@ -1,0 +1,96 @@
+/* Resume Window Styles */
+.resume-window {
+    width: 800px;
+    height: 600px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    display: none;
+    resize: both;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    cursor: move;
+    user-select: none;
+}
+
+.window-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #212529;
+}
+
+.window-title img {
+    width: 20px;
+    height: 20px;
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.window-controls button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 3px;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.window-controls .close:hover {
+    background: #dc3545;
+    color: white;
+}
+
+.window-controls .minimize:hover,
+.window-controls .maximize:hover,
+.window-controls .download:hover {
+    background: #e9ecef;
+}
+
+.resume-iframe {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
+
+.file {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.file img {
+    width: 48px;
+    height: 48px;
+}
+
+.file span {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
