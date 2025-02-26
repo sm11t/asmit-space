@@ -5,7 +5,7 @@ function updateClock() {
     document.getElementById("date").innerText = now.toLocaleDateString();
 }
 setInterval(updateClock, 1000);
-updateClock();
+// updateClock();
 
 // Open External Apps
 function openApp(app) {
@@ -22,22 +22,3 @@ function openApp(app) {
         }
     }
 }
-
-
-// Fetch Weather Data
-async function fetchWeather() {
-    try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-        const city = data.city;
-        const country = data.country_code;
-
-        const weatherResponse = await fetch(`https://wttr.in/${city}?format=%t+%C`);
-        const weatherText = await weatherResponse.text();
-
-        document.getElementById("weather-info").innerText = `${city}, ${country} - ${weatherText}`;
-    } catch (error) {
-        document.getElementById("weather-info").innerText = "Weather unavailable";
-    }
-}
-fetchWeather();

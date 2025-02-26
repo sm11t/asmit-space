@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor View - asmit.space</title>
+    <!-- CSS links -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/taskbar.css">
     <link rel="stylesheet" href="../css/screen.css">
-    <link rel="stylesheet" href="../css/folder_window.css">
-    <link rel="stylesheet" href="../content/resume/resume.css">
+    <link rel="stylesheet" href="../css/openfilefolder.css">
+
+    <!-- JS scripts -->
     <script src="../js/taskbar.js" defer></script>
-    <script src="../js/folder_window.js" defer></script>
-    <script src="../content/resume/resume.js" defer></script>
+    <script src="../js/openfilefolder.js" defer></script>
 </head>
 
 <body class="monitorview">
-
+<!-- Desktop items (folders) -->
 <div class="desktop-items">
     <div id="work-folder" class="folder">
         <img src="../assets/icons/folder-icons/folder.svg" alt="Work Experience">
@@ -38,7 +38,6 @@
     <span>Resume</span>
 </div>
 
-
 <!-- Back Button -->
 <a href="theroom.html" class="back-button">
     <img src="../assets/arrow_back.svg" class="back-icon" alt="Back">
@@ -47,25 +46,6 @@
 
 <!-- Taskbar Container -->
 <div id="taskbar-container"></div>
-
-<!-- Resume Window Template -->
-<template id="resume-window-template">
-    <div class="resume-window" id="resume-window">
-        <div class="resume-header">
-            <div class="window-title">
-                <img src="../assets/icons/pdf-icon.svg" alt="PDF Icon">
-                <span>Resume2025v3.pdf</span>
-            </div>
-            <div class="window-controls">
-                <button class="download" title="Download">⭳</button>
-                <button class="minimize">─</button>
-                <button class="maximize">□</button>
-                <button class="close">✕</button>
-            </div>
-        </div>
-        <iframe src="../content/resume/resume.html" class="resume-iframe"></iframe>
-    </div>
-</template>
 
 <script>
     // Load taskbar dynamically
