@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'file',
             id: 'resume',
             // For demonstration, we point to an HTML file. Adjust if you have a PDF or different path:
-            filePath: '../resume.html'
+            filePath: '../content/resume/resume.html'
         }
     ];
 
@@ -152,27 +152,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // 5) Load folder content in the right pane
     function loadFolderContent(folderObj) {
         const contentArea = windowElement.querySelector('.folder-items');
-        const subItems = folderObj.content || [];
 
+        // Switch to grid-view mode
+        contentArea.classList.remove('file-view');
+        contentArea.classList.add('grid-view');
+
+        const subItems = folderObj.content || [];
         contentArea.innerHTML = subItems.map(subItem => {
             const iconSrc = subItem.type === 'folder'
                 ? '../assets/icons/folder-icons/folder.svg'
-                : '../assets/icons/pdf.svg'; // or file icon
+                : '../assets/icons/pdf.svg';
             return `
-        <div class="folder-item" data-id="${subItem.id}" data-type="${subItem.type}">
-          <img src="${iconSrc}" alt="${subItem.name}">
-          <span>${subItem.name}</span>
-        </div>
-      `;
+      <div class="folder-item" data-id="${subItem.id}" data-type="${subItem.type}">
+        <img src="${iconSrc}" alt="${subItem.name}">
+        <span>${subItem.name}</span>
+      </div>
+    `;
         }).join('');
 
-        // Add click events to each item
+        // Add click events for each subItem
         contentArea.querySelectorAll('.folder-item').forEach(itemEl => {
             itemEl.addEventListener('click', () => {
                 const id = itemEl.dataset.id;
                 const type = itemEl.dataset.type;
                 const clickedSubItem = subItems.find(x => x.id === id);
-
                 if (!clickedSubItem) return;
 
                 if (type === 'folder') {
@@ -189,12 +192,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // 6) Open file in the right pane using an iframe (or embed)
     function openFile(filePath) {
         const contentArea = windowElement.querySelector('.folder-items');
+
+        // Switch to file-view mode
+        contentArea.classList.remove('grid-view');
+        contentArea.classList.add('file-view');
+
         contentArea.innerHTML = `
-      <div class="file-preview">
-        <iframe src="${filePath}" frameborder="0"></iframe>
-      </div>
-    `;
+    <div class="file-preview">
+      <!-- scrolling="auto" helps ensure you can scroll inside the iframe -->
+      <iframe src="${filePath}" frameborder="0" scrolling="auto"></iframe>
+    </div>
+  `;
     }
+
 
     // 7) Sidebar navigation click handlers
     document.querySelectorAll('.folder-nav').forEach(navItem => {

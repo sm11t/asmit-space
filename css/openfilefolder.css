@@ -100,15 +100,17 @@
 /* Right Content Area */
 .folder-body {
     flex: 1;
-    padding: 15px;
     background: #1e1e1e;
-    overflow: auto;
+    overflow: hidden; /* let the iframe handle scrollbars */
+    display: flex;
+    flex-direction: column; /* so .folder-items can stretch */
+    padding: 0; /* remove extra padding so the iframe can fill the space */
 }
 
 .folder-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
+    width: 100%;
+    height: 100%;
+    /* No display or padding here—these come from .grid-view or .file-view */
 }
 
 .folder-item {
@@ -144,6 +146,22 @@
     top: 0 !important;
     position: fixed;
     resize: none;
+}
+
+.folder-items.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    overflow: auto; /* can scroll if many icons overflow */
+}
+
+.folder-items.file-view {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden; /* the iframe inside will have its own scrollbars */
 }
 
 /* Additional style for file previews */
