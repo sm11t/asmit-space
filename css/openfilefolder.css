@@ -114,12 +114,18 @@
 }
 
 .folder-item {
-    display: flex;
+    display: flex; /* or inline-flex, or inline-block */
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 10px;
     border-radius: 3px;
     cursor: pointer;
+    background: transparent;
+    /* The key: do NOT force 100% width. Use auto. */
+    width: auto;
+    /* For block-level elements, they can still expand if the parent grid is stretching them.
+       That's why justify-items / align-items are crucial in the parent. */
 }
 
 .folder-item:hover {
@@ -148,12 +154,18 @@
     resize: none;
 }
 
+
 .folder-items.grid-view {
     display: grid;
+    /* Each cell is at least 120px wide; you can fix or max out a width as you like */
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 15px;
     padding: 15px;
-    overflow: auto; /* can scroll if many icons overflow */
+    overflow: auto;
+
+    /* Prevent stretching horizontally/vertically */
+    justify-items: center; /* or start, end, etc. */
+    align-items: start;    /* or center */
 }
 
 .folder-items.file-view {
