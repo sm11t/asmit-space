@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
             name: 'Resume',
             type: 'file',
             id: 'resume',
-            // For demonstration, we point to an HTML file. Adjust if you have a PDF or different path:
+            // Adjust filePath as needed.
             filePath: '../content/resume/resume.html'
         }
     ];
 
-    // 2) Create the main folder window (hidden by default)
+    // 2) Create the main folder window (hidden by default) with custom resize handles
     const folderWindow = document.createElement("div");
     folderWindow.innerHTML = `
     <div class="folder-window" id="folder-window">
@@ -58,10 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="folder-sidebar">
           <ul class="folder-list">
             ${desktopItems.map(item => {
-        // Decide icon based on folder/file
         const iconSrc = item.type === 'folder'
             ? '../assets/icons/folder-icons/folder.svg'
-            : '../assets/icons/pdf.svg'; // or any icon you want for files
+            : '../assets/icons/pdf.svg';
         return `
                 <li class="folder-nav" data-id="${item.id}" data-type="${item.type}">
                   <img src="${iconSrc}" alt="${item.name}">
@@ -77,6 +76,15 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
+      <!-- Custom Resize Handles -->
+      <div class="resize-handle top"></div>
+      <div class="resize-handle bottom"></div>
+      <div class="resize-handle left"></div>
+      <div class="resize-handle right"></div>
+      <div class="resize-handle top-left"></div>
+      <div class="resize-handle top-right"></div>
+      <div class="resize-handle bottom-left"></div>
+      <div class="resize-handle bottom-right"></div>
     </div>
   `;
 
@@ -199,12 +207,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contentArea.innerHTML = `
     <div class="file-preview">
-      <!-- scrolling="auto" helps ensure you can scroll inside the iframe -->
       <iframe src="${filePath}" frameborder="0" scrolling="auto"></iframe>
     </div>
   `;
     }
-
 
     // 7) Sidebar navigation click handlers
     document.querySelectorAll('.folder-nav').forEach(navItem => {
@@ -230,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 8) Desktop icon click handlers
-    //    - Work Folder
     const workFolderIcon = document.getElementById('work-folder');
     workFolderIcon.addEventListener('click', () => {
         windowElement.style.display = 'block';
@@ -241,7 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //    - Projects Folder
     const projectsFolderIcon = document.getElementById('projects-folder');
     projectsFolderIcon.addEventListener('click', () => {
         windowElement.style.display = 'block';
@@ -252,7 +256,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //    - Research Folder
     const researchFolderIcon = document.getElementById('research-folder');
     researchFolderIcon.addEventListener('click', () => {
         windowElement.style.display = 'block';
@@ -263,7 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //    - Resume File
     const resumeFileIcon = document.getElementById('resume-file');
     resumeFileIcon.addEventListener('click', () => {
         windowElement.style.display = 'block';
@@ -273,4 +275,54 @@ document.addEventListener("DOMContentLoaded", function () {
             openFile(fileObj.filePath);
         }
     });
+
+    // 9) Custom Resize Logic: Allow resizing from all edges and corners
+    const resizeHandles = windowElement.querySelectorAll('.resize-handle');
+    resizeHandles.forEach(handle => {
+        handle.addEventListener('mousedown', initResize);
+    });
+
+    function initResize(e) {
+        e.preventDefault();
+        const handle = e.target;
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const rect = windowElement.getBoundingClientRect();
+        const startWidth = rect.width;
+        const startHeight = rect.height;
+        const startLeft = rect.left;
+        const startTop = rect.top;
+
+        function doResize(e) {
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            // Resizing from the right edge
+            if (handle.classList.contains('right') || handle.classList.contains('top-right') || handle.classList.contains('bottom-right')) {
+                windowElement.style.width = `${startWidth + dx}px`;
+            }
+            // Resizing from the left edge
+            if (handle.classList.contains('left') || handle.classList.contains('top-left') || handle.classList.contains('bottom-left')) {
+                windowElement.style.width = `${startWidth - dx}px`;
+                windowElement.style.left = `${startLeft + dx}px`;
+            }
+            // Resizing from the bottom edge
+            if (handle.classList.contains('bottom') || handle.classList.contains('bottom-left') || handle.classList.contains('bottom-right')) {
+                windowElement.style.height = `${startHeight + dy}px`;
+            }
+            // Resizing from the top edge
+            if (handle.classList.contains('top') || handle.classList.contains('top-left') || handle.classList.contains('top-right')) {
+                windowElement.style.height = `${startHeight - dy}px`;
+                windowElement.style.top = `${startTop + dy}px`;
+            }
+        }
+
+        function stopResize() {
+            document.removeEventListener('mousemove', doResize);
+            document.removeEventListener('mouseup', stopResize);
+        }
+
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
+    }
 });

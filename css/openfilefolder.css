@@ -1,6 +1,6 @@
 /* Folder Window Styles */
 .folder-window {
-    position: absolute;
+    position: absolute;        /* Position so we can move & resize it */
     width: 800px;
     height: 600px;
     background: #1e1e1e;
@@ -9,8 +9,8 @@
     border-radius: 3px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     display: none;
-    resize: both;
-    overflow: hidden;
+    /* Removed resize: both; so we can do custom handles instead */
+    overflow: hidden;          /* Keep hidden so the edges/corners are free */
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -101,20 +101,21 @@
 .folder-body {
     flex: 1;
     background: #1e1e1e;
-    overflow: hidden; /* let the iframe handle scrollbars */
+    /* Let the content area scroll internally */
+    overflow: auto;
     display: flex;
-    flex-direction: column; /* so .folder-items can stretch */
-    padding: 0; /* remove extra padding so the iframe can fill the space */
+    flex-direction: column;
+    padding: 0;
 }
 
 .folder-items {
     width: 100%;
     height: 100%;
-    /* No display or padding here—these come from .grid-view or .file-view */
+    /* Display mode is toggled by .grid-view or .file-view classes */
 }
 
 .folder-item {
-    display: flex; /* or inline-flex, or inline-block */
+    display: flex;  /* or inline-flex, or inline-block */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -122,10 +123,7 @@
     border-radius: 3px;
     cursor: pointer;
     background: transparent;
-    /* The key: do NOT force 100% width. Use auto. */
-    width: auto;
-    /* For block-level elements, they can still expand if the parent grid is stretching them.
-       That's why justify-items / align-items are crucial in the parent. */
+    width: auto;    /* Do not force 100% width */
 }
 
 .folder-item:hover {
@@ -151,23 +149,22 @@
     left: 0 !important;
     top: 0 !important;
     position: fixed;
+    /* No custom resizing when maximized */
     resize: none;
 }
 
-
+/* Grid View */
 .folder-items.grid-view {
     display: grid;
-    /* Each cell is at least 120px wide; you can fix or max out a width as you like */
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 15px;
     padding: 15px;
     overflow: auto;
-
-    /* Prevent stretching horizontally/vertically */
-    justify-items: center; /* or start, end, etc. */
-    align-items: start;    /* or center */
+    justify-items: center; /* so items don't stretch across the cell */
+    align-items: start;
 }
 
+/* File View */
 .folder-items.file-view {
     display: block;
     width: 100%;
@@ -190,4 +187,81 @@
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* ---------------------------
+   CUSTOM RESIZE HANDLE STYLES
+   --------------------------- */
+.resize-handle {
+    position: absolute;
+    z-index: 10;
+    /* For debugging, you can give it a visible background:
+       background: rgba(255, 0, 0, 0.3);
+    */
+}
+
+/* Edges */
+.resize-handle.top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: n-resize;
+}
+
+.resize-handle.bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: s-resize;
+}
+
+.resize-handle.left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 5px;
+    cursor: w-resize;
+}
+
+.resize-handle.right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 5px;
+    cursor: e-resize;
+}
+
+/* Corners */
+.resize-handle.top-left {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nw-resize;
+}
+
+.resize-handle.top-right {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: ne-resize;
+}
+
+.resize-handle.bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: sw-resize;
+}
+
+.resize-handle.bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: se-resize;
 }
