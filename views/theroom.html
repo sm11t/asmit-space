@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Room - asmit.space</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/songoverlay.css">
 </head>
 <body class="theroom">
 <div id="main-content">
@@ -19,5 +20,22 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 <script src="../js/script.js"></script>
+
+<!-- Song Overlay -->
+<link rel="stylesheet" href="../css/songoverlay.css">
+<div id="song-overlay-container"></div>
+<script>
+    fetch("../common/songoverlay.html")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("song-overlay-container").innerHTML = html;
+            const script = document.createElement("script");
+            script.src = "../js/songoverlay.js";
+            document.body.appendChild(script);
+        });
+</script>
+
+
+
 </body>
 </html>
