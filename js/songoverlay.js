@@ -1,4 +1,4 @@
-const songs = ["neonlove.mp3", "midnightdrive.mp3", "spacejam.mp3"];
+const songs = ["favouritecutscene.mp3", "infinity.mp3", "lvloop.mp3", "sancloop.mp3"];
 let current = 0;
 let isPlaying = false;
 
@@ -14,13 +14,15 @@ function updateSongText() {
 function playSong() {
     audio.play();
     isPlaying = true;
-    playPauseBtn.src = "../assets/icons/pause.svg";
+    // Use a pause icon while music is playing
+    playPauseBtn.src = "../assets/icons/songbuttons/pause-svgrepo-com.svg";
 }
 
 function pauseSong() {
     audio.pause();
     isPlaying = false;
-    playPauseBtn.src = "../assets/icons/play.svg";
+    // Use a play icon while music is paused
+    playPauseBtn.src = "../assets/icons/songbuttons/play-svgrepo-com.svg";
 }
 
 document.getElementById("prev-btn").onclick = () => {

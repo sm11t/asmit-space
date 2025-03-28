@@ -1,26 +1,46 @@
+/* songoverlay.css */
+
 body {
-    perspective: 800px; /* enables 3D perspective for children */
+    perspective: 800px; /* for 3D effect if needed */
 }
 
 #song-overlay {
     position: absolute;
-    top: 60%; /* Moved lower */
-    left: 4%; /* More centered on the wall */
-    transform: skewX(-8deg) skewY(-4deg) rotateZ(-22deg); /* Adjusted for wall angle */
+    top: 60%; /* adjust as you wish */
+    left: 4%;
+    transform: skewX(-8deg) skewY(-4deg) rotateZ(-22deg); /* for wall angle */
+
     color: white;
     font-family: 'Courier New', monospace;
-    opacity: 0.9; /* adjust from 0.1 to 1 for intensity */
+    opacity: 0.9;
     filter: blur(0.5px); /* subtle wall diffusion */
     text-shadow:
             0 0 4px rgba(255, 255, 255, 0.4),
             0 0 10px rgba(255, 255, 255, 0.3),
-            0 0 20px rgba(255, 255, 255, 0.2); /* glow layers */
+            0 0 20px rgba(255, 255, 255, 0.2);
     z-index: 200;
+
+    /* Center contents in a column */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Optionally fix a width so text changes don’t shift icons.
+       Adjust as needed: */
+    width: 200px;
 }
 
 #song-overlay .song-text {
     font-size: 1.5em;
     margin-bottom: 10px;
+    text-align: center;
+    /* If you want text on a single line or truncated, consider:
+       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
+}
+
+#song-overlay .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #song-overlay .controls img {
@@ -30,5 +50,3 @@ body {
     filter: brightness(1000%) drop-shadow(0 0 5px white);
     cursor: pointer;
 }
-
-

@@ -96,24 +96,6 @@ body.theroom {
     object-fit: cover;
 }
 
-/* Play/Pause Button */
-#play-pause-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-    font-size: 20px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-#play-pause-btn:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: scale(1.1);
-}
-
 /* Hide Dots by Default */
 .external-url-dot {
     display: none;
