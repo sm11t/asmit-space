@@ -1,11 +1,10 @@
 /*********************************************
- * LAYOUT FOR MAIN BODY COLUMNS
+ * GLOBAL & LAYOUT
  *********************************************/
-
 body {
     margin: 0;
     padding: 0;
-    background-color: #f3f2ef; /* Now the background spans the entire window width */
+    background-color: #f3f2ef; /* background spans entire window width */
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
@@ -15,8 +14,6 @@ body {
     max-width: 1128px; /* typical LinkedIn container width */
     margin: 0 auto;    /* center the content */
     padding: 16px 0;   /* top/bottom padding around content */
-    /* Remove background-color here */
-    /* background-color: #f3f2ef; */
 }
 
 .linkedin-sim-main-column {
@@ -33,33 +30,10 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 12px;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
-
-.profile-card h3 {
-    margin: 8px 0 4px;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.profile-card p,
-.profile-card a {
-    font-size: 14px;
-    color: #000;
-    margin: 0 0 8px;
-}
-
-.profile-card a {
-    color: #0a66c2;
-    text-decoration: none;
-}
-
-.profile-card a:hover {
-    text-decoration: underline;
 }
 
 /*********************************************
- * LINKEDIN HEADER STYLES
+ * HEADER STYLES
  *********************************************/
 .linkedin-sim-header {
     display: flex;
@@ -70,10 +44,8 @@ body {
     padding: 0 16px;
     height: 56px; /* typical LinkedIn header height */
     box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* Left side: Logo + Search bar */
 .linkedin-sim-header-left {
     display: flex;
     align-items: center;
@@ -81,26 +53,25 @@ body {
 }
 
 .linkedin-sim-logo {
-    height: 34px; /* adjust as needed */
+    height: 34px;
     width: auto;
 }
 
 .linkedin-sim-search input {
-    width: 250px; /* adjust to taste */
+    width: 250px;
     height: 32px;
     padding: 0 12px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
 
-/* Right side: Nav icons */
 .linkedin-sim-header-right ul {
     display: flex;
     align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px; /* spacing between nav items */
+    gap: 20px;
 }
 
 .linkedin-sim-header-right li {
@@ -129,29 +100,25 @@ body {
     border-radius: 4px;
 }
 
-/* Profile pic in the nav */
 .profile-pic {
     border-radius: 50%;
 }
 
-/* Hover effect for entire nav item */
 .linkedin-sim-header-right li:hover {
     cursor: pointer;
 }
 
 /*********************************************
- * LINKEDIN PROFILE SECTION STYLES
+ * PROFILE SECTION
  *********************************************/
 .linkedin-sim-profile-section {
     width: 100%;
-    background-color: #fff; /* White card background */
+    background-color: #fff;
     border-radius: 8px;
     position: relative;
-    font-family: "Segoe UI", Arial, sans-serif;
-    margin-bottom: 16px; /* space under the profile card */
+    margin-bottom: 16px;
 }
 
-/* Banner area */
 .profile-banner img {
     width: 100%;
     height: auto;
@@ -159,7 +126,6 @@ body {
     border-top-right-radius: 8px;
 }
 
-/* Main row: photo/details & edit icon */
 .profile-main-info {
     display: flex;
     justify-content: space-between;
@@ -167,18 +133,16 @@ body {
     position: relative;
 }
 
-/* Left side with photo + text */
 .profile-left {
     display: flex;
     gap: 16px;
     margin-top: -44px; /* overlap banner */
 }
 
-/* Circular profile photo overlapping the banner */
 .profile-photo {
     width: 148px;
     height: 148px;
-    border: 3px solid #fff; /* White border around the circle */
+    border: 3px solid #fff;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
@@ -191,7 +155,6 @@ body {
     display: block;
 }
 
-/* Name, pronouns, headline, location, connections */
 .profile-details {
     margin-top: 60px; /* align text with photo */
 }
@@ -243,18 +206,10 @@ body {
     font-weight: 600;
 }
 
-/* Edit (pencil) icon on the right */
 .profile-edit {
     margin-top: 16px;
 }
 
-.profile-edit img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-}
-
-/* Row of action buttons */
 .profile-actions-row {
     display: flex;
     gap: 8px;
@@ -278,7 +233,6 @@ body {
     background-color: #e2e8ed;
 }
 
-/* "Open to work" box */
 .open-to-work-box {
     background-color: #dff0ff;
     border-left: 4px solid #0a66c2;
@@ -308,9 +262,8 @@ body {
 .services-section {
     background-color: #fff;
     border-radius: 8px;
-    margin-bottom: 16px; /* space below the card */
+    margin-bottom: 16px;
     padding: 16px;
-    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .services-header {
@@ -324,12 +277,6 @@ body {
     margin: 0;
     font-size: 16px;
     font-weight: 600;
-}
-
-.services-edit-icon {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
 }
 
 .services-content p {
@@ -355,43 +302,23 @@ body {
 }
 
 /*********************************************
- * ACTIVITY, EXPERIENCE, EDUCATION
+ * EXPERIENCE & EDUCATION
  *********************************************/
-/* "Show all activity" link */
-.activity-bar {
-    margin-bottom: 8px;
-    text-align: right;
-}
-
-.show-all-activity {
-    color: #0a66c2;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.show-all-activity:hover {
-    text-decoration: underline;
-}
-
-/* Experience + Education containers */
 .experience-section,
 .education-section {
     background-color: #fff;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
-    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 .experience-section h2,
 .education-section h2 {
-    margin: 0 0 12px; /* a bit of spacing before items */
+    margin: 0 0 12px;
     font-size: 18px;
     font-weight: 600;
 }
 
-/* Experience items */
 .experience-item {
     display: flex;
     align-items: flex-start;
@@ -401,7 +328,7 @@ body {
 }
 
 .experience-item:last-child {
-    border-bottom: none; /* no border on last item */
+    border-bottom: none;
 }
 
 .company-logo {
@@ -440,7 +367,7 @@ body {
 }
 
 .education-item:last-child {
-    border-bottom: none; /* no border on last item */
+    border-bottom: none;
 }
 
 .school-logo {
@@ -461,3 +388,140 @@ body {
     font-size: 14px;
     color: #666;
 }
+
+/*********************************************
+ * PROJECTS & VOLUNTEERING
+ *********************************************/
+.projects-section,
+.volunteering-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.projects-section h2,
+.volunteering-section h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Project items */
+.project-item {
+    display: flex;
+    flex-direction: row; /* no logo, so all text */
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.project-item:last-child {
+    border-bottom: none;
+}
+
+.project-details h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.project-details p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.project-details ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 14px;
+    color: #000;
+}
+
+/* Volunteering items */
+.volunteering-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.volunteering-item:last-child {
+    border-bottom: none;
+}
+
+.volunteer-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.volunteering-details h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.volunteering-details p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.volunteering-details ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 14px;
+    color: #000;
+}
+
+/*********************************************
+ * PUBLICATIONS SECTION
+ *********************************************/
+.publications-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.publications-section h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.publication-item {
+    display: flex; /* if you plan to add an image or icon, keep this for alignment */
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.publication-item:last-child {
+    border-bottom: none; /* no border on last item */
+}
+
+.publication-details h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.publication-details p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.publication-details ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 14px;
+    color: #000;
+}
+
+
