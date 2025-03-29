@@ -1,0 +1,80 @@
+/*********************************************
+ * LinkedIn Header Styles
+ *********************************************/
+.linkedin-sim-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff; /* LinkedIn uses white header */
+    border-bottom: 1px solid #ddd;
+    padding: 0 16px;
+    height: 56px; /* typical LinkedIn header height */
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Left side: Logo + Search bar */
+.linkedin-sim-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.linkedin-sim-logo {
+    height: 34px; /* adjust as needed */
+    width: auto;
+}
+
+.linkedin-sim-search input {
+    width: 250px; /* adjust to taste */
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Right side: Nav icons */
+.linkedin-sim-header-right ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px; /* spacing between nav items */
+}
+
+.linkedin-sim-header-right li {
+    display: flex;
+}
+
+.linkedin-sim-header-right a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 6px 8px;
+}
+
+.linkedin-sim-header-right a img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px; /* space between icon & label */
+}
+
+.linkedin-sim-header-right a:hover {
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+/* Profile pic in the nav */
+.profile-pic {
+    border-radius: 50%;
+}
+
+/* Example hover effect for entire nav item */
+.linkedin-sim-header-right li:hover {
+    cursor: pointer;
+}

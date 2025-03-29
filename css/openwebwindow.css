@@ -1,0 +1,142 @@
+.web-window {
+    position: absolute;
+    width: 800px;
+    height: 600px;
+    background: #1e1e1e;
+    color: white;
+    border: 1px solid #3a3a3a;
+    border-radius: 3px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    display: none; /* Start hidden */
+    z-index: 999;  /* So it appears on top */
+}
+
+.web-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #333333;
+    padding: 6px 10px;
+    cursor: grab;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.web-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.web-title img {
+    width: 16px;
+    height: 16px;
+}
+
+.window-controls img {
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.window-controls .close:hover {
+    background-color: #e81123;
+}
+.window-controls .minimize:hover,
+.window-controls .maximize:hover {
+    background-color: #5a5a5a;
+}
+
+.web-content {
+    width: 100%;
+    height: calc(100% - 33px);
+    background: #1e1e1e;
+}
+
+.web-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Maximize state */
+.web-window.maximized {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+}
+
+/* Reuse the same .resize-handle classes from openfilefolder.css if you want */
+.resize-handle {
+    position: absolute;
+    z-index: 10;
+    /* background: rgba(255, 0, 0, 0.3);  for debugging */
+}
+
+/* Edges */
+.resize-handle.top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: n-resize;
+}
+.resize-handle.bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: s-resize;
+}
+.resize-handle.left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 5px;
+    cursor: w-resize;
+}
+.resize-handle.right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 5px;
+    cursor: e-resize;
+}
+
+/* Corners */
+.resize-handle.top-left {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nw-resize;
+}
+.resize-handle.top-right {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: ne-resize;
+}
+.resize-handle.bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: sw-resize;
+}
+.resize-handle.bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: se-resize;
+}

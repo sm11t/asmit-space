@@ -10,15 +10,32 @@ setInterval(updateClock, 1000);
 // Open External Apps
 function openApp(app) {
     const links = {
-        spotify: "https://open.spotify.com/user/5frz16rbtuxfl0hdzn4aftbbt",
-        github: "https://github.com/sm11t",
-        linkedin: "https://www.linkedin.com/in/asmitrajeet/"
+        spotify: {
+            url: "https://open.spotify.com/user/5frz16rbtuxfl0hdzn4aftbbt",
+            title: "Spotify",
+            icon: "../assets/icons/taskbar-icons/spotify.svg"
+        },
+        github: {
+            url: "https://github.com/sm11t",
+            title: "GitHub",
+            icon: "../assets/icons/taskbar-icons/github.svg"
+        },
+        linkedin: {
+            url: "https://www.linkedin.com/in/asmitrajeet/",
+            title: "LinkedIn",
+            icon: "../assets/icons/taskbar-icons/Linkedin.svg"
+        }
     };
 
-    if (links[app]) {
-        const newTab = window.open(links[app], "_blank");
-        if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
-            alert("Popup blocked! Please allow popups for this site.");
-        }
-    }
+    // If the app doesn't exist in the links object, do nothing
+    if (!links[app]) return;
+
+    // Grab the relevant data
+    const { url, title, icon } = links[app];
+
+    // Create the new "web window"
+    const webWin = createWebWindow(title, icon, url);
+
+    // Show it (if your .web-window is display:none by default)
+    webWin.style.display = 'block';
 }
