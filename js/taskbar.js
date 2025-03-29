@@ -5,9 +5,8 @@ function updateClock() {
     document.getElementById("date").innerText = now.toLocaleDateString();
 }
 setInterval(updateClock, 1000);
-// updateClock();
 
-// Open External Apps
+// Open External Apps (or local simulation pages)
 function openApp(app) {
     const links = {
         spotify: {
@@ -21,21 +20,15 @@ function openApp(app) {
             icon: "../assets/icons/taskbar-icons/github.svg"
         },
         linkedin: {
-            url: "https://www.linkedin.com/in/asmitrajeet/",
+            url: "../content/linkedin-sim/linkedin-sim.html",  // Changed to load local HTML
             title: "LinkedIn",
             icon: "../assets/icons/taskbar-icons/Linkedin.svg"
         }
     };
 
-    // If the app doesn't exist in the links object, do nothing
     if (!links[app]) return;
 
-    // Grab the relevant data
     const { url, title, icon } = links[app];
-
-    // Create the new "web window"
     const webWin = createWebWindow(title, icon, url);
-
-    // Show it (if your .web-window is display:none by default)
     webWin.style.display = 'block';
 }
