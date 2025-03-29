@@ -1,27 +1,30 @@
-<link rel="stylesheet" href="linkedin-sim.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Simulation</title>
+  <link rel="stylesheet" href="linkedin-sim.css">
+</head>
+<body>
 
+<!-- HEADER -->
 <header class="linkedin-sim-header">
-  <!-- Left side: Logo + Search bar -->
   <div class="linkedin-sim-header-left">
-    <!-- Use your existing LinkedIn SVG or an <img> reference -->
     <img
             src="icons/Linkedin.svg"
             alt="LinkedIn Logo"
             class="linkedin-sim-logo"
     >
-
-    <!-- Search bar -->
     <div class="linkedin-sim-search">
       <input type="text" placeholder="Search" />
     </div>
   </div>
 
-  <!-- Right side: Nav icons -->
   <nav class="linkedin-sim-header-right">
     <ul>
       <li>
         <a href="#home">
-          <!-- Replace with your own icon or an <img> -->
           <img src="icons/home-svgrepo-com.svg" alt="Home icon">
           <span>Home</span>
         </a>
@@ -59,3 +62,133 @@
     </ul>
   </nav>
 </header>
+
+<!-- MAIN BODY (2 columns) -->
+<div class="linkedin-sim-body">
+
+  <!-- LEFT COLUMN: Profile & Other Sections -->
+  <div class="linkedin-sim-main-column">
+
+    <!-- PROFILE SECTION -->
+    <div class="linkedin-sim-profile-section">
+      <!-- Background banner -->
+      <div class="profile-banner">
+        <img src="profilebg.png" alt="Profile Background">
+      </div>
+
+      <!-- Main info row -->
+      <div class="profile-main-info">
+        <!-- Left side: Photo + details -->
+        <div class="profile-left">
+          <div class="profile-photo">
+            <img src="pfp.JPG" alt="Profile Photo">
+          </div>
+          <div class="profile-details">
+            <h1>Asmit Datta <span>(He/Him)</span></h1>
+            <button class="verify-badge">Add verification badge</button>
+            <p class="headline">Student at Arizona State University, Building Lynti</p>
+            <p class="location">
+              Tempe, Arizona, United States &middot;
+              <a href="#" class="contact-info">Contact info</a>
+            </p>
+            <a href="#" class="connections">28 connections</a>
+          </div>
+        </div>
+
+        <!-- Right side: (no edit icon) -->
+        <div class="profile-edit"></div>
+      </div>
+
+      <!-- Action buttons row -->
+      <div class="profile-actions-row">
+        <button>Open to</button>
+        <button>Add profile section</button>
+        <button>Enhance profile</button>
+        <button>Resources</button>
+      </div>
+
+      <!-- "Open to work" box -->
+      <div class="open-to-work-box">
+        <strong>Open to work</strong>
+        <span>Software Engineer and Frontend Web Developer roles</span>
+        <a href="#">Show details</a>
+      </div>
+    </div><!-- .linkedin-sim-profile-section -->
+
+    <!-- SERVICES SECTION -->
+    <div class="services-section">
+      <div class="services-header">
+        <h3>Services</h3>
+      </div>
+      <div class="services-content">
+        <p>
+          Application Development &bull; Database Development &bull; Web Design &bull;
+          Web Development &bull; Software Testing &bull; Mobile Application Development &bull;
+          3D Design &bull; Video Production &bull; Video Editing
+        </p>
+      </div>
+      <div class="services-footer">
+        <a href="#" class="show-all-services">Show all services &rarr;</a>
+      </div>
+    </div><!-- .services-section -->
+
+
+    <!-- EXPERIENCE SECTION -->
+    <div class="experience-section">
+      <h2>Experience</h2>
+      <div class="experience-item">
+        <img src="flickmatchlinkedin.jpg" alt="Flickmatch" class="company-logo">
+        <div class="experience-details">
+          <h3>Frontend Developer</h3>
+          <p>Flickmatch | Jan 2023 – Jul 2023</p>
+          <ul>
+            <li>Specialized in minimal interface design using HTML and Figma to create engaging web experiences.</li>
+            <li>Leveraged marketing strategies with UI design to enhance brand presence on social media platforms.</li>
+            <li>Tech stack: Figma, Adobe Premiere Pro</li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- .experience-section -->
+
+    <!-- EDUCATION SECTION -->
+    <div class="education-section">
+      <h2>Education</h2>
+      <div class="education-item">
+        <img src="asulinkedin.jpg" alt="ASU Logo" class="school-logo">
+        <div class="education-details">
+          <h3>Arizona State University</h3>
+          <p>BS, Computer Science | Expected Graduation: 2026</p>
+        </div>
+      </div>
+      <div class="education-item">
+        <img src="dpslinkedin.jpg" alt="DPS Logo" class="school-logo">
+        <div class="education-details">
+          <h3>Delhi Public School - R.K. Puram</h3>
+          <p>High School Diploma, Computer Science</p>
+        </div>
+      </div>
+    </div><!-- .education-section -->
+
+  </div><!-- .linkedin-sim-main-column -->
+
+  <!-- RIGHT COLUMN: Sidebar card -->
+  <div class="linkedin-sim-right-column">
+    <div class="profile-card">
+      <div class="profile-language">
+        <h3>Profile language</h3>
+        <p>English</p>
+      </div>
+      <div class="public-profile">
+        <h3>Public profile &amp; URL</h3>
+        <a href="https://www.linkedin.com/in/asmitrajeet" target="_blank">
+          www.linkedin.com/in/asmitrajeet
+        </a>
+      </div>
+    </div>
+  </div><!-- .linkedin-sim-right-column -->
+
+</div><!-- .linkedin-sim-body -->
+
+<script src="linkedin-sim.js"></script>
+</body>
+</html>

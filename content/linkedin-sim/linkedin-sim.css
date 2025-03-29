@@ -1,5 +1,65 @@
 /*********************************************
- * LinkedIn Header Styles
+ * LAYOUT FOR MAIN BODY COLUMNS
+ *********************************************/
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f3f2ef; /* Now the background spans the entire window width */
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.linkedin-sim-body {
+    display: flex;
+    gap: 16px;
+    max-width: 1128px; /* typical LinkedIn container width */
+    margin: 0 auto;    /* center the content */
+    padding: 16px 0;   /* top/bottom padding around content */
+    /* Remove background-color here */
+    /* background-color: #f3f2ef; */
+}
+
+.linkedin-sim-main-column {
+    flex: 1;
+}
+
+.linkedin-sim-right-column {
+    width: 300px;
+}
+
+/* Sidebar card on the right */
+.profile-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.profile-card h3 {
+    margin: 8px 0 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-card p,
+.profile-card a {
+    font-size: 14px;
+    color: #000;
+    margin: 0 0 8px;
+}
+
+.profile-card a {
+    color: #0a66c2;
+    text-decoration: none;
+}
+
+.profile-card a:hover {
+    text-decoration: underline;
+}
+
+/*********************************************
+ * LINKEDIN HEADER STYLES
  *********************************************/
 .linkedin-sim-header {
     display: flex;
@@ -74,7 +134,330 @@
     border-radius: 50%;
 }
 
-/* Example hover effect for entire nav item */
+/* Hover effect for entire nav item */
 .linkedin-sim-header-right li:hover {
     cursor: pointer;
+}
+
+/*********************************************
+ * LINKEDIN PROFILE SECTION STYLES
+ *********************************************/
+.linkedin-sim-profile-section {
+    width: 100%;
+    background-color: #fff; /* White card background */
+    border-radius: 8px;
+    position: relative;
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin-bottom: 16px; /* space under the profile card */
+}
+
+/* Banner area */
+.profile-banner img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Main row: photo/details & edit icon */
+.profile-main-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: relative;
+}
+
+/* Left side with photo + text */
+.profile-left {
+    display: flex;
+    gap: 16px;
+    margin-top: -44px; /* overlap banner */
+}
+
+/* Circular profile photo overlapping the banner */
+.profile-photo {
+    width: 148px;
+    height: 148px;
+    border: 3px solid #fff; /* White border around the circle */
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Name, pronouns, headline, location, connections */
+.profile-details {
+    margin-top: 60px; /* align text with photo */
+}
+
+.profile-details h1 {
+    font-size: 24px;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.profile-details h1 span {
+    font-size: 14px;
+    color: #666;
+    margin-left: 8px;
+}
+
+.verify-badge {
+    background: none;
+    border: none;
+    color: #0a66c2;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 8px 0;
+    padding: 0;
+}
+
+.headline {
+    margin: 4px 0;
+    font-size: 16px;
+    color: #000;
+}
+
+.location {
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.location .contact-info {
+    color: #0a66c2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.connections {
+    display: inline-block;
+    margin-top: 4px;
+    color: #0a66c2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Edit (pencil) icon on the right */
+.profile-edit {
+    margin-top: 16px;
+}
+
+.profile-edit img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* Row of action buttons */
+.profile-actions-row {
+    display: flex;
+    gap: 8px;
+    padding: 8px 16px;
+    margin-top: 8px;
+}
+
+.profile-actions-row button {
+    background-color: #eef3f8;
+    border: 1px solid #dce6f1;
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: #0a66c2;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.profile-actions-row button:hover {
+    background-color: #e2e8ed;
+}
+
+/* "Open to work" box */
+.open-to-work-box {
+    background-color: #dff0ff;
+    border-left: 4px solid #0a66c2;
+    margin: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.open-to-work-box strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #0a66c2;
+}
+
+.open-to-work-box a {
+    color: #0a66c2;
+    text-decoration: none;
+    margin-left: 6px;
+    font-weight: 500;
+}
+
+/*********************************************
+ * SERVICES SECTION
+ *********************************************/
+.services-section {
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 16px; /* space below the card */
+    padding: 16px;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.services-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.services-edit-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.services-content p {
+    margin: 0;
+    color: #000;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.services-footer {
+    margin-top: 8px;
+}
+
+.show-all-services {
+    color: #0a66c2;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.show-all-services:hover {
+    text-decoration: underline;
+}
+
+/*********************************************
+ * ACTIVITY, EXPERIENCE, EDUCATION
+ *********************************************/
+/* "Show all activity" link */
+.activity-bar {
+    margin-bottom: 8px;
+    text-align: right;
+}
+
+.show-all-activity {
+    color: #0a66c2;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.show-all-activity:hover {
+    text-decoration: underline;
+}
+
+/* Experience + Education containers */
+.experience-section,
+.education-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.experience-section h2,
+.education-section h2 {
+    margin: 0 0 12px; /* a bit of spacing before items */
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Experience items */
+.experience-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.experience-item:last-child {
+    border-bottom: none; /* no border on last item */
+}
+
+.company-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.experience-details h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.experience-details p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.experience-details ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 14px;
+    color: #000;
+}
+
+/* Education items */
+.education-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.education-item:last-child {
+    border-bottom: none; /* no border on last item */
+}
+
+.school-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.education-details h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.education-details p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
 }
