@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome to Asmit.Space</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="welcome.css" />
+    <script src="../js/fullscreen.js"></script>
 </head>
 <body class="welcome-screen">
 <div class="welcome-container">
-    <h1>Welcome to Asmit.Space</h1>
-    <button id="enter-btn">Enter</button>
+    <h1 class="welcome-title">Welcome to my space</h1>
+    <p class="fullscreen-note">Best experienced in fullscreen mode</p>
+    <div class="button-group">
+        <button id="enter-btn">Enter</button>
+    </div>
 </div>
 
 <script>
-    document.getElementById("enter-btn").addEventListener("click", function() {
-        window.location.href = "views/theroom.html";  // Redirects correctly now
+    const enterBtn = document.getElementById("enter-btn");
+    const fullscreenBtn = document.getElementById("fullscreen-btn");
+
+    enterBtn.addEventListener("click", () => {
+        window.location.href = "views/theroom.html";
     });
+
 </script>
 </body>
 </html>

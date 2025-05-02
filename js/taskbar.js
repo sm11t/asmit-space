@@ -15,7 +15,7 @@ function openApp(app) {
             icon: "../assets/icons/taskbar-icons/spotify.svg"
         },
         github: {
-            url: "https://github.com/sm11t",
+            url: "https://flickmatch.in",
             title: "GitHub",
             icon: "../assets/icons/taskbar-icons/github.svg"
         },

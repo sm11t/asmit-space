@@ -1,4 +1,6 @@
-const songs = ["favouritecutscene.mp3", "infinity.mp3", "lvloop.mp3", "sancloop.mp3"];
+const songs = ["cutscene.mp3", "infinity.mp3"];
+
+// , "lvloop.mp3", "sancloop.mp3"
 let current = 0;
 let isPlaying = false;
 
