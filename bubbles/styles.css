@@ -1,0 +1,124 @@
+:root{
+  --bg:#071021;
+  --bubbleA:#0f6b5e;
+  --bubbleB:#146b9a;
+  --bubbleC:#6b3f9a;
+  --text:#eaf4f8;
+  --muted:#9fb0c3;
+  --accent:#00ffd0;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,var(--bg) 0%, #071822 100%);color:var(--text)}
+.top{display:flex;align-items:center;gap:12px;padding:12px 16px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
+.top h1{font-size:16px;margin:0}
+.add-form{display:flex;gap:8px;align-items:center}
+.add-form input{padding:8px;border-radius:8px;border:0;min-width:60px;background:rgba(255,255,255,0.03);color:var(--text)}
+.add-form input::placeholder{color:rgba(255,255,255,0.4)}
+.add-form button{padding:8px 12px;border-radius:8px;border:0;background:#16a34a;color:white;font-weight:600}
+.board{position:relative;min-height:72vh;padding:18px;display:flex;flex-wrap:wrap;gap:18px;align-content:flex-start;justify-content:flex-start}
+.bubble{
+  position:relative;
+  touch-action:none;
+  user-select:none;
+  width:160px;
+  height:160px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  transition:transform .12s linear;
+  will-change: transform;
+  border-radius:16px;
+  cursor:pointer;
+}
+/* core circle that shrinks */
+.bubble .core{
+  width:100%;
+  height:100%;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  box-shadow: 0 10px 30px rgba(2,8,20,0.6), inset 0 -6px 18px rgba(0,0,0,0.25);
+  transform-origin: center center;
+  transition: transform 0.28s linear, opacity .18s linear;
+  position:relative;
+  z-index:2;
+  color:var(--text);
+  font-weight:700;
+  font-size:18px;
+}
+
+/* connector line from center down to the label */
+.bubble .connector{
+  position:absolute;
+  left:50%;
+  top:100%;
+  width:2px;
+  height:28px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+  transform:translateX(-50%);
+  z-index:1;
+}
+
+/* label at bottom */
+.bubble .label{
+  position:absolute;
+  top:calc(100% + 34px);
+  left:50%;
+  transform:translateX(-50%);
+  font-size:13px;
+  color:var(--muted);
+  text-align:center;
+  max-width:160px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* selected visual */
+.bubble.selected .core{
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 0 6px rgba(0,255,208,0.06);
+  outline: none;
+}
+
+/* side controls floating panel */
+.side-controls{
+  position:absolute;
+  display:flex;
+  gap:8px;
+  padding:8px;
+  border-radius:10px;
+  background:rgba(2,6,23,0.9);
+  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  z-index:999;
+  transition:opacity .12s, transform .12s;
+  opacity:0;
+  pointer-events:none;
+}
+.side-controls.show{ opacity:1; pointer-events:auto; }
+
+.control-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:8px;
+  font-size:16px;
+}
+
+/* colors (choose by index) */
+.bubble.color-0 .core{background:linear-gradient(180deg,#0f6b5e,#0c5a50)}
+.bubble.color-1 .core{background:linear-gradient(180deg,#146b9a,#0e5478)}
+.bubble.color-2 .core{background:linear-gradient(180deg,#6b3f9a,#4a2b6a)}
+
+.help{padding:12px;color:var(--muted);font-size:13px}
+
+/* responsive smaller bubbles on narrow screens */
+@media (max-width:520px){
+  .board{justify-content:flex-start}
+  .bubble{width:120px;height:120px}
+  .bubble .label{font-size:12px;top:calc(100% + 28px)}
+  .add-form input{min-width:50px}
+}

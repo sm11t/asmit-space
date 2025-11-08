@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bubble Timer — Small</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Bubble Timer</h1>
+    <form id="addForm" class="add-form" autocomplete="off">
+      <input id="title" placeholder="Task name (e.g., LeetCode)" required />
+      <input id="hours" type="number" placeholder="hrs" min="0" value="0" />
+      <input id="mins" type="number" placeholder="mins" min="0" max="59" value="30" />
+      <button type="submit">Add</button>
+    </form>
+  </header>
+
+  <main>
+    <div id="board" class="board" aria-live="polite" tabindex="0"></div>
+
+    <!-- Side controls (single floating panel shown when a bubble is selected) -->
+    <div id="sideControls" class="side-controls" aria-hidden="true">
+      <button id="playPauseBtn" class="control-btn" aria-label="Play or Pause">▶️</button>
+      <button id="deleteBtn" class="control-btn" aria-label="Delete">🗑</button>
+    </div>
+
+    <div class="help">Tap a bubble to select it. Use the buttons to Play/Pause or Delete. Drag only works when selected. On phone: Add to Home Screen to pin.</div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
