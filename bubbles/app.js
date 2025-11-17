@@ -1,5 +1,32 @@
-// Bubble Timer v3 — selection + external controls + drag-only-when-selected
-const STORAGE_KEY = 'bubble-timer-v3';
+// app.js (module) — Bubble Timer with Firestore room sync
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, onSnapshot, enableIndexedDbPersistence
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+/* ---------------------------
+  PASTE YOUR FIREBASE CONFIG (you already provided this)
+----------------------------*/
+const firebaseConfig = {
+  apiKey: "AIzaSyBVqxFB4iVozd72OtvDG2grqq0Qu0fHi5E",
+  authDomain: "bubbles-cb172.firebaseapp.com",
+  projectId: "bubbles-cb172",
+  storageBucket: "bubbles-cb172.firebasestorage.app",
+  messagingSenderId: "788649184388",
+  appId: "1:788649184388:web:9ccc2c5273103638e946d1",
+  measurementId: "G-LHMXF18WLW"
+};
+
+/* ---------------------------
+  Initialize Firebase + Firestore
+----------------------------*/
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+enableIndexedDbPersistence(db).catch(()=>{ /* ignore if not available */ });
+
+/* ---------------------------
+  UI elements
+----------------------------*/
 const board = document.getElementById('board');
 const form = document.getElementById('addForm');
 const titleInput = document.getElementById('title');
@@ -10,31 +37,141 @@ const sideControls = document.getElementById('sideControls');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 
-let state = loadState();
+const roomLabel = document.getElementById('roomLabel');
+const roomInput = document.getElementById('roomInput');
+const joinBtn = document.getElementById('joinBtn');
+const copyBtn = document.getElementById('copyBtn');
+const statusEl = document.getElementById('status');
+
+/* ---------------------------
+  Local state + persistence
+----------------------------*/
+const STORAGE_KEY = 'bubble-timer-room-state';
+let state = loadState(); // will hold { bubbles: [...], selectedId, _updatedAt }
+if(!state.bubbles) state.bubbles = [];
 state.selectedId = state.selectedId || null;
 
-// Helpers
-function id(){ return Math.random().toString(36).slice(2,9) }
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) }
 function loadState(){
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { bubbles: [] } }
-  catch(e){ return { bubbles: [] } }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { bubbles: [] }; }
+  catch(e){ return { bubbles: [] }; }
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+/* ---------------------------
+  Room handling (URL param or random)
+----------------------------*/
+function randomRoom(len=5){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  return Array.from({length: len}, ()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+const urlParams = new URLSearchParams(window.location.search);
+let currentRoom = (urlParams.get('room') || randomRoom()).toUpperCase();
+roomLabel.textContent = `Room: ${currentRoom}`;
+roomInput.value = '';
+
+function updateURL(){
+  const newUrl = `${location.origin}${location.pathname}?room=${currentRoom}`;
+  history.replaceState({}, '', newUrl);
+}
+updateURL();
+
+/* ---------------------------
+  Firestore sync variables
+----------------------------*/
+let roomRef = null;
+let unsubscribe = null;
+let remoteSaveTimer = null;
+
+/* ---------- utilities ---------- */
+function id(){ return Math.random().toString(36).slice(2,9) }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function humanTime(sec){ if(!sec || sec<=0) return '0:00'; const m=Math.floor(sec/60); const s=Math.floor(sec%60).toString().padStart(2,'0'); return `${m}:${s}`;}
+function sizeFromMinutes(totalMinutes){ const min=90,max=180; const val=Math.sqrt(totalMinutes+1)*10+50; return Math.round(clamp(val,min,max)); }
+
+/* ---------------------------
+  joinRoom: set up listener on /rooms/{roomId}
+----------------------------*/
+async function joinRoom(roomId){
+  // cleanup previous listener
+  if(unsubscribe) { unsubscribe(); unsubscribe = null; }
+  currentRoom = (roomId || randomRoom()).toUpperCase();
+  roomLabel.textContent = `Room: ${currentRoom}`;
+  updateURL();
+  statusEl.textContent = 'connecting...';
+
+  roomRef = doc(db, 'rooms', currentRoom);
+
+  // initial fetch + realtime listener
+  try {
+    const snap = await getDoc(roomRef);
+    if(snap.exists()){
+      const data = snap.data();
+      if(data && data.state){
+        // if remote is newer than local, adopt remote
+        const remoteUpdated = data.updatedAt ? data.updatedAt.toMillis() : 0;
+        const localUpdated = state._updatedAt || 0;
+        if(remoteUpdated > localUpdated){
+          state = data.state;
+          state._updatedAt = remoteUpdated;
+          saveState();
+        }
+      }
+    } else {
+      // create initial doc with our local state
+      await setDoc(roomRef, { updatedAt: new Date(), state });
+    }
+  } catch(e){
+    console.warn('initial join error', e);
+  }
+
+  // attach realtime listener
+  unsubscribe = onSnapshot(roomRef, (snap) => {
+    if(!snap.exists()) {
+      statusEl.textContent = 'room created';
+      return;
+    }
+    const data = snap.data();
+    const remoteUpdated = data.updatedAt ? data.updatedAt.toMillis() : 0;
+    const localUpdated = state._updatedAt || 0;
+    // apply remote only if remote is newer
+    if(remoteUpdated > localUpdated){
+      state = data.state || { bubbles: [] };
+      state._updatedAt = remoteUpdated;
+      saveState();
+      render();
+      statusEl.textContent = 'synced';
+    } else {
+      statusEl.textContent = 'up-to-date';
+    }
+  }, (err) => {
+    console.warn('listener error', err);
+    statusEl.textContent = 'offline';
+  });
 }
 
-function clamp(v, a, b){ return Math.max(a, Math.min(b, v)) }
-function humanTime(sec){
-  if(sec <= 0) return '0:00';
-  const m = Math.floor(sec/60);
-  const s = Math.floor(sec % 60).toString().padStart(2,'0');
-  return `${m}:${s}`;
-}
-function sizeFromMinutes(totalMinutes){
-  const min = 90, max = 180;
-  const val = Math.sqrt(totalMinutes + 1) * 10 + 50;
-  return Math.round(clamp(val, min, max));
+/* ---------------------------
+  Save local state to Firestore (debounced)
+----------------------------*/
+function saveRemoteDebounced(){
+  if(!roomRef) return;
+  if(remoteSaveTimer) clearTimeout(remoteSaveTimer);
+  remoteSaveTimer = setTimeout(async ()=>{
+    try{
+      const payload = { updatedAt: new Date(), state };
+      await setDoc(roomRef, payload, { merge: true });
+      state._updatedAt = (new Date()).getTime();
+      saveState();
+      statusEl.textContent = 'saved';
+    }catch(e){
+      console.warn('saveRemote error', e);
+      statusEl.textContent = 'save failed';
+    }
+  }, 400);
 }
 
-// render board and bubbles
+/* ---------------------------
+  Render & UI (same behavior as your last version)
+----------------------------*/
 function render(){
   board.innerHTML = '';
   state.bubbles.forEach((b, idx) => {
@@ -61,11 +198,8 @@ function render(){
     timeText.textContent = remaining <= 0 ? 'Done' : humanTime(remaining);
 
     core.appendChild(timeText);
-
-    // controls area (kept empty here — external side controls will manage actions)
     wrapper.appendChild(core);
 
-    // connector and label
     const connector = document.createElement('div');
     connector.className = 'connector';
     wrapper.appendChild(connector);
@@ -75,19 +209,15 @@ function render(){
     label.textContent = `${b.label} — ${remaining <= 0 ? '0:00' : humanTime(remaining)}`;
     wrapper.appendChild(label);
 
-    // position
     if(typeof b.x === 'number' && typeof b.y === 'number' && (b.x !== 0 || b.y !== 0)){
       wrapper.style.transform = `translate(${b.x}px, ${b.y}px)`;
     }
 
-    // click selects the bubble (do not toggle running)
+    // select on click
     wrapper.addEventListener('click', (ev)=>{
-      // if clicking on control btns, ignore here
       if(ev.target.closest('.control-btn')) return;
       ev.stopPropagation();
-      if(state.selectedId === b.id){
-        // already selected — keep selected (no toggle)
-      } else {
+      if(state.selectedId !== b.id){
         state.selectedId = b.id;
       }
       saveState();
@@ -95,10 +225,9 @@ function render(){
       showSideControlsFor(wrapper);
     });
 
-    // pointer-based dragging only when selected
+    // drag only when selected
     let drag = null;
     wrapper.addEventListener('pointerdown', (e)=>{
-      // only start drag when this bubble is selected
       if(state.selectedId !== b.id) return;
       wrapper.setPointerCapture(e.pointerId);
       drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, origX: b.x || 0, origY: b.y || 0 };
@@ -114,13 +243,14 @@ function render(){
     window.addEventListener('pointerup', (e)=>{
       if(!drag || drag.id !== e.pointerId) return;
       saveState();
+      // remote save
+      saveRemoteDebounced();
       drag = null;
     });
 
     board.appendChild(wrapper);
   });
 
-  // after redraw, if selected bubble exists re-show controls positioned
   if(state.selectedId){
     const el = board.querySelector(`.bubble[data-id="${state.selectedId}"]`);
     if(el) showSideControlsFor(el);
@@ -130,12 +260,13 @@ function render(){
   }
 }
 
-// show side controls positioned near the given bubble element
+/* ---------------------------
+  Controls: show/hide, play/pause, delete
+----------------------------*/
 function showSideControlsFor(bubbleEl){
   if(!bubbleEl) return hideSideControls();
   const rect = bubbleEl.getBoundingClientRect();
   const boardRect = board.getBoundingClientRect();
-  // position controls to the right of bubble (clamped inside viewport)
   const left = Math.min(boardRect.right - 12, rect.right + 8);
   const top = clamp(rect.top + window.scrollY + rect.height/2 - 28, 12 + window.scrollY, window.innerHeight - 60 + window.scrollY);
   sideControls.style.left = `${left}px`;
@@ -143,7 +274,6 @@ function showSideControlsFor(bubbleEl){
   sideControls.classList.add('show');
   sideControls.setAttribute('aria-hidden','false');
 
-  // update play/pause icon state for selected bubble
   const selected = state.bubbles.find(x => x.id === state.selectedId);
   if(selected && selected.running){
     playPauseBtn.textContent = '⏸';
@@ -153,14 +283,11 @@ function showSideControlsFor(bubbleEl){
     playPauseBtn.setAttribute('aria-label','Play');
   }
 }
-
-// hide controls
 function hideSideControls(){
   sideControls.classList.remove('show');
   sideControls.setAttribute('aria-hidden','true');
 }
 
-// play/pause click
 playPauseBtn.addEventListener('click', (ev)=>{
   ev.stopPropagation();
   if(!state.selectedId) return;
@@ -168,29 +295,33 @@ playPauseBtn.addEventListener('click', (ev)=>{
   if(!b) return;
   b.running = !b.running;
   if(b.running) b.lastTick = Date.now();
-  saveState(); render();
+  saveState();
+  saveRemoteDebounced();
+  render();
 });
 
-// delete click
 deleteBtn.addEventListener('click', (ev)=>{
   ev.stopPropagation();
   if(!state.selectedId) return;
   state.bubbles = state.bubbles.filter(x => x.id !== state.selectedId);
   state.selectedId = null;
-  saveState(); render();
+  saveState();
+  saveRemoteDebounced();
+  render();
 });
 
-// deselect when clicking empty board
 board.addEventListener('click', (ev)=>{
-  // only deselect when clicking the board itself (not a bubble)
   if(ev.target === board){
     state.selectedId = null;
-    saveState(); render();
+    saveState();
+    render();
     hideSideControls();
   }
 });
 
-// tick loop
+/* ---------------------------
+  Timer tick
+----------------------------*/
 setInterval(()=>{
   const now = Date.now();
   let changed = false;
@@ -206,10 +337,17 @@ setInterval(()=>{
       }
     }
   });
-  if(changed){ saveState(); render(); }
+  if(changed){
+    state._updatedAt = (new Date()).getTime();
+    saveState();
+    saveRemoteDebounced();
+    render();
+  }
 }, 1000);
 
-// add form
+/* ---------------------------
+  Add form
+----------------------------*/
 form.addEventListener('submit', (e)=>{
   e.preventDefault();
   const label = titleInput.value.trim() || 'Task';
@@ -229,13 +367,39 @@ form.addEventListener('submit', (e)=>{
   titleInput.value = '';
   hoursInput.value = '0';
   minsInput.value = '30';
-  saveState(); render();
+  state._updatedAt = (new Date()).getTime();
+  saveState();
+  saveRemoteDebounced();
+  render();
 });
 
-// initialize and render
-if(!state.bubbles) state.bubbles = [];
-saveState();
-render();
+/* ---------------------------
+  Room UI: join / copy
+----------------------------*/
+joinBtn.addEventListener('click', (ev)=>{
+  ev.preventDefault();
+  const code = (roomInput.value || '').trim().toUpperCase();
+  if(!code) return;
+  joinRoom(code);
+  roomInput.value = '';
+});
 
-// expose debug handle
+copyBtn.addEventListener('click', (ev)=>{
+  ev.preventDefault();
+  const url = `${location.origin}${location.pathname}?room=${currentRoom}`;
+  navigator.clipboard?.writeText(url).then(()=> {
+    copyBtn.textContent = 'Copied!';
+    setTimeout(()=> copyBtn.textContent = 'Copy link', 1200);
+  }).catch(()=> {
+    alert(url);
+  });
+});
+
+/* ---------------------------
+  Init: join currentRoom and render
+----------------------------*/
+joinRoom(currentRoom).then(()=> {
+  render();
+});
+
 window._BT = { state, saveState, render };
