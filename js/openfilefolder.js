@@ -7,6 +7,78 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 'work-experience',
             content: [
                 {
+                    name: 'RISO',
+                    type: 'folder',
+                    id: 'riso',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'riso-summary',
+                            filePath: '../content/work/riso/summary.html',
+                            meta: {
+                                role: 'Founder',
+                                dates: 'Sep 2025 – Present',
+                                tech: ['React.js', 'Node.js', 'PostgreSQL', 'Python', 'Scikit-learn']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'My Yoga Teacher',
+                    type: 'folder',
+                    id: 'my-yoga-teacher',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'myt-summary',
+                            filePath: '../content/work/my-yoga-teacher/summary.html',
+                            meta: {
+                                role: 'AI Intern',
+                                dates: 'May 2025 – Nov 2025',
+                                tech: ['FastAPI', 'Docker', 'PostgreSQL', 'NLP']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'Nexus AI Solutions',
+                    type: 'folder',
+                    id: 'nexus-ai',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'nexus-summary',
+                            filePath: '../content/work/nexus-ai/summary.html',
+                            meta: {
+                                role: 'AI Engineer Intern',
+                                dates: 'Feb 2024 – Nov 2024',
+                                tech: ['Hugging Face', 'Flask', 'Express.js', 'Docker']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'AI Society ASU',
+                    type: 'folder',
+                    id: 'ai-society-asu',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'ai-society-summary',
+                            filePath: '../content/work/ai-society-asu/summary.html',
+                            meta: {
+                                role: 'Technical Officer',
+                                dates: 'Aug 2025 – Present',
+                                tech: ['Machine Learning', 'Mentorship']
+                            }
+                        }
+                    ]
+                },
+                {
                     name: 'Flickmatch',
                     type: 'folder',
                     id: 'flickmatch',
@@ -15,7 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             name: 'Live Site',
                             type: 'file',
                             id: 'flickmatch-site',
-                            // this HTML just wraps your URL in an iframe
                             url: 'https://flickmatch.in'
                         },
                         {
@@ -24,14 +95,31 @@ document.addEventListener("DOMContentLoaded", function () {
                             id: 'flickmatch-summary',
                             filePath: '../content/work/flickmatch/summary.html',
                             meta: {
-                                role: 'Full-stack Engineer',
-                                dates: 'Jan 2024 – Jun 2024',
-                                tech: ['React', 'Node.js', 'MongoDB']
+                                role: 'Intern',
+                                dates: 'Jan 2023 – Jul 2023',
+                                tech: ['React', 'MUI', 'Firebase']
                             }
                         }
                     ]
                 },
-                // …other companies/internships here…
+                {
+                    name: 'CovRelief',
+                    type: 'folder',
+                    id: 'covrelief',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'covrelief-summary',
+                            filePath: '../content/work/covrelief/summary.html',
+                            meta: {
+                                role: 'Volunteer Developer',
+                                dates: 'May 2020 – Sep 2020',
+                                tech: ['HTML', 'CSS', 'DBMS']
+                            }
+                        }
+                    ]
+                }
             ]
         },
         {
@@ -39,9 +127,108 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'folder',
             id: 'projects',
             content: [
-                { name: 'Project 1', type: 'folder', id: 'project-1', content: [] },
-                { name: 'Project 2', type: 'folder', id: 'project-2', content: [] },
-                { name: 'Open Source', type: 'folder', id: 'open-source', content: [] },
+                {
+                    name: 'CrossBeats',
+                    type: 'folder',
+                    id: 'crossbeats',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'crossbeats-summary',
+                            filePath: '../content/projects/crossbeats/summary.html',
+                            meta: {
+                                year: '2025',
+                                tech: ['React', 'Node.js', 'Spotify API', 'WebSocket', 'PostgreSQL']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'SentinalAI',
+                    type: 'folder',
+                    id: 'sentinalai',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'sentinalai-summary',
+                            filePath: '../content/projects/sentinalai/summary.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['Python', 'YOLOv8', 'PyTorch', 'FastAPI', 'WebSocket', 'PostgreSQL']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'Lynti Mobility',
+                    type: 'folder',
+                    id: 'lynti',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'lynti-summary',
+                            filePath: '../content/projects/lynti/summary.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['React Native', 'Google Maps API', 'Node.js', 'WebSocket', 'Express.js', 'TailwindCSS']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'NeuroPilot',
+                    type: 'folder',
+                    id: 'neuropilot',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'neuropilot-summary',
+                            filePath: '../content/projects/neuropilot/summary.html',
+                            meta: {
+                                year: '2025',
+                                tech: ['Browser API', 'WebSocket', 'LLMs']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'JobifyAI',
+                    type: 'folder',
+                    id: 'jobifyai',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'jobifyai-summary',
+                            filePath: '../content/projects/jobifyai/summary.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['Web Scraping', 'AI/ML']
+                            }
+                        }
+                    ]
+                },
+                {
+                    name: 'EduMentor',
+                    type: 'folder',
+                    id: 'edumentor',
+                    content: [
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'edumentor-summary',
+                            filePath: '../content/projects/edumentor/summary.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['Django', 'TensorFlow']
+                            }
+                        }
+                    ]
+                }
             ]
         },
         {
