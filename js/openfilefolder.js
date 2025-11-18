@@ -6,9 +6,32 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'folder',
             id: 'work-experience',
             content: [
-                { name: 'Company A', type: 'folder', id: 'company-a', content: [] },
-                { name: 'Company B', type: 'folder', id: 'company-b', content: [] },
-                { name: 'Internship', type: 'folder', id: 'internship', content: [] },
+                {
+                    name: 'Flickmatch',
+                    type: 'folder',
+                    id: 'flickmatch',
+                    content: [
+                        {
+                            name: 'Live Site',
+                            type: 'file',
+                            id: 'flickmatch-site',
+                            // this HTML just wraps your URL in an iframe
+                            url: 'https://flickmatch.in'
+                        },
+                        {
+                            name: 'Summary',
+                            type: 'file',
+                            id: 'flickmatch-summary',
+                            filePath: '../content/work/flickmatch/summary.html',
+                            meta: {
+                                role: 'Full-stack Engineer',
+                                dates: 'Jan 2024 – Jun 2024',
+                                tech: ['React', 'Node.js', 'MongoDB']
+                            }
+                        }
+                    ]
+                },
+                // …other companies/internships here…
             ]
         },
         {
