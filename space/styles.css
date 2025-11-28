@@ -1,0 +1,3 @@
+html,body { height:100%; margin:0; background:#111; color:#ddd; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+#info { position:absolute; left:12px; top:12px; background:rgba(0,0,0,0.44); padding:8px 10px; border-radius:6px; z-index:2; }
+canvas { display:block; width:100%; height:100% }

@@ -1,0 +1,10 @@
+{
+  "name": "interactive-space",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "http-server -c-1 ./ -p 8000",
+    "serve": "npx http-server -c-1 ./ -p 8000"
+  },
+  "devDependencies": {}
+}
