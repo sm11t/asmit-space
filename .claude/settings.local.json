@@ -4,7 +4,9 @@
       "Bash(tree:*)",
       "Bash(mkdir:*)",
       "Bash(cat:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill -9)"
     ],
     "deny": [],
     "ask": []

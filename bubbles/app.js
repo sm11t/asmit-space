@@ -41,21 +41,33 @@ const roomLabel = document.getElementById('roomLabel');
 const roomInput = document.getElementById('roomInput');
 const joinBtn = document.getElementById('joinBtn');
 const copyBtn = document.getElementById('copyBtn');
+const rearrangeBtn = document.getElementById('rearrangeBtn');
 const statusEl = document.getElementById('status');
 
 /* ---------------------------
   Local state + persistence
 ----------------------------*/
 const STORAGE_KEY = 'bubble-timer-room-state';
+const POSITIONS_KEY = 'bubble-timer-positions'; // Local only, not synced
+
 let state = loadState(); // will hold { bubbles: [...], selectedId, _updatedAt }
 if(!state.bubbles) state.bubbles = [];
 state.selectedId = state.selectedId || null;
+
+// Local positions: { bubbleId: { x, y }, ... }
+let localPositions = loadPositions();
 
 function loadState(){
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { bubbles: [] }; }
   catch(e){ return { bubbles: [] }; }
 }
 function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function loadPositions(){
+  try { return JSON.parse(localStorage.getItem(POSITIONS_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function savePositions(){ localStorage.setItem(POSITIONS_KEY, JSON.stringify(localPositions)); }
 
 /* ---------------------------
   Room handling (URL param or random)
@@ -114,6 +126,14 @@ async function joinRoom(roomId){
           state = data.state;
           state._updatedAt = remoteUpdated;
           saveState();
+
+          // Ensure all bubbles have local positions
+          state.bubbles.forEach(b => {
+            if(!localPositions[b.id]){
+              localPositions[b.id] = { x: 0, y: 0 };
+            }
+          });
+          savePositions();
         }
       }
     } else {
@@ -138,6 +158,15 @@ async function joinRoom(roomId){
       state = data.state || { bubbles: [] };
       state._updatedAt = remoteUpdated;
       saveState();
+
+      // Ensure all bubbles have local positions
+      state.bubbles.forEach(b => {
+        if(!localPositions[b.id]){
+          localPositions[b.id] = { x: 0, y: 0 };
+        }
+      });
+      savePositions();
+
       render();
       statusEl.textContent = 'synced';
     } else {
@@ -209,8 +238,10 @@ function render(){
     label.textContent = `${b.label} — ${remaining <= 0 ? '0:00' : humanTime(remaining)}`;
     wrapper.appendChild(label);
 
-    if(typeof b.x === 'number' && typeof b.y === 'number' && (b.x !== 0 || b.y !== 0)){
-      wrapper.style.transform = `translate(${b.x}px, ${b.y}px)`;
+    // Use local positions (not synced to Firebase)
+    const pos = localPositions[b.id] || { x: 0, y: 0 };
+    if(pos.x !== 0 || pos.y !== 0){
+      wrapper.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
     }
 
     // select on click
@@ -230,21 +261,21 @@ function render(){
     wrapper.addEventListener('pointerdown', (e)=>{
       if(state.selectedId !== b.id) return;
       wrapper.setPointerCapture(e.pointerId);
-      drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, origX: b.x || 0, origY: b.y || 0 };
+      const currentPos = localPositions[b.id] || { x: 0, y: 0 };
+      drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, origX: currentPos.x, origY: currentPos.y };
     });
     window.addEventListener('pointermove', (e)=>{
       if(!drag || drag.id !== e.pointerId) return;
       const dx = e.clientX - drag.startX;
       const dy = e.clientY - drag.startY;
-      b.x = drag.origX + dx;
-      b.y = drag.origY + dy;
-      wrapper.style.transform = `translate(${b.x}px, ${b.y}px)`;
+      const newX = drag.origX + dx;
+      const newY = drag.origY + dy;
+      localPositions[b.id] = { x: newX, y: newY };
+      wrapper.style.transform = `translate(${newX}px, ${newY}px)`;
     });
     window.addEventListener('pointerup', (e)=>{
       if(!drag || drag.id !== e.pointerId) return;
-      saveState();
-      // remote save
-      saveRemoteDebounced();
+      savePositions();
       drag = null;
     });
 
@@ -359,18 +390,69 @@ form.addEventListener('submit', (e)=>{
     label,
     minutes: totalMins,
     remaining: totalMins * 60,
-    x: 0, y:0,
     running: false
   };
   state.bubbles.push(newB);
+  // Initialize position at origin (local only)
+  localPositions[newB.id] = { x: 0, y: 0 };
   // reset form
   titleInput.value = '';
   hoursInput.value = '0';
   minsInput.value = '30';
   state._updatedAt = (new Date()).getTime();
   saveState();
+  savePositions();
   saveRemoteDebounced();
   render();
+});
+
+/* ---------------------------
+  Rearrange: Create a clean grid layout
+----------------------------*/
+function rearrangeBubbles(){
+  if(state.bubbles.length === 0) return;
+
+  // Get board dimensions
+  const boardRect = board.getBoundingClientRect();
+  const boardWidth = boardRect.width;
+  const boardHeight = boardRect.height;
+
+  // Calculate bubble sizes and find max size
+  const bubbleSizes = state.bubbles.map(b => sizeFromMinutes(b.minutes));
+  const maxSize = Math.max(...bubbleSizes, 100);
+
+  // Grid spacing (add padding around bubbles)
+  const spacing = 40;
+  const cellSize = maxSize + spacing;
+
+  // Calculate grid dimensions
+  const cols = Math.floor(boardWidth / cellSize) || 1;
+  const rows = Math.ceil(state.bubbles.length / cols);
+
+  // Center the grid
+  const totalGridWidth = cols * cellSize - spacing;
+  const totalGridHeight = rows * cellSize - spacing;
+  const startX = (boardWidth - totalGridWidth) / 2;
+  const startY = (boardHeight - totalGridHeight) / 2 + 20; // offset from top
+
+  // Arrange bubbles in grid
+  state.bubbles.forEach((b, idx) => {
+    const col = idx % cols;
+    const row = Math.floor(idx / cols);
+    const x = startX + col * cellSize;
+    const y = startY + row * cellSize;
+    localPositions[b.id] = { x, y };
+  });
+
+  savePositions();
+  render();
+  rearrangeBtn.textContent = 'Done!';
+  setTimeout(() => rearrangeBtn.textContent = 'Rearrange', 800);
+}
+
+rearrangeBtn.addEventListener('click', (ev)=>{
+  ev.preventDefault();
+  rearrangeBubbles();
 });
 
 /* ---------------------------
