@@ -275,6 +275,99 @@ function snapToFloor(){
   }
 }
 
+// Create a detailed decorative pillar
+function createPillar(position){
+  const pillarGroup = new THREE.Group();
+
+  // Materials
+  const stoneMaterial = new THREE.MeshStandardMaterial({
+    color: 0xe8dcc8,
+    roughness: 0.8,
+    metalness: 0.1
+  });
+
+  const accentMaterial = new THREE.MeshStandardMaterial({
+    color: 0xd4c4a8,
+    roughness: 0.7,
+    metalness: 0.15
+  });
+
+  // Base pedestal (square base)
+  const baseGeometry = new THREE.BoxGeometry(0.6, 0.15, 0.6);
+  const base = new THREE.Mesh(baseGeometry, accentMaterial);
+  base.position.y = 0.075;
+  base.castShadow = true;
+  base.receiveShadow = true;
+  pillarGroup.add(base);
+
+  // Lower trim
+  const lowerTrimGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
+  const lowerTrim = new THREE.Mesh(lowerTrimGeo, accentMaterial);
+  lowerTrim.position.y = 0.19;
+  lowerTrim.castShadow = true;
+  lowerTrim.receiveShadow = true;
+  pillarGroup.add(lowerTrim);
+
+  // Main column (cylindrical with subtle detail)
+  const columnGeometry = new THREE.CylinderGeometry(0.18, 0.2, 2.0, 12);
+  const column = new THREE.Mesh(columnGeometry, stoneMaterial);
+  column.position.y = 1.23;
+  column.castShadow = true;
+  column.receiveShadow = true;
+  pillarGroup.add(column);
+
+  // Fluting details (vertical grooves)
+  for(let i = 0; i < 8; i++){
+    const angle = (i / 8) * Math.PI * 2;
+    const flutingGeo = new THREE.BoxGeometry(0.03, 1.8, 0.05);
+    const fluting = new THREE.Mesh(flutingGeo, accentMaterial);
+    fluting.position.x = Math.cos(angle) * 0.19;
+    fluting.position.z = Math.sin(angle) * 0.19;
+    fluting.position.y = 1.23;
+    fluting.rotation.y = angle;
+    fluting.castShadow = true;
+    fluting.receiveShadow = true;
+    pillarGroup.add(fluting);
+  }
+
+  // Capital (decorative top) - wider than column
+  const capitalGeo = new THREE.CylinderGeometry(0.28, 0.18, 0.2, 12);
+  const capital = new THREE.Mesh(capitalGeo, accentMaterial);
+  capital.position.y = 2.33;
+  capital.castShadow = true;
+  capital.receiveShadow = true;
+  pillarGroup.add(capital);
+
+  // Top crown
+  const crownGeo = new THREE.CylinderGeometry(0.25, 0.28, 0.1, 12);
+  const crown = new THREE.Mesh(crownGeo, accentMaterial);
+  crown.position.y = 2.48;
+  crown.castShadow = true;
+  crown.receiveShadow = true;
+  pillarGroup.add(crown);
+
+  // Top cap (flat square)
+  const capGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
+  const cap = new THREE.Mesh(capGeo, accentMaterial);
+  cap.position.y = 2.57;
+  cap.castShadow = true;
+  cap.receiveShadow = true;
+  pillarGroup.add(cap);
+
+  // Position the entire pillar group
+  pillarGroup.position.copy(position);
+
+  // Add all pillar meshes to worldMeshes for collision
+  pillarGroup.traverse((obj) => {
+    if(obj.isMesh){
+      worldMeshes.push(obj);
+    }
+  });
+
+  scene.add(pillarGroup);
+  return pillarGroup;
+}
+
 async function loadAssetsOrFallback(){
   const gltfPath = './models/room57.glb';
   const lmPath = './textures/lightmap_2048.png';
@@ -334,6 +427,41 @@ async function loadAssetsOrFallback(){
         character.position.copy(roomCenter);
         snapToFloor();
       }
+
+      // Create pillars in all 4 corners of the room
+      const box = new THREE.Box3().setFromObject(room);
+      const offset = 0.8;
+
+      // Corner positions
+      const backLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.min.z + offset);
+      const backRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.min.z + offset);
+      const frontLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.max.z - offset);
+      const frontRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.max.z - offset);
+
+      // Create corner pillars
+      createPillar(backLeft);
+      createPillar(backRight);
+      createPillar(frontLeft);
+      createPillar(frontRight);
+
+      // Add 3 equally spaced pillars on front and back walls only
+      for(let i = 1; i <= 3; i++){
+        const t = i / 4; // 0.25, 0.5, 0.75
+
+        // Back side (between back-left and back-right)
+        createPillar(new THREE.Vector3(
+          backLeft.x + t * (backRight.x - backLeft.x),
+          box.min.y,
+          backLeft.z
+        ));
+
+        // Front side (between front-left and front-right)
+        createPillar(new THREE.Vector3(
+          frontLeft.x + t * (frontRight.x - frontLeft.x),
+          box.min.y,
+          frontLeft.z
+        ));
+      }
     },
     undefined,
     (err) => {
@@ -367,6 +495,41 @@ function createFallbackRoom(){
   if(character){
     character.position.copy(roomCenter);
     snapToFloor();
+  }
+
+  // Create pillars in all 4 corners of the fallback room
+  const box = new THREE.Box3().setFromObject(roomGroup);
+  const offset = 0.8;
+
+  // Corner positions
+  const backLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.min.z + offset);
+  const backRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.min.z + offset);
+  const frontLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.max.z - offset);
+  const frontRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.max.z - offset);
+
+  // Create corner pillars
+  createPillar(backLeft);
+  createPillar(backRight);
+  createPillar(frontLeft);
+  createPillar(frontRight);
+
+  // Add 3 equally spaced pillars on front and back walls only
+  for(let i = 1; i <= 3; i++){
+    const t = i / 4; // 0.25, 0.5, 0.75
+
+    // Back side (between back-left and back-right)
+    createPillar(new THREE.Vector3(
+      backLeft.x + t * (backRight.x - backLeft.x),
+      box.min.y,
+      backLeft.z
+    ));
+
+    // Front side (between front-left and front-right)
+    createPillar(new THREE.Vector3(
+      frontLeft.x + t * (frontRight.x - frontLeft.x),
+      box.min.y,
+      frontLeft.z
+    ));
   }
 }
 
