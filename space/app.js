@@ -1,30 +1,38 @@
-// app.js — minimal Three.js viewer + sphere navigation proof
+// app.js — sphere-constrained camera for room viewing
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-
-let scene, camera, renderer, clock;
-let controls;
-let player, playerRadius = 0.28;
-let playerVelocity = new THREE.Vector3(0,0,0);
-let move = { forward:false, backward:false, left:false, right:false, jump:false };
+let scene, camera, renderer;
 const worldMeshes = [];
 let lightmapTex = null;
-let onGround = false;
-const gravity = -9.8;
-const raycaster = new THREE.Raycaster();
+
+// Spherical camera coordinates
+let spherical = {
+  radius: 10,        // distance from center
+  theta: Math.PI / 4,  // horizontal angle
+  phi: Math.PI / 3     // vertical angle (from top)
+};
+
+// Zoom limits
+const MIN_RADIUS = 5;
+const MAX_RADIUS = 20;
+
+// Mouse interaction
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+
+// Room center target
+const roomCenter = new THREE.Vector3(0, 1.25, 0);
 
 init();
 animate();
 
 function init(){
   scene = new THREE.Scene();
-  clock = new THREE.Clock();
 
-  camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.05, 200);
-  camera.position.set(0, 20, 20);  // positioned above and outside the room
-  camera.lookAt(0, 6, 0);  // looking at the center of the room
+  // Isometric-like camera with narrow FOV
+  camera = new THREE.PerspectiveCamera(35, innerWidth/innerHeight, 0.1, 100);
+  updateCameraPosition();
 
   renderer = new THREE.WebGLRenderer({ antialias:true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
@@ -39,27 +47,12 @@ function init(){
   dir.castShadow = true;
   scene.add(dir);
 
-  // sphere player
-  const playerGeo = new THREE.SphereGeometry(playerRadius, 24, 16);
-  const playerMat = new THREE.MeshStandardMaterial({ color: 0xffcc66, roughness: 0.7 });
-  player = new THREE.Mesh(playerGeo, playerMat);
-  player.castShadow = true;
-  player.position.set(0, playerRadius + 0.02, 0);
-  scene.add(player);
-
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.05;
-  controls.target.set(0, 0, 0);  // look at center of room
-  controls.mouseButtons = {
-    LEFT: null,
-    MIDDLE: THREE.MOUSE.ROTATE,
-    RIGHT: null
-  };
-
+  // Event listeners
   window.addEventListener('resize', onResize);
-  window.addEventListener('keydown', onKeyDown);
-  window.addEventListener('keyup', onKeyUp);
+  window.addEventListener('mousedown', onMouseDown);
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+  window.addEventListener('wheel', onWheel, { passive: false });
 
   loadAssetsOrFallback();
 }
@@ -70,23 +63,61 @@ function onResize(){
   renderer.setSize(innerWidth, innerHeight);
 }
 
-function onKeyDown(e){
-  switch(e.code){
-    case 'KeyW': case 'ArrowUp': move.forward = true; break;
-    case 'KeyS': case 'ArrowDown': move.backward = true; break;
-    case 'KeyA': case 'ArrowLeft': move.left = true; break;
-    case 'KeyD': case 'ArrowRight': move.right = true; break;
-    case 'Space': move.jump = true; break;
+// Convert spherical coordinates to Cartesian and update camera
+function updateCameraPosition(){
+  const x = roomCenter.x + spherical.radius * Math.sin(spherical.phi) * Math.cos(spherical.theta);
+  const y = roomCenter.y + spherical.radius * Math.cos(spherical.phi);
+  const z = roomCenter.z + spherical.radius * Math.sin(spherical.phi) * Math.sin(spherical.theta);
+
+  camera.position.set(x, y, z);
+  camera.lookAt(roomCenter);
+}
+
+// Mouse interaction handlers
+function onMouseDown(e){
+  if(e.button === 0){ // left click
+    isDragging = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
   }
 }
-function onKeyUp(e){
-  switch(e.code){
-    case 'KeyW': case 'ArrowUp': move.forward = false; break;
-    case 'KeyS': case 'ArrowDown': move.backward = false; break;
-    case 'KeyA': case 'ArrowLeft': move.left = false; break;
-    case 'KeyD': case 'ArrowRight': move.right = false; break;
-    case 'Space': move.jump = false; break;
+
+function onMouseMove(e){
+  if(!isDragging) return;
+
+  const deltaX = e.clientX - previousMousePosition.x;
+  const deltaY = e.clientY - previousMousePosition.y;
+
+  // Adjust sensitivity
+  const rotationSpeed = 0.005;
+
+  spherical.theta -= deltaX * rotationSpeed;
+  spherical.phi -= deltaY * rotationSpeed;
+
+  // Clamp phi to prevent flipping over poles
+  const epsilon = 0.01;
+  spherical.phi = Math.max(epsilon, Math.min(Math.PI - epsilon, spherical.phi));
+
+  previousMousePosition = { x: e.clientX, y: e.clientY };
+  updateCameraPosition();
+}
+
+function onMouseUp(e){
+  if(e.button === 0){
+    isDragging = false;
   }
+}
+
+function onWheel(e){
+  e.preventDefault();
+
+  // Zoom in/out
+  const zoomSpeed = 0.002;
+  spherical.radius += e.deltaY * zoomSpeed;
+
+  // Clamp to min/max
+  spherical.radius = Math.max(MIN_RADIUS, Math.min(MAX_RADIUS, spherical.radius));
+
+  updateCameraPosition();
 }
 
 async function loadAssetsOrFallback(){
@@ -137,8 +168,6 @@ async function loadAssetsOrFallback(){
         }
       });
       scene.add(room);
-      // set player starting position
-      player.position.set(0, playerRadius + 0.02, 0.2);
     },
     undefined,
     (err) => {
@@ -164,76 +193,7 @@ function createFallbackRoom(){
   roomGroup.traverse(o => { if(o.isMesh) worldMeshes.push(o); });
 }
 
-function testCollision(origin, dir, distance){
-  raycaster.set(origin, dir);
-  raycaster.far = distance;
-  const hits = raycaster.intersectObjects(worldMeshes, false);
-  return hits.length > 0 ? hits[0] : null;
-}
-
-function updatePlayer(dt){
-  const speed = 2.2;
-  // camera forward as movement reference
-  const forward = new THREE.Vector3(); camera.getWorldDirection(forward); forward.y = 0; forward.normalize();
-  const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0), forward).normalize();
-
-  let desired = new THREE.Vector3();
-  if(move.forward) desired.add(forward);
-  if(move.backward) desired.sub(forward);
-  if(move.left) desired.add(right);
-  if(move.right) desired.sub(right);
-  desired.normalize();
-
-  const lateral = desired.multiplyScalar(speed);
-
-  if(onGround){
-    playerVelocity.y = move.jump ? 3.2 : 0;
-  } else {
-    playerVelocity.y += gravity * dt;
-  }
-
-  // propose next pos
-  const nextPos = player.position.clone();
-  nextPos.x += lateral.x * dt;
-  nextPos.z += lateral.z * dt;
-  nextPos.y += playerVelocity.y * dt;
-
-  // horizontal collision
-  let blocked = false;
-  if(lateral.length() > 0.001){
-    const dirH = new THREE.Vector3(lateral.x, 0, lateral.z).normalize();
-    const origin = new THREE.Vector3(player.position.x, player.position.y, player.position.z);
-    const hit = testCollision(origin, dirH, playerRadius + 0.12);
-    if(hit && hit.distance < playerRadius + 0.12) blocked = true;
-  }
-
-  if(!blocked){
-    player.position.x = nextPos.x;
-    player.position.z = nextPos.z;
-  }
-
-  // vertical ground detection
-  const downOrigin = new THREE.Vector3(player.position.x, player.position.y + 0.1, player.position.z);
-  const downHit = testCollision(downOrigin, new THREE.Vector3(0,-1,0), 0.25);
-  if(downHit){
-    player.position.y = downHit.point.y + playerRadius;
-    onGround = true;
-    playerVelocity.y = Math.max(0, playerVelocity.y);
-  } else {
-    onGround = false;
-  }
-
-  // camera follow - DISABLED for static aerial view
-  // const camTarget = new THREE.Vector3().copy(player.position); camTarget.y += 0.9;
-  // const backOffset = new THREE.Vector3(); camera.getWorldDirection(backOffset); backOffset.y = 0; backOffset.normalize(); backOffset.multiplyScalar(-3.2);
-  // camera.position.lerp(new THREE.Vector3(player.position.x + backOffset.x, player.position.y + 1.6, player.position.z + backOffset.z), 0.12);
-  // controls.target.lerp(camTarget, 0.12);
-}
-
 function animate(){
   requestAnimationFrame(animate);
-  const dt = Math.min(0.05, clock.getDelta());
-  updatePlayer(dt);
-  controls.update();
   renderer.render(scene, camera);
 }
