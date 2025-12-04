@@ -6,23 +6,23 @@ let scene, camera, renderer;
 const worldMeshes = [];
 let lightmapTex = null;
 
-// Spherical camera coordinates
-let spherical = {
-  radius: 10,        // distance from center
-  theta: Math.PI / 4,  // horizontal angle
-  phi: Math.PI / 3     // vertical angle (from top)
-};
-
 // Zoom limits
 const MIN_RADIUS = 5;
 const MAX_RADIUS = 20;
+
+// Spherical camera coordinates
+let spherical = {
+  radius: MAX_RADIUS,  // start at most zoomed out position
+  theta: Math.PI / 4,  // horizontal angle
+  phi: Math.PI / 3     // vertical angle (from top)
+};
 
 // Mouse interaction
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
 
-// Room center target
-const roomCenter = new THREE.Vector3(0, 1.25, 0);
+// Room center target (will be calculated from loaded room)
+let roomCenter = new THREE.Vector3(0, 1.25, 0);
 
 init();
 animate();
@@ -63,6 +63,14 @@ function onResize(){
   renderer.setSize(innerWidth, innerHeight);
 }
 
+// Calculate room center from bounding box
+function calculateRoomCenter(roomObject){
+  const box = new THREE.Box3().setFromObject(roomObject);
+  const center = new THREE.Vector3();
+  box.getCenter(center);
+  return center;
+}
+
 // Convert spherical coordinates to Cartesian and update camera
 function updateCameraPosition(){
   const x = roomCenter.x + spherical.radius * Math.sin(spherical.phi) * Math.cos(spherical.theta);
@@ -75,9 +83,10 @@ function updateCameraPosition(){
 
 // Mouse interaction handlers
 function onMouseDown(e){
-  if(e.button === 0){ // left click
+  if(e.button === 1){ // middle mouse button
     isDragging = true;
     previousMousePosition = { x: e.clientX, y: e.clientY };
+    e.preventDefault(); // prevent default middle-click behavior
   }
 }
 
@@ -102,7 +111,7 @@ function onMouseMove(e){
 }
 
 function onMouseUp(e){
-  if(e.button === 0){
+  if(e.button === 1){ // middle mouse button
     isDragging = false;
   }
 }
@@ -168,6 +177,11 @@ async function loadAssetsOrFallback(){
         }
       });
       scene.add(room);
+
+      // Calculate and update room center from bounding box
+      roomCenter = calculateRoomCenter(room);
+      console.log('Room center:', roomCenter);
+      updateCameraPosition();
     },
     undefined,
     (err) => {
@@ -191,6 +205,11 @@ function createFallbackRoom(){
   roomGroup.add(back, left, right, front, floor);
   scene.add(roomGroup);
   roomGroup.traverse(o => { if(o.isMesh) worldMeshes.push(o); });
+
+  // Calculate and update room center from bounding box
+  roomCenter = calculateRoomCenter(roomGroup);
+  console.log('Fallback room center:', roomCenter);
+  updateCameraPosition();
 }
 
 function animate(){
