@@ -24,6 +24,19 @@ let previousMousePosition = { x: 0, y: 0 };
 // Room center target (will be calculated from loaded room)
 let roomCenter = new THREE.Vector3(0, 1.25, 0);
 
+// Character
+let character = null;
+let characterRadius = 0.1;
+let characterHeight = 1;
+let characterSpeed = 2.0;
+
+// Movement input
+let moveInput = { forward: false, backward: false, left: false, right: false };
+
+// Raycaster for floor detection
+const raycaster = new THREE.Raycaster();
+const clock = new THREE.Clock();
+
 init();
 animate();
 
@@ -47,14 +60,38 @@ function init(){
   dir.castShadow = true;
   scene.add(dir);
 
+  // Create character
+  createCharacter();
+
   // Event listeners
   window.addEventListener('resize', onResize);
   window.addEventListener('mousedown', onMouseDown);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mouseup', onMouseUp);
   window.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('keyup', onKeyUp);
 
   loadAssetsOrFallback();
+}
+
+function createCharacter(){
+  // Create capsule-shaped character (cylinder with sphere caps)
+  const bodyGeometry = new THREE.CapsuleGeometry(characterRadius, characterHeight - characterRadius * 2, 8, 16);
+  const bodyMaterial = new THREE.MeshStandardMaterial({
+    color: 0x4488ff,
+    roughness: 0.7,
+    metalness: 0.1
+  });
+  character = new THREE.Mesh(bodyGeometry, bodyMaterial);
+  character.castShadow = true;
+  character.receiveShadow = true;
+
+  // Position at room center on floor
+  character.position.copy(roomCenter);
+  character.position.y = characterHeight / 2; // capsule center is at half height
+
+  scene.add(character);
 }
 
 function onResize(){
@@ -129,6 +166,115 @@ function onWheel(e){
   updateCameraPosition();
 }
 
+// Keyboard handlers for WASD movement
+function onKeyDown(e){
+  switch(e.code){
+    case 'KeyW': case 'ArrowUp': moveInput.forward = true; break;
+    case 'KeyS': case 'ArrowDown': moveInput.backward = true; break;
+    case 'KeyA': case 'ArrowLeft': moveInput.left = true; break;
+    case 'KeyD': case 'ArrowRight': moveInput.right = true; break;
+  }
+}
+
+function onKeyUp(e){
+  switch(e.code){
+    case 'KeyW': case 'ArrowUp': moveInput.forward = false; break;
+    case 'KeyS': case 'ArrowDown': moveInput.backward = false; break;
+    case 'KeyA': case 'ArrowLeft': moveInput.left = false; break;
+    case 'KeyD': case 'ArrowRight': moveInput.right = false; break;
+  }
+}
+
+// Update character movement
+function updateCharacter(dt){
+  if(!character) return;
+
+  // Get camera's horizontal direction (projected onto XZ plane)
+  const cameraDirection = new THREE.Vector3();
+  camera.getWorldDirection(cameraDirection);
+  cameraDirection.y = 0; // Project to horizontal plane
+  cameraDirection.normalize();
+
+  // Calculate right direction (perpendicular to camera direction)
+  const rightDirection = new THREE.Vector3();
+  rightDirection.crossVectors(cameraDirection, new THREE.Vector3(0, 1, 0)).normalize();
+
+  // Build movement vector based on input
+  const moveDirection = new THREE.Vector3();
+
+  if(moveInput.forward) moveDirection.add(cameraDirection);
+  if(moveInput.backward) moveDirection.sub(cameraDirection);
+  if(moveInput.left) moveDirection.sub(rightDirection);
+  if(moveInput.right) moveDirection.add(rightDirection);
+
+  // Normalize and apply speed
+  if(moveDirection.length() > 0){
+    moveDirection.normalize();
+
+    // Calculate next position
+    const nextPos = character.position.clone();
+    nextPos.x += moveDirection.x * characterSpeed * dt;
+    nextPos.z += moveDirection.z * characterSpeed * dt;
+
+    // Check horizontal collision with walls
+    const collisionCheck = checkWallCollision(nextPos);
+
+    if(!collisionCheck){
+      character.position.x = nextPos.x;
+      character.position.z = nextPos.z;
+    }
+  }
+
+  // Keep character on floor (raycast down to find floor)
+  snapToFloor();
+}
+
+// Check collision with walls
+function checkWallCollision(position){
+  // Cast rays in 8 directions around the character
+  const directions = [
+    new THREE.Vector3(1, 0, 0),
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3(0, 0, 1),
+    new THREE.Vector3(0, 0, -1),
+    new THREE.Vector3(0.707, 0, 0.707),
+    new THREE.Vector3(-0.707, 0, 0.707),
+    new THREE.Vector3(0.707, 0, -0.707),
+    new THREE.Vector3(-0.707, 0, -0.707)
+  ];
+
+  for(const dir of directions){
+    raycaster.set(position, dir);
+    raycaster.far = characterRadius + 0.1;
+    const hits = raycaster.intersectObjects(worldMeshes, false);
+
+    if(hits.length > 0 && hits[0].distance < characterRadius + 0.05){
+      return true; // Collision detected
+    }
+  }
+
+  return false; // No collision
+}
+
+// Snap character to floor
+function snapToFloor(){
+  if(!character) return;
+
+  // Raycast down from character position
+  const origin = character.position.clone();
+  origin.y += 1; // Start ray above character
+
+  raycaster.set(origin, new THREE.Vector3(0, -1, 0));
+  raycaster.far = 10;
+
+  const hits = raycaster.intersectObjects(worldMeshes, false);
+
+  if(hits.length > 0){
+    // Snap to floor + half character height
+    character.position.y = hits[0].point.y + characterHeight / 2;
+  }
+}
+
 async function loadAssetsOrFallback(){
   const gltfPath = './models/room57.glb';
   const lmPath = './textures/lightmap_2048.png';
@@ -182,6 +328,12 @@ async function loadAssetsOrFallback(){
       roomCenter = calculateRoomCenter(room);
       console.log('Room center:', roomCenter);
       updateCameraPosition();
+
+      // Update character position to room center floor
+      if(character){
+        character.position.copy(roomCenter);
+        snapToFloor();
+      }
     },
     undefined,
     (err) => {
@@ -210,9 +362,19 @@ function createFallbackRoom(){
   roomCenter = calculateRoomCenter(roomGroup);
   console.log('Fallback room center:', roomCenter);
   updateCameraPosition();
+
+  // Update character position to room center floor
+  if(character){
+    character.position.copy(roomCenter);
+    snapToFloor();
+  }
 }
 
 function animate(){
   requestAnimationFrame(animate);
+
+  const dt = Math.min(0.05, clock.getDelta());
+  updateCharacter(dt);
+
   renderer.render(scene, camera);
 }
