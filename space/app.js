@@ -33,6 +33,13 @@ let characterSpeed = 2.0;
 // Movement input
 let moveInput = { forward: false, backward: false, left: false, right: false };
 
+// Display case reference for animation
+let displayCase = null;
+
+// Interaction system
+let isNearDisplay = false;
+const INTERACTION_DISTANCE = 2.0; // Units required to interact
+
 // Raycaster for floor detection
 const raycaster = new THREE.Raycaster();
 const clock = new THREE.Clock();
@@ -173,6 +180,11 @@ function onKeyDown(e){
     case 'KeyS': case 'ArrowDown': moveInput.backward = true; break;
     case 'KeyA': case 'ArrowLeft': moveInput.left = true; break;
     case 'KeyD': case 'ArrowRight': moveInput.right = true; break;
+    case 'KeyE':
+      if(isNearDisplay){
+        handleDisplayInteraction();
+      }
+      break;
   }
 }
 
@@ -275,97 +287,278 @@ function snapToFloor(){
   }
 }
 
-// Create a detailed decorative pillar
-function createPillar(position){
-  const pillarGroup = new THREE.Group();
+// Create the 'e' logo mesh
+function createELogo(){
+  // Create the 'e' shape using curves
+  const eShape = new THREE.Shape();
+
+  const scale = 0.15;
+
+  // Outer circle of 'e'
+  eShape.absarc(0, 0, 1 * scale, 0, Math.PI * 2, false);
+
+  // Inner hole (counter) - positioned slightly off-center for 'e' opening
+  const holePath = new THREE.Path();
+  holePath.absarc(0.05 * scale, 0.05 * scale, 0.6 * scale, 0, Math.PI * 2, true);
+  eShape.holes.push(holePath);
+
+  // Create horizontal cut for 'e' opening
+  const cutPath = new THREE.Path();
+  cutPath.moveTo(0, 0);
+  cutPath.lineTo(1.2 * scale, 0);
+  cutPath.lineTo(1.2 * scale, 0.25 * scale);
+  cutPath.lineTo(0, 0.25 * scale);
+  cutPath.lineTo(0, 0);
+  eShape.holes.push(cutPath);
+
+  // Extrude settings
+  const extrudeSettings = {
+    depth: 0.05,
+    bevelEnabled: true,
+    bevelThickness: 0.01,
+    bevelSize: 0.01,
+    bevelSegments: 3
+  };
+
+  const geometry = new THREE.ExtrudeGeometry(eShape, extrudeSettings);
+
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+    roughness: 0.3,
+    metalness: 0.7,
+    emissive: 0x111111,
+    emissiveIntensity: 0.2
+  });
+
+  const eLogo = new THREE.Mesh(geometry, material);
+  eLogo.castShadow = true;
+  eLogo.receiveShadow = true;
+
+  // Rotate to face forward
+  eLogo.rotation.x = -Math.PI / 2;
+
+  return eLogo;
+}
+
+// Create a jewelry display case
+function createJewelryDisplay(position){
+  const displayGroup = new THREE.Group();
 
   // Materials
-  const stoneMaterial = new THREE.MeshStandardMaterial({
-    color: 0xe8dcc8,
-    roughness: 0.8,
-    metalness: 0.1
+  const baseMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.3,
+    metalness: 0.8
   });
 
-  const accentMaterial = new THREE.MeshStandardMaterial({
-    color: 0xd4c4a8,
-    roughness: 0.7,
-    metalness: 0.15
+  const glassMaterial = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.3,
+    roughness: 0.1,
+    metalness: 0.1,
+    transmission: 0.9,
+    thickness: 0.5
   });
 
-  // Base pedestal (square base)
-  const baseGeometry = new THREE.BoxGeometry(0.6, 0.15, 0.6);
-  const base = new THREE.Mesh(baseGeometry, accentMaterial);
-  base.position.y = 0.075;
+  const displayPlatformMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.2,
+    metalness: 0.9
+  });
+
+  // Base pedestal
+  const baseGeo = new THREE.CylinderGeometry(0.4, 0.45, 0.1, 16);
+  const base = new THREE.Mesh(baseGeo, baseMaterial);
+  base.position.y = 0.05;
   base.castShadow = true;
   base.receiveShadow = true;
-  pillarGroup.add(base);
+  displayGroup.add(base);
 
-  // Lower trim
-  const lowerTrimGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
-  const lowerTrim = new THREE.Mesh(lowerTrimGeo, accentMaterial);
-  lowerTrim.position.y = 0.19;
-  lowerTrim.castShadow = true;
-  lowerTrim.receiveShadow = true;
-  pillarGroup.add(lowerTrim);
-
-  // Main column (cylindrical with subtle detail)
-  const columnGeometry = new THREE.CylinderGeometry(0.18, 0.2, 2.0, 12);
-  const column = new THREE.Mesh(columnGeometry, stoneMaterial);
-  column.position.y = 1.23;
+  // Column/stand
+  const columnGeo = new THREE.CylinderGeometry(0.08, 0.1, 1.2, 12);
+  const column = new THREE.Mesh(columnGeo, baseMaterial);
+  column.position.y = 0.7;
   column.castShadow = true;
   column.receiveShadow = true;
-  pillarGroup.add(column);
+  displayGroup.add(column);
 
-  // Fluting details (vertical grooves)
-  for(let i = 0; i < 8; i++){
-    const angle = (i / 8) * Math.PI * 2;
-    const flutingGeo = new THREE.BoxGeometry(0.03, 1.8, 0.05);
-    const fluting = new THREE.Mesh(flutingGeo, accentMaterial);
-    fluting.position.x = Math.cos(angle) * 0.19;
-    fluting.position.z = Math.sin(angle) * 0.19;
-    fluting.position.y = 1.23;
-    fluting.rotation.y = angle;
-    fluting.castShadow = true;
-    fluting.receiveShadow = true;
-    pillarGroup.add(fluting);
-  }
+  // Top platform base
+  const platformBaseGeo = new THREE.CylinderGeometry(0.35, 0.3, 0.08, 16);
+  const platformBase = new THREE.Mesh(platformBaseGeo, baseMaterial);
+  platformBase.position.y = 1.34;
+  platformBase.castShadow = true;
+  platformBase.receiveShadow = true;
+  displayGroup.add(platformBase);
 
-  // Capital (decorative top) - wider than column
-  const capitalGeo = new THREE.CylinderGeometry(0.28, 0.18, 0.2, 12);
-  const capital = new THREE.Mesh(capitalGeo, accentMaterial);
-  capital.position.y = 2.33;
-  capital.castShadow = true;
-  capital.receiveShadow = true;
-  pillarGroup.add(capital);
+  // Inner display platform (where the object sits)
+  const innerPlatformGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.03, 16);
+  const innerPlatform = new THREE.Mesh(innerPlatformGeo, displayPlatformMaterial);
+  innerPlatform.position.y = 1.415;
+  innerPlatform.receiveShadow = true;
+  displayGroup.add(innerPlatform);
 
-  // Top crown
-  const crownGeo = new THREE.CylinderGeometry(0.25, 0.28, 0.1, 12);
-  const crown = new THREE.Mesh(crownGeo, accentMaterial);
-  crown.position.y = 2.48;
-  crown.castShadow = true;
-  crown.receiveShadow = true;
-  pillarGroup.add(crown);
+  // Add the 'e' logo on the platform
+  const eLogo = createELogo();
+  eLogo.position.y = 1.48;
+  eLogo.userData.rotationSpeed = 0.5; // Store rotation speed for animation
+  displayGroup.add(eLogo);
+  displayGroup.userData.eLogo = eLogo; // Store reference for animation
 
-  // Top cap (flat square)
-  const capGeo = new THREE.BoxGeometry(0.5, 0.08, 0.5);
-  const cap = new THREE.Mesh(capGeo, accentMaterial);
-  cap.position.y = 2.57;
-  cap.castShadow = true;
-  cap.receiveShadow = true;
-  pillarGroup.add(cap);
+  // Glass case (cylinder)
+  const glassGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.6, 16, 1, true);
+  const glassCasing = new THREE.Mesh(glassGeo, glassMaterial);
+  glassCasing.position.y = 1.73;
+  glassCasing.castShadow = true;
+  glassCasing.receiveShadow = true;
+  displayGroup.add(glassCasing);
 
-  // Position the entire pillar group
-  pillarGroup.position.copy(position);
+  // Glass top cap
+  const glassTopGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.02, 16);
+  const glassTop = new THREE.Mesh(glassTopGeo, glassMaterial);
+  glassTop.position.y = 2.03;
+  displayGroup.add(glassTop);
 
-  // Add all pillar meshes to worldMeshes for collision
-  pillarGroup.traverse((obj) => {
-    if(obj.isMesh){
-      worldMeshes.push(obj);
-    }
+  // Create red outline meshes (slightly larger, initially invisible)
+  const outlineMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff0000,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0
   });
 
-  scene.add(pillarGroup);
-  return pillarGroup;
+  // Outline for glass cylinder
+  const outlineGlassGeo = new THREE.CylinderGeometry(0.30, 0.30, 0.64, 16, 1, true);
+  const outlineGlass = new THREE.Mesh(outlineGlassGeo, outlineMaterial);
+  outlineGlass.position.y = 1.73;
+  displayGroup.add(outlineGlass);
+
+  // Outline for base
+  const outlineBaseGeo = new THREE.CylinderGeometry(0.42, 0.47, 0.12, 16);
+  const outlineBase = new THREE.Mesh(outlineBaseGeo, outlineMaterial.clone());
+  outlineBase.position.y = 0.05;
+  displayGroup.add(outlineBase);
+
+  // Outline for column
+  const outlineColumnGeo = new THREE.CylinderGeometry(0.10, 0.12, 1.24, 12);
+  const outlineColumn = new THREE.Mesh(outlineColumnGeo, outlineMaterial.clone());
+  outlineColumn.position.y = 0.7;
+  displayGroup.add(outlineColumn);
+
+  // Store outline meshes for toggling
+  displayGroup.userData.outlines = [outlineGlass, outlineBase, outlineColumn];
+
+  // Position the display
+  displayGroup.position.copy(position);
+
+  // Add collision for base and column only (not glass)
+  worldMeshes.push(base, column, platformBase);
+
+  scene.add(displayGroup);
+  return displayGroup;
+}
+
+// Create construction/work in progress elements
+function createConstructionElements(boundingBox){
+  const roomWidth = boundingBox.max.x - boundingBox.min.x;
+  const roomDepth = boundingBox.max.z - boundingBox.min.z;
+  const roomHeight = boundingBox.max.y - boundingBox.min.y;
+  const offset = 0.05; // Very close to the wall
+
+  // Back wall (looking from center towards -Z)
+  createWIPWallText(
+    new THREE.Vector3(roomCenter.x, roomCenter.y, boundingBox.min.z + offset),
+    roomWidth * 0.8,
+    roomHeight * 0.4,
+    0
+  );
+
+  // Front wall (looking from center towards +Z)
+  createWIPWallText(
+    new THREE.Vector3(roomCenter.x, roomCenter.y, boundingBox.max.z - offset),
+    roomWidth * 0.8,
+    roomHeight * 0.4,
+    Math.PI
+  );
+
+  // Left wall (looking from center towards -X)
+  createWIPWallText(
+    new THREE.Vector3(boundingBox.min.x + offset, roomCenter.y, roomCenter.z),
+    roomDepth * 0.8,
+    roomHeight * 0.4,
+    Math.PI / 2
+  );
+
+  // Right wall (looking from center towards +X)
+  createWIPWallText(
+    new THREE.Vector3(boundingBox.max.x - offset, roomCenter.y, roomCenter.z),
+    roomDepth * 0.8,
+    roomHeight * 0.4,
+    -Math.PI / 2
+  );
+}
+
+// Create large "WORK IN PROGRESS" text on wall using canvas texture
+function createWIPWallText(position, width, height, rotationY){
+  // Create canvas for text
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = 1024;
+  canvas.height = 512;
+
+  // Fill with semi-transparent black background
+  context.fillStyle = 'rgba(0, 0, 0, 0.8)';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Add yellow/orange border stripes
+  context.fillStyle = '#ffaa00';
+  const stripeWidth = 40;
+  context.fillRect(0, 0, canvas.width, stripeWidth);
+  context.fillRect(0, canvas.height - stripeWidth, canvas.width, stripeWidth);
+  context.fillRect(0, 0, stripeWidth, canvas.height);
+  context.fillRect(canvas.width - stripeWidth, 0, stripeWidth, canvas.height);
+
+  // Add diagonal warning stripes in corners
+  context.strokeStyle = '#ffaa00';
+  context.lineWidth = 30;
+  for(let i = 0; i < 5; i++){
+    context.beginPath();
+    context.moveTo(stripeWidth + i * 80, stripeWidth);
+    context.lineTo(stripeWidth + i * 80 + 60, stripeWidth + 60);
+    context.stroke();
+  }
+
+  // Draw "WORK IN PROGRESS" text
+  context.fillStyle = '#ffaa00';
+  context.font = 'bold 80px Arial';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText('WORK IN', canvas.width / 2, canvas.height / 2 - 50);
+  context.fillText('PROGRESS', canvas.width / 2, canvas.height / 2 + 50);
+
+  // Add some construction symbols
+  context.font = 'bold 60px Arial';
+  context.fillText('⚠', 150, canvas.height / 2);
+  context.fillText('⚠', canvas.width - 150, canvas.height / 2);
+
+  // Create texture from canvas
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+
+  // Create plane with the texture
+  const geometry = new THREE.PlaneGeometry(width, height);
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+
+  const textPlane = new THREE.Mesh(geometry, material);
+  textPlane.position.copy(position);
+  textPlane.rotation.y = rotationY;
+
+  scene.add(textPlane);
+  return textPlane;
 }
 
 async function loadAssetsOrFallback(){
@@ -428,40 +621,12 @@ async function loadAssetsOrFallback(){
         snapToFloor();
       }
 
-      // Create pillars in all 4 corners of the room
+      // Add construction signs around the room
       const box = new THREE.Box3().setFromObject(room);
-      const offset = 0.8;
+      createConstructionElements(box);
 
-      // Corner positions
-      const backLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.min.z + offset);
-      const backRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.min.z + offset);
-      const frontLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.max.z - offset);
-      const frontRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.max.z - offset);
-
-      // Create corner pillars
-      createPillar(backLeft);
-      createPillar(backRight);
-      createPillar(frontLeft);
-      createPillar(frontRight);
-
-      // Add 3 equally spaced pillars on front and back walls only
-      for(let i = 1; i <= 3; i++){
-        const t = i / 4; // 0.25, 0.5, 0.75
-
-        // Back side (between back-left and back-right)
-        createPillar(new THREE.Vector3(
-          backLeft.x + t * (backRight.x - backLeft.x),
-          box.min.y,
-          backLeft.z
-        ));
-
-        // Front side (between front-left and front-right)
-        createPillar(new THREE.Vector3(
-          frontLeft.x + t * (frontRight.x - frontLeft.x),
-          box.min.y,
-          frontLeft.z
-        ));
-      }
+      // Add jewelry display case in the center of the room
+      displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
     },
     undefined,
     (err) => {
@@ -497,40 +662,12 @@ function createFallbackRoom(){
     snapToFloor();
   }
 
-  // Create pillars in all 4 corners of the fallback room
+  // Add construction signs around the fallback room
   const box = new THREE.Box3().setFromObject(roomGroup);
-  const offset = 0.8;
+  createConstructionElements(box);
 
-  // Corner positions
-  const backLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.min.z + offset);
-  const backRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.min.z + offset);
-  const frontLeft = new THREE.Vector3(box.min.x + offset, box.min.y, box.max.z - offset);
-  const frontRight = new THREE.Vector3(box.max.x - offset, box.min.y, box.max.z - offset);
-
-  // Create corner pillars
-  createPillar(backLeft);
-  createPillar(backRight);
-  createPillar(frontLeft);
-  createPillar(frontRight);
-
-  // Add 3 equally spaced pillars on front and back walls only
-  for(let i = 1; i <= 3; i++){
-    const t = i / 4; // 0.25, 0.5, 0.75
-
-    // Back side (between back-left and back-right)
-    createPillar(new THREE.Vector3(
-      backLeft.x + t * (backRight.x - backLeft.x),
-      box.min.y,
-      backLeft.z
-    ));
-
-    // Front side (between front-left and front-right)
-    createPillar(new THREE.Vector3(
-      frontLeft.x + t * (frontRight.x - frontLeft.x),
-      box.min.y,
-      frontLeft.z
-    ));
-  }
+  // Add jewelry display case in the center of the room
+  displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
 }
 
 function animate(){
@@ -539,5 +676,44 @@ function animate(){
   const dt = Math.min(0.05, clock.getDelta());
   updateCharacter(dt);
 
+  // Animate the 'e' logo rotation (around Y axis - vertical spin)
+  if(displayCase && displayCase.userData.eLogo){
+    displayCase.userData.eLogo.rotation.y += displayCase.userData.eLogo.userData.rotationSpeed * dt;
+  }
+
+  // Check proximity to display case for interaction
+  checkDisplayProximity();
+
   renderer.render(scene, camera);
+}
+
+// Check if character is near the display case
+function checkDisplayProximity(){
+  if(!character || !displayCase) return;
+
+  const distance = character.position.distanceTo(displayCase.position);
+  isNearDisplay = distance < INTERACTION_DISTANCE;
+
+  // Toggle outline visibility
+  if(displayCase.userData.outlines){
+    const targetOpacity = isNearDisplay ? 0.3 : 0;
+
+    for(const outline of displayCase.userData.outlines){
+      // Smooth fade transition
+      outline.material.opacity += (targetOpacity - outline.material.opacity) * 0.1;
+    }
+  }
+
+  // Toggle interaction prompt
+  const promptElement = document.getElementById('interact-prompt');
+  if(promptElement){
+    promptElement.style.display = isNearDisplay ? 'block' : 'none';
+  }
+}
+
+// Handle interaction with display case
+function handleDisplayInteraction(){
+  console.log('Interacted with display case!');
+  // TODO: Define what happens when player interacts with the display
+  // Ideas: open a modal, zoom in, play animation, show information, etc.
 }

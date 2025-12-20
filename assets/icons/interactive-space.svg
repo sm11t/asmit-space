@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 3D Cube representing interactive space -->
+  <g>
+    <!-- Top face -->
+    <path d="M32 10 L50 20 L32 30 L14 20 Z" fill="#4A90E2" stroke="#2E5C8A" stroke-width="2"/>
+    <!-- Left face -->
+    <path d="M14 20 L14 44 L32 54 L32 30 Z" fill="#2E5C8A" stroke="#1A3A5A" stroke-width="2"/>
+    <!-- Right face -->
+    <path d="M32 30 L32 54 L50 44 L50 20 Z" fill="#357ABD" stroke="#2E5C8A" stroke-width="2"/>
+    <!-- Small 'e' logo on the front face -->
+    <circle cx="32" cy="42" r="6" fill="#FFD700" opacity="0.9"/>
+    <circle cx="32" cy="42" r="3.5" fill="#2E5C8A"/>
+    <rect x="32" y="40.5" width="6" height="1.5" fill="#FFD700"/>
+  </g>
+</svg>

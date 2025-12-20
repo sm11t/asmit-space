@@ -84,4 +84,40 @@
     margin-top: 2px;
 }
 
+/* App styling (similar to file/folder) */
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 60px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    user-select: none;
+}
+
+.app img {
+    width: 48px;
+    height: 48px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.app:hover img {
+    transform: scale(1.1);
+}
+
+.app span {
+    margin-top: 2px;
+}
+
+/* Position the Interactive Space app icon */
+#interactive-space {
+    top: 90px;
+    left: 100px;
+}
+
 

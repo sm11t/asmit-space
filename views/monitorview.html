@@ -41,6 +41,12 @@
     <span>Resume</span>
 </div>
 
+<!-- Interactive Space App -->
+<div id="interactive-space" class="app">
+    <img src="../assets/icons/interactive-space.svg" alt="Interactive Space">
+    <span>Space</span>
+</div>
+
 <!-- Back Button -->
 <a href="theroom.html" class="back-button">
     <img src="../assets/arrow_back.svg" class="back-icon" alt="Back">
@@ -59,6 +65,29 @@
             let script = document.createElement("script");
             document.body.appendChild(script);
         });
+
+    // Interactive Space app click handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const interactiveSpaceIcon = document.getElementById('interactive-space');
+        if (interactiveSpaceIcon) {
+            interactiveSpaceIcon.addEventListener('click', () => {
+                // Create a web window for the interactive space
+                const spaceWindow = createWebWindow(
+                    'Interactive Space',
+                    '../assets/icons/interactive-space.svg',
+                    '../space/index.html'
+                );
+
+                // Position and size the window
+                spaceWindow.style.position = 'absolute';
+                spaceWindow.style.left = '10%';
+                spaceWindow.style.top = '10%';
+                spaceWindow.style.width = '80%';
+                spaceWindow.style.height = '80%';
+                spaceWindow.style.display = 'block';
+            });
+        }
+    });
 </script>
 
 </body>

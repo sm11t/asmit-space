@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1",
+    "dev": "npx http-server -p 8080 -c-1"
+  },
   "dependencies": {
     "firebase": "^12.6.0",
     "gsap": "^3.12.7",
