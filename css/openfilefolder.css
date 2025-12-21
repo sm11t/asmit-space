@@ -156,12 +156,12 @@
 /* Grid View */
 .folder-items.grid-view {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
-    padding: 15px;
+    grid-template-columns: repeat(auto-fill, 120px);
+    gap: 10px 15px; /* row gap: 10px, column gap: 15px */
+    padding: 20px;
     overflow: auto;
     justify-items: center; /* so items don't stretch across the cell */
-    align-items: start;
+    align-content: start; /* align grid rows to start */
 }
 
 /* File View */

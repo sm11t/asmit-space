@@ -1,0 +1,199 @@
+<svg viewBox="0 0 1000 1350" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1000" height="1350" fill="#0a0e1a"/>
+
+  <!-- Title -->
+  <text x="500" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Resorts-India: GIS-Based Ski Resort Site Selection System
+  </text>
+
+  <!-- ========== SECTION 1: DATA SOURCES ========== -->
+  <g id="section1">
+    <!-- Section Badge -->
+    <circle cx="80" cy="90" r="20" fill="#ff7a00"/>
+    <text x="80" y="97" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">①</text>
+    <text x="110" y="97" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981">DATA SOURCES</text>
+
+    <!-- SRTM DEM Tiles -->
+    <rect x="50" y="130" width="380" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+    <text x="240" y="155" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">SRTM DEM Tiles</text>
+    <text x="240" y="180" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">1 arc-second (~30m resolution)</text>
+
+    <rect x="70" y="195" width="100" height="60" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="120" y="215" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Europe</text>
+    <text x="120" y="232" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">43 tiles</text>
+    <text x="120" y="247" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">1.0 GB</text>
+
+    <rect x="190" y="195" width="100" height="60" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="240" y="215" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">India</text>
+    <text x="240" y="232" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">90 tiles</text>
+    <text x="240" y="247" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">2.2 GB</text>
+
+    <rect x="310" y="195" width="100" height="60" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="360" y="215" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Valley/SW US</text>
+    <text x="360" y="232" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">71 tiles</text>
+    <text x="360" y="247" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">1.7 GB</text>
+
+    <!-- Reference Resorts CSV -->
+    <rect x="470" y="130" width="480" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+    <text x="710" y="155" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Reference Resorts Database</text>
+    <text x="710" y="180" font-family="Arial, sans-serif" font-size="13" fill="#9ca3af" text-anchor="middle">Global ski resort coordinates (CSV)</text>
+
+    <text x="510" y="210" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Beaver Creek, Whistler Blackcomb (North America)</text>
+    <text x="510" y="228" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Alpe d'Huez, La Plagne, Tignes, Les Arcs (Europe)</text>
+    <text x="510" y="246" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Gulmarg, Auli, Solang Valley, Kufri (India)</text>
+  </g>
+
+  <!-- Arrow from Section 1 to Section 2 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" fill="#10b981">
+      <polygon points="0 0, 10 3, 0 6"/>
+    </marker>
+  </defs>
+  <line x1="240" y1="270" x2="240" y2="320" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="710" y1="270" x2="500" y2="320" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ========== SECTION 2: PROCESSING PIPELINE ========== -->
+  <g id="section2">
+    <!-- Section Badge -->
+    <circle cx="80" cy="350" r="20" fill="#ff7a00"/>
+    <text x="80" y="357" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">②</text>
+    <text x="110" y="357" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981">PROCESSING PIPELINE</text>
+
+    <!-- Python Core -->
+    <rect x="50" y="390" width="900" height="320" rx="8" fill="none" stroke="#10b981" stroke-width="3"/>
+    <text x="500" y="415" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ff7a00" text-anchor="middle">Python 3.13 Geospatial Processing Engine</text>
+
+    <!-- Stage 1: Tile Indexing -->
+    <rect x="80" y="440" width="260" height="250" rx="6" fill="#1a2332" stroke="#10b981" stroke-width="2"/>
+    <text x="210" y="465" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">1. Tile Indexing</text>
+    <text x="100" y="490" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">📁 find_tiles()</text>
+    <text x="100" y="508" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Scan directories for .tif files</text>
+    <text x="100" y="526" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Parse tile coordinates from</text>
+    <text x="110" y="542" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">filenames (n{lat}_e{lon})</text>
+    <text x="100" y="560" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Build spatial index</text>
+
+    <rect x="100" y="575" width="220" height="100" rx="4" fill="#0a0e1a" stroke="#ff7a00" stroke-width="1"/>
+    <text x="210" y="595" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ff7a00" text-anchor="middle">Tech: rasterio, geopandas</text>
+    <text x="110" y="615" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Lazy tile loading</text>
+    <text x="110" y="630" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Memory-efficient indexing</text>
+    <text x="110" y="645" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• CRS transformation (EPSG:4326)</text>
+    <text x="110" y="660" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Boundless windowed reads</text>
+
+    <!-- Stage 2: Feature Extraction -->
+    <rect x="370" y="440" width="260" height="250" rx="6" fill="#1a2332" stroke="#10b981" stroke-width="2"/>
+    <text x="500" y="465" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">2. Feature Extraction</text>
+    <text x="390" y="490" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">📊 extract_stats_for_point()</text>
+    <text x="390" y="508" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• 2km buffer window sampling</text>
+    <text x="390" y="526" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Coordinate transformation</text>
+    <text x="390" y="544" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Nodata/edge handling</text>
+    <text x="390" y="562" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Statistical aggregation</text>
+
+    <rect x="390" y="575" width="220" height="100" rx="4" fill="#0a0e1a" stroke="#ff7a00" stroke-width="1"/>
+    <text x="500" y="595" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ff7a00" text-anchor="middle">Tech: numpy, xarray</text>
+    <text x="400" y="615" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Elevation stats (mean, max, std)</text>
+    <text x="400" y="630" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Slope/aspect calculation</text>
+    <text x="400" y="645" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Central difference gradients</text>
+    <text x="400" y="660" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Threshold analysis (10°, 15°, 25°)</text>
+
+    <!-- Stage 3: Terrain Analysis -->
+    <rect x="660" y="440" width="260" height="250" rx="6" fill="#1a2332" stroke="#10b981" stroke-width="2"/>
+    <text x="790" y="465" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">3. Terrain Analysis</text>
+    <text x="680" y="490" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">🏔️ compute_slope_aspect()</text>
+    <text x="680" y="508" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Slope: arctan(√(dz/dx² + dz/dy²))</text>
+    <text x="680" y="526" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Aspect: atan2 orientation</text>
+    <text x="680" y="544" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Geographic convention (0°=N)</text>
+    <text x="680" y="562" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Edge pixel invalidation</text>
+
+    <rect x="680" y="575" width="220" height="100" rx="4" fill="#0a0e1a" stroke="#ff7a00" stroke-width="1"/>
+    <text x="790" y="595" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ff7a00" text-anchor="middle">Tech: pandas, shapely, pyproj</text>
+    <text x="690" y="615" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• NaN masking for invalid pixels</text>
+    <text x="690" y="630" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Robust error handling</text>
+    <text x="690" y="645" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Per-resort processing</text>
+    <text x="690" y="660" font-family="Arial, sans-serif" font-size="10" fill="#9ca3af">• Feature vector generation</text>
+
+    <!-- Arrows between processing stages -->
+    <line x1="340" y1="565" x2="365" y2="565" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="630" y1="565" x2="655" y2="565" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  </g>
+
+  <!-- Arrow from Section 2 to Section 3 -->
+  <line x1="790" y1="710" x2="790" y2="760" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ========== SECTION 3: STORAGE LAYER ========== -->
+  <g id="section3">
+    <!-- Section Badge -->
+    <circle cx="80" cy="790" r="20" fill="#ff7a00"/>
+    <text x="80" y="797" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">③</text>
+    <text x="110" y="797" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981">STORAGE LAYER</text>
+
+    <!-- File System Storage -->
+    <rect x="50" y="830" width="900" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+    <text x="500" y="855" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">File-Based Data Storage</text>
+
+    <rect x="100" y="875" width="380" height="80" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="290" y="900" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ff7a00" text-anchor="middle">Resort Features CSV</text>
+    <text x="120" y="920" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• resort_features.csv</text>
+    <text x="120" y="938" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Elevation, slope, aspect metrics per location</text>
+
+    <rect x="520" y="875" width="380" height="80" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="710" y="900" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ff7a00" text-anchor="middle">DEM Raster Data</text>
+    <text x="540" y="920" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• GeoTIFF format (207 tiles + 3 merged DEMs)</text>
+    <text x="540" y="938" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• ~5 GB total storage</text>
+  </g>
+
+  <!-- Arrow from Section 3 to Section 4 -->
+  <line x1="290" y1="970" x2="290" y2="1020" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ========== SECTION 4: VISUALIZATION ========== -->
+  <g id="section4">
+    <!-- Section Badge -->
+    <circle cx="80" cy="1050" r="20" fill="#ff7a00"/>
+    <text x="80" y="1057" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">④</text>
+    <text x="110" y="1057" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981">VISUALIZATION</text>
+
+    <!-- Interactive Maps -->
+    <rect x="50" y="1090" width="900" height="120" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+    <text x="500" y="1115" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Interactive Web Maps</text>
+
+    <rect x="150" y="1135" width="320" height="60" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="310" y="1157" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ff7a00" text-anchor="middle">Folium/Leaflet.js</text>
+    <text x="170" y="1177" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• resort_map.html (India focus)</text>
+    <text x="170" y="1192" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• resort_map_global.html (worldwide)</text>
+
+    <rect x="530" y="1135" width="320" height="60" rx="4" fill="#1a2332" stroke="#10b981" stroke-width="1"/>
+    <text x="690" y="1157" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ff7a00" text-anchor="middle">Matplotlib Plotting</text>
+    <text x="550" y="1177" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Statistical visualizations</text>
+    <text x="550" y="1192" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">• Terrain analysis charts</text>
+  </g>
+
+  <!-- ========== END-TO-END DATA FLOW ========== -->
+  <g id="data-flow">
+    <text x="500" y="1260" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ff7a00" text-anchor="middle">End-to-End Data Flow</text>
+
+    <rect x="50" y="1280" width="900" height="50" rx="6" fill="#1a2332" stroke="#10b981" stroke-width="2"/>
+
+    <text x="70" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">SRTM Tiles</text>
+    <text x="160" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="180" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Tile Index</text>
+    <text x="250" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="270" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Window Extract</text>
+    <text x="370" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="390" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Slope/Aspect</text>
+    <text x="480" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="500" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Statistics</text>
+    <text x="570" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="590" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Features CSV</text>
+    <text x="680" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="700" y="1305" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Interactive Maps</text>
+    <text x="810" y="1305" font-family="Arial, sans-serif" font-size="14" fill="#10b981">→</text>
+
+    <text x="830" y="1305" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ff7a00">Site Analysis</text>
+  </g>
+</svg>

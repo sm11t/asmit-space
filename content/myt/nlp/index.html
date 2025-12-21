@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Voice-Driven Reporting - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+            margin-bottom: 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .tech-stack-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack-content {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+
+            .report-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">NLP Voice-Driven Reporting System</h1>
+            <p class="document-subtitle">Engineering Implementation Report — React · Go · Python FastAPI · PostgreSQL</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>Designed and implemented a full-stack microservices architecture</strong> using React 19 frontend, Go API gateway, Python FastAPI NLU service, and PostgreSQL database with clean separation of concerns across a polyglot system (TypeScript/JavaScript, Go, Python)
+                        </li>
+                        <li>
+                            <strong>Built an end-to-end voice-to-SQL pipeline</strong> integrating OpenAI Whisper ASR for audio transcription, rule-based NLU engine with 9 intent recognition patterns, and dynamic SQL query builder that converts natural language to parameterized database queries in real-time
+                        </li>
+                        <li>
+                            <strong>Developed a modern React application</strong> with Material-UI v7 featuring real-time voice recording (MediaRecorder API), advanced data visualization with MUI X DataGrid (sorting, filtering, pagination), dynamic column selection, and multi-format export functionality (CSV, XLSX)
+                        </li>
+                        <li>
+                            <strong>Architected secure multi-tenant data access</strong> by designing a normalized PostgreSQL schema with 6 core tables, implementing teacher-based data isolation through student_concierge junction table, and ensuring row-level security with automatic teacher filtering on all queries
+                        </li>
+                        <li>
+                            <strong>Implemented high-performance backend services</strong> with Go-based API gateway handling CORS, request routing, and PostgreSQL connection pooling, plus Python FastAPI service managing concurrent NLU processing and Whisper inference with sub-second response times
+                        </li>
+                        <li>
+                            <strong>Leveraged ML/NLP technologies</strong> including PyTorch 2.7, OpenAI Whisper, spaCy 3.8, and SQLAlchemy 2.0 to enable hands-free business intelligence reporting, reducing query time from manual SQL writing to natural language voice commands
+                        </li>
+                    </ul>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-label">Tech Stack</div>
+                        <div class="tech-stack-content">
+                            React 19 • Material-UI 7 • Go 1.22 • Python FastAPI • PostgreSQL • PyTorch • OpenAI Whisper • spaCy • SQLAlchemy
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="architecture.svg" alt="NLP Voice-Driven Reporting Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            My Yoga Teacher — AI Intern | May 2025 – Nov 2025
+        </div>
+    </div>
+</body>
+</html>

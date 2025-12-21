@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Metrics App - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .highlight {
+            color: #00d4aa;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">Health Metrics App</h1>
+            <p class="document-subtitle">Engineering Implementation Report — React Native · HealthKit · ClickHouse</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>Robust time-series data pipeline</strong> with deduplication and retry logic
+                        </li>
+                        <li>
+                            <strong>Scientifically-validated physiological algorithms</strong> (HRV, RHR, Readiness)
+                        </li>
+                        <li>
+                            <strong>48-hour lookback fallback</strong> for offline-first resilience
+                        </li>
+                        <li>
+                            <strong>Incremental sync</strong> with checkpoint recovery
+                        </li>
+                        <li>
+                            <strong>Modular, testable architecture</strong> with pure functions
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="../architecture-diagram.svg" alt="Health Metrics App Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            My Yoga Teacher — AI Intern | May 2025 – Nov 2025
+        </div>
+    </div>
+</body>
+</html>

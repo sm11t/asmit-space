@@ -1,0 +1,248 @@
+<svg viewBox="0 0 1400 1800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="1800" fill="#0a0e1a"/>
+
+  <!-- Title -->
+  <text x="700" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#10b981" text-anchor="middle">
+    LYNTI - Ride Sharing Platform Architecture
+  </text>
+
+  <!-- ============================================ -->
+  <!-- LAYER 1: CLIENT LAYER -->
+  <!-- ============================================ -->
+
+  <!-- Section Badge 1 -->
+  <circle cx="80" cy="100" r="25" fill="#ff7a00"/>
+  <text x="80" y="108" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#0a0e1a" text-anchor="middle">①</text>
+  <text x="120" y="108" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981">CLIENT LAYER</text>
+
+  <!-- Mobile App Box -->
+  <rect x="100" y="140" width="1200" height="280" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="700" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#10b981" text-anchor="middle">
+    React Native Mobile App (iOS / Android / Web)
+  </text>
+
+  <!-- Mobile App - Left Column -->
+  <text x="150" y="210" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Core Framework:</text>
+  <text x="150" y="235" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• React Native 0.76.5 + Expo 52.0</text>
+  <text x="150" y="255" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Expo Router 4.0 (File-based)</text>
+  <text x="150" y="275" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• TypeScript 5.3</text>
+
+  <text x="150" y="305" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">UI &amp; Styling:</text>
+  <text x="150" y="330" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• NativeWind 4.1 (Tailwind for RN)</text>
+  <text x="150" y="350" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Custom Razer Theme (Dark + Green)</text>
+  <text x="150" y="370" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Plus Jakarta Sans Font</text>
+  <text x="150" y="390" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• react-native-modal</text>
+
+  <!-- Mobile App - Middle Column -->
+  <text x="520" y="210" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">State Management:</text>
+  <text x="520" y="235" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Zustand 5.0 (Location &amp; Driver stores)</text>
+  <text x="520" y="255" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• useLocationStore (user/dest coords)</text>
+  <text x="520" y="275" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• useDriverStore (driver selection)</text>
+
+  <text x="520" y="305" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Maps &amp; Location:</text>
+  <text x="520" y="330" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• react-native-maps 1.18</text>
+  <text x="520" y="350" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• react-native-maps-directions 1.9</text>
+  <text x="520" y="370" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• expo-location 18.0 (GPS)</text>
+  <text x="520" y="390" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• @mapbox/polyline 1.2 (decoder)</text>
+
+  <!-- Mobile App - Right Column -->
+  <text x="920" y="210" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Authentication:</text>
+  <text x="920" y="235" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• @clerk/clerk-expo 2.6</text>
+  <text x="920" y="255" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• expo-secure-store (token cache)</text>
+  <text x="920" y="275" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Google OAuth integration</text>
+
+  <text x="920" y="305" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Key Screens:</text>
+  <text x="920" y="330" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Welcome (onboarding carousel)</text>
+  <text x="920" y="350" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Sign-Up/Sign-In (email + OAuth)</text>
+  <text x="920" y="370" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Home (map + location search)</text>
+  <text x="920" y="390" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Find Ride (route visualization)</text>
+
+  <!-- ============================================ -->
+  <!-- LAYER 2: AUTHENTICATION & EXTERNAL SERVICES -->
+  <!-- ============================================ -->
+
+  <!-- Section Badge 2 -->
+  <circle cx="80" cy="480" r="25" fill="#ff7a00"/>
+  <text x="80" y="488" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#0a0e1a" text-anchor="middle">②</text>
+  <text x="120" y="488" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981">AUTHENTICATION &amp; EXTERNAL SERVICES</text>
+
+  <!-- Clerk Auth Box -->
+  <rect x="100" y="520" width="380" height="200" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="290" y="550" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Clerk Authentication
+  </text>
+  <text x="130" y="585" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Services:</text>
+  <text x="130" y="610" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Email/Password Authentication</text>
+  <text x="130" y="630" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Email Verification (6-digit code)</text>
+  <text x="130" y="650" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Google OAuth Flow</text>
+  <text x="130" y="670" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Session Management</text>
+  <text x="130" y="690" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Secure Token Storage</text>
+
+  <!-- Google Maps API Box -->
+  <rect x="520" y="520" width="380" height="200" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="710" y="550" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Google Maps Platform
+  </text>
+  <text x="550" y="585" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">APIs Used:</text>
+  <text x="550" y="610" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Places Autocomplete API</text>
+  <text x="550" y="630" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Places Details API (coordinates)</text>
+  <text x="550" y="650" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Directions API (routing)</text>
+  <text x="550" y="670" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Geocoding API (reverse lookup)</text>
+  <text x="550" y="690" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Polyline encoding/decoding</text>
+
+  <!-- Expo Services Box -->
+  <rect x="940" y="520" width="360" height="200" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="1120" y="550" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Expo Services
+  </text>
+  <text x="970" y="585" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Platform Services:</text>
+  <text x="970" y="610" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Expo Go (dev/testing)</text>
+  <text x="970" y="630" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• expo-location (GPS access)</text>
+  <text x="970" y="650" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• expo-secure-store (iOS/Android)</text>
+  <text x="970" y="670" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• expo-image-picker</text>
+  <text x="970" y="690" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Cross-platform builds</text>
+
+  <!-- ============================================ -->
+  <!-- LAYER 3: BACKEND API LAYER -->
+  <!-- ============================================ -->
+
+  <!-- Section Badge 3 -->
+  <circle cx="80" cy="790" r="25" fill="#ff7a00"/>
+  <text x="80" y="798" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#0a0e1a" text-anchor="middle">③</text>
+  <text x="120" y="798" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981">BACKEND API LAYER</text>
+
+  <!-- Express API Box -->
+  <rect x="100" y="830" width="580" height="220" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="390" y="860" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Express.js REST API (Port 5000)
+  </text>
+  <text x="130" y="895" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Framework:</text>
+  <text x="130" y="920" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Node.js + Express 4.21</text>
+  <text x="130" y="940" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• CORS middleware</text>
+  <text x="130" y="960" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• express-rate-limit 7.5</text>
+
+  <text x="380" y="895" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Endpoints:</text>
+  <text x="380" y="920" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• GET /get-user-data</text>
+  <text x="380" y="940" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• POST /update-user</text>
+
+  <text x="130" y="990" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Security:</text>
+  <text x="130" y="1015" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• bcryptjs 2.4 (password hashing)</text>
+  <text x="130" y="1035" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Environment variable protection</text>
+
+  <!-- Expo API Routes Box -->
+  <rect x="720" y="830" width="580" height="220" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="1010" y="860" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Expo API Routes (Built-in)
+  </text>
+  <text x="750" y="895" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Framework:</text>
+  <text x="750" y="920" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Expo Router API Routes</text>
+  <text x="750" y="940" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• File-based endpoints</text>
+  <text x="750" y="960" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Serverless-ready architecture</text>
+
+  <text x="750" y="990" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Endpoints:</text>
+  <text x="750" y="1015" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• POST /(api)/user (user creation)</text>
+  <text x="750" y="1035" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Integrated with Clerk auth</text>
+
+  <!-- ============================================ -->
+  <!-- LAYER 4: DATABASE LAYER -->
+  <!-- ============================================ -->
+
+  <!-- Section Badge 4 -->
+  <circle cx="80" cy="1120" r="25" fill="#ff7a00"/>
+  <text x="80" y="1128" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#0a0e1a" text-anchor="middle">④</text>
+  <text x="120" y="1128" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981">DATABASE LAYER</text>
+
+  <!-- Neon PostgreSQL Box -->
+  <rect x="100" y="1160" width="1200" height="180" rx="10" fill="none" stroke="#10b981" stroke-width="3"/>
+  <text x="700" y="1190" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Neon PostgreSQL (Cloud Database)
+  </text>
+
+  <!-- Database - Left Column -->
+  <text x="150" y="1225" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Connection:</text>
+  <text x="150" y="1250" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• @neondatabase/serverless 0.10.4</text>
+  <text x="150" y="1270" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• pg (PostgreSQL client) 8.13</text>
+  <text x="150" y="1290" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• SSL/TLS encryption</text>
+  <text x="150" y="1310" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• us-west-2 AWS region</text>
+
+  <!-- Database - Middle Column -->
+  <text x="520" y="1225" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Tables:</text>
+  <text x="520" y="1250" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• users (id, name, email, clerkId, profile_image)</text>
+  <text x="520" y="1270" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• drivers (driver_id, name, car details, rating)</text>
+  <text x="520" y="1290" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• rides (origin, destination, fare, status)</text>
+  <text x="520" y="1310" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Timestamps (created_at, updated_at)</text>
+
+  <!-- Database - Right Column -->
+  <text x="920" y="1225" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Features:</text>
+  <text x="920" y="1250" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Serverless PostgreSQL</text>
+  <text x="920" y="1270" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Auto-scaling storage</text>
+  <text x="920" y="1290" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Point-in-time recovery</text>
+  <text x="920" y="1310" font-family="Arial, sans-serif" font-size="14" fill="#cccccc">• Connection pooling</text>
+
+  <!-- ============================================ -->
+  <!-- ARROWS: DATA FLOW CONNECTIONS -->
+  <!-- ============================================ -->
+
+  <!-- Client to Clerk Auth -->
+  <defs>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Mobile App to Clerk -->
+  <path d="M 290 420 L 290 520" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="300" y="475" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">Auth requests</text>
+
+  <!-- Mobile App to Google Maps -->
+  <path d="M 710 420 L 710 520" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="720" y="475" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">Location/Route APIs</text>
+
+  <!-- Mobile App to Expo Services -->
+  <path d="M 1120 420 L 1120 520" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="1130" y="475" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">Platform services</text>
+
+  <!-- Clerk to Expo API Routes -->
+  <path d="M 390 720 L 390 770 L 1010 770 L 1010 830" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="650" y="760" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">User creation after OAuth</text>
+
+  <!-- Express API to Database -->
+  <path d="M 390 1050 L 390 1160" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="400" y="1110" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">User queries</text>
+
+  <!-- Expo API Routes to Database -->
+  <path d="M 1010 1050 L 1010 1160" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowhead-green)"/>
+  <text x="1020" y="1110" font-family="Arial, sans-serif" font-size="12" fill="#ff7a00">User creation</text>
+
+  <!-- ============================================ -->
+  <!-- END-TO-END DATA FLOW SECTION -->
+  <!-- ============================================ -->
+
+  <rect x="50" y="1390" width="1300" height="370" rx="10" fill="none" stroke="#ff7a00" stroke-width="3"/>
+  <text x="700" y="1425" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#ff7a00" text-anchor="middle">
+    END-TO-END DATA FLOW
+  </text>
+
+  <!-- Flow 1: Sign-Up -->
+  <text x="80" y="1465" font-family="Arial, sans-serif" font-size="16" fill="#10b981" font-weight="bold">1. User Sign-Up Flow:</text>
+  <text x="80" y="1490" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">User enters email/password → Clerk creates account → Email verification code sent → User verifies →</text>
+  <text x="80" y="1510" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">POST /(api)/user with {name, email, clerkId} → Neon DB INSERT → Session activated → Redirect to Home</text>
+
+  <!-- Flow 2: Google OAuth -->
+  <text x="80" y="1545" font-family="Arial, sans-serif" font-size="16" fill="#10b981" font-weight="bold">2. Google OAuth Flow:</text>
+  <text x="80" y="1570" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">User taps "Log In with Google" → Clerk OAuth flow starts → Google consent screen → User grants →</text>
+  <text x="80" y="1590" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">OAuth callback returns session → Check first login → POST /(api)/user → Session activated → Home screen</text>
+
+  <!-- Flow 3: Location Search -->
+  <text x="80" y="1625" font-family="Arial, sans-serif" font-size="16" fill="#10b981" font-weight="bold">3. Location Search &amp; Route Display:</text>
+  <text x="80" y="1650" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">expo-location gets device GPS → Reverse geocode to address → User taps search →</text>
+  <text x="80" y="1670" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">Google Places Autocomplete (debounced 300ms) → User selects destination → Places Details API gets coordinates →</text>
+  <text x="80" y="1690" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">Zustand stores origin/destination → Navigate to find-ride → Google Directions API called →</text>
+  <text x="80" y="1710" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">Polyline decoded (@mapbox/polyline) → MapView renders green route → Distance &amp; duration displayed</text>
+
+  <!-- Flow 4: Profile Update -->
+  <text x="80" y="1740" font-family="Arial, sans-serif" font-size="16" fill="#10b981" font-weight="bold">4. Profile Update Flow:</text>
+  <text x="80" y="1765" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">User edits name/photo in profile → POST /update-user {name, profile_image, id} →</text>
+  <text x="80" y="1785" font-family="Arial, sans-serif" font-size="13" fill="#cccccc">Express API updates Neon DB → Success response → UI updates with new data</text>
+</svg>

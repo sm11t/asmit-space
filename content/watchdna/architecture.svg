@@ -1,0 +1,228 @@
+<svg viewBox="0 0 1200 1400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="1400" fill="#0a0e1a"/>
+
+  <!-- Title -->
+  <text x="600" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#10b981" text-anchor="middle">
+    WatchDNA Store Locator - System Architecture
+  </text>
+
+  <!-- Section 1: Client Layer -->
+  <g id="section-1">
+    <!-- Section Badge -->
+    <circle cx="80" cy="100" r="20" fill="#ff7a00"/>
+    <text x="80" y="107" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">①</text>
+    <text x="110" y="107" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">CLIENT LAYER</text>
+
+    <!-- Admin Frontend -->
+    <rect x="50" y="140" width="280" height="180" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="190" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Admin Panel</text>
+    <text x="60" y="190" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• React 19.1.1 + TypeScript</text>
+    <text x="60" y="210" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Vite 5.4.11 (Build Tool)</text>
+    <text x="60" y="230" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• React Router 6.30.1</text>
+    <text x="60" y="250" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Axios + JWT Auth</text>
+    <text x="60" y="270" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Context API (State)</text>
+    <rect x="60" y="280" width="110" height="25" fill="#ff7a00" rx="4"/>
+    <text x="115" y="297" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0a0e1a" text-anchor="middle">CSV Uploads</text>
+
+    <!-- Map Interface -->
+    <rect x="370" y="140" width="280" height="180" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="510" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Interactive Map</text>
+    <text x="380" y="190" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Leaflet.js 1.9.4</text>
+    <text x="380" y="210" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Marker Clustering</text>
+    <text x="380" y="230" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Geolocation API</text>
+    <text x="380" y="250" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• OpenStreetMap Tiles</text>
+    <text x="380" y="270" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Custom Premium Markers</text>
+    <rect x="380" y="280" width="130" height="25" fill="#ff7a00" rx="4"/>
+    <text x="445" y="297" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0a0e1a" text-anchor="middle">prototype.html</text>
+
+    <!-- User Browsers -->
+    <rect x="690" y="140" width="280" height="180" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="830" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">End Users</text>
+    <text x="700" y="190" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Store Locator Search</text>
+    <text x="700" y="210" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Brand/Type Filters</text>
+    <text x="700" y="230" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• "Near Me" Geolocation</text>
+    <text x="700" y="250" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Radius Search (5-50mi)</text>
+    <text x="700" y="270" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Multi-language Support</text>
+    <rect x="700" y="280" width="120" height="25" fill="#ff7a00" rx="4"/>
+    <text x="760" y="297" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0a0e1a" text-anchor="middle">4 Languages</text>
+  </g>
+
+  <!-- Arrows from Clients to Backend -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <line x1="190" y1="320" x2="190" y2="380" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="200" y="355" font-family="Arial, sans-serif" font-size="11" fill="#10b981">API Calls</text>
+
+  <line x1="510" y1="320" x2="510" y2="380" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="520" y="355" font-family="Arial, sans-serif" font-size="11" fill="#10b981">REST API</text>
+
+  <line x1="830" y1="320" x2="830" y2="380" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="840" y="355" font-family="Arial, sans-serif" font-size="11" fill="#10b981">HTTP/HTTPS</text>
+
+  <!-- Section 2: API Layer -->
+  <g id="section-2">
+    <!-- Section Badge -->
+    <circle cx="80" cy="410" r="20" fill="#ff7a00"/>
+    <text x="80" y="417" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">②</text>
+    <text x="110" y="417" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">API LAYER (Node.js)</text>
+
+    <!-- Backend Server -->
+    <rect x="200" y="390" width="620" height="200" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="510" y="415" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Express.js Backend (Port 3001)</text>
+
+    <!-- Auth Routes -->
+    <rect x="220" y="435" width="140" height="140" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="290" y="455" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">/api/auth</text>
+    <text x="230" y="475" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• JWT Tokens</text>
+    <text x="230" y="495" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Bcrypt (10 rounds)</text>
+    <text x="230" y="515" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Login/Logout</text>
+    <text x="230" y="535" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• User Management</text>
+    <text x="230" y="555" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• 7-day Expiry</text>
+
+    <!-- Upload Routes -->
+    <rect x="380" y="435" width="140" height="140" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="450" y="455" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">/api/uploads</text>
+    <text x="390" y="475" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Multer Middleware</text>
+    <text x="390" y="495" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• CSV Validation</text>
+    <text x="390" y="515" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Python Subprocess</text>
+    <text x="390" y="535" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• File Management</text>
+    <text x="390" y="555" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Pagination</text>
+
+    <!-- Location Routes -->
+    <rect x="540" y="435" width="140" height="140" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="610" y="455" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">/api/locations</text>
+    <text x="550" y="475" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• CRUD Operations</text>
+    <text x="550" y="495" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Haversine Search</text>
+    <text x="550" y="515" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Premium Logic</text>
+    <text x="550" y="535" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Filter/Search</text>
+    <text x="550" y="555" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Public Access</text>
+
+    <!-- Scraper Routes -->
+    <rect x="700" y="435" width="110" height="140" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="755" y="455" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">/api/scraper</text>
+    <text x="710" y="475" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Job Queue</text>
+    <text x="710" y="495" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Status Track</text>
+    <text x="710" y="515" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Brand Configs</text>
+    <text x="710" y="535" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Async Jobs</text>
+  </g>
+
+  <!-- Arrow from Backend to Database -->
+  <line x1="510" y1="590" x2="510" y2="650" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="520" y="625" font-family="Arial, sans-serif" font-size="11" fill="#10b981">Prisma ORM</text>
+
+  <!-- Section 3: Data Layer -->
+  <g id="section-3">
+    <!-- Section Badge -->
+    <circle cx="80" cy="680" r="20" fill="#ff7a00"/>
+    <text x="80" y="687" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">③</text>
+    <text x="110" y="687" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">DATA LAYER</text>
+
+    <!-- PostgreSQL Database -->
+    <rect x="200" y="660" width="620" height="160" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="510" y="685" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">PostgreSQL + Prisma 5.22.0</text>
+
+    <!-- User Table -->
+    <rect x="220" y="705" width="130" height="100" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="285" y="725" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">User</text>
+    <text x="230" y="745" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• UUID Keys</text>
+    <text x="230" y="765" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Bcrypt Hash</text>
+    <text x="230" y="785" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Role-based</text>
+
+    <!-- Upload Table -->
+    <rect x="370" y="705" width="130" height="100" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="435" y="725" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">Upload</text>
+    <text x="380" y="745" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• File Metadata</text>
+    <text x="380" y="765" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Status FSM</text>
+    <text x="380" y="785" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• JSON Errors</text>
+
+    <!-- Location Table -->
+    <rect x="520" y="705" width="130" height="100" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="585" y="725" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">Location</text>
+    <text x="530" y="745" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• 58+ Fields</text>
+    <text x="530" y="765" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• i18n (4 langs)</text>
+    <text x="530" y="785" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• isPremium</text>
+
+    <!-- ValidationLog Table -->
+    <rect x="670" y="705" width="140" height="100" fill="#1a1f2e" stroke="#10b981" stroke-width="1" rx="4"/>
+    <text x="740" y="725" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">ValidationLog</text>
+    <text x="680" y="745" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Error/Warning</text>
+    <text x="680" y="765" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Row/Field Info</text>
+    <text x="680" y="785" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">• Cascade Delete</text>
+  </g>
+
+  <!-- Section 4: External Services -->
+  <g id="section-4">
+    <!-- Section Badge -->
+    <circle cx="80" cy="870" r="20" fill="#ff7a00"/>
+    <text x="80" y="877" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">④</text>
+    <text x="110" y="877" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">EXTERNAL SERVICES</text>
+
+    <!-- Python Validation -->
+    <rect x="50" y="910" width="250" height="140" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="175" y="935" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Python Validator</text>
+    <text x="60" y="960" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• validate_csv.py</text>
+    <text x="60" y="980" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• 58 Field Schema Check</text>
+    <text x="60" y="1000" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Coordinate Validation</text>
+    <text x="60" y="1020" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Duplicate Detection</text>
+    <rect x="60" y="1025" width="100" height="20" fill="#ff7a00" rx="4"/>
+    <text x="110" y="1039" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Python 3.x</text>
+
+    <!-- Web Scraper -->
+    <rect x="330" y="910" width="250" height="140" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="455" y="935" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Web Scraper</text>
+    <text x="340" y="960" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Selenium 4.15.2</text>
+    <text x="340" y="980" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• BeautifulSoup 4.14.2</text>
+    <text x="340" y="1000" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Auto Pattern Detection</text>
+    <text x="340" y="1020" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Brand Configurations</text>
+    <rect x="340" y="1025" width="130" height="20" fill="#ff7a00" rx="4"/>
+    <text x="405" y="1039" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">universal_scraper.py</text>
+
+    <!-- OpenStreetMap -->
+    <rect x="610" y="910" width="250" height="140" fill="#0a0e1a" stroke="#10b981" stroke-width="2" rx="8"/>
+    <text x="735" y="935" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">Map Services</text>
+    <text x="620" y="960" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• OpenStreetMap Tiles</text>
+    <text x="620" y="980" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Leaflet.js Rendering</text>
+    <text x="620" y="1000" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Geolocation Browser API</text>
+    <text x="620" y="1020" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">• Custom Marker Icons</text>
+    <rect x="620" y="1025" width="80" height="20" fill="#ff7a00" rx="4"/>
+    <text x="660" y="1039" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Leaflet.js</text>
+  </g>
+
+  <!-- Arrows connecting External Services -->
+  <line x1="175" y1="850" x2="175" y2="910" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="185" y="885" font-family="Arial, sans-serif" font-size="11" fill="#10b981">Subprocess</text>
+
+  <line x1="455" y1="850" x2="455" y2="910" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="465" y="885" font-family="Arial, sans-serif" font-size="11" fill="#10b981">Async Jobs</text>
+
+  <line x1="735" y1="320" x2="735" y2="910" stroke="#10b981" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="745" y="620" font-family="Arial, sans-serif" font-size="11" fill="#10b981">CDN</text>
+
+  <!-- End-to-End Data Flow Section -->
+  <g id="data-flow">
+    <rect x="50" y="1090" width="920" height="280" fill="#0f1419" stroke="#ff7a00" stroke-width="3" rx="8"/>
+    <text x="510" y="1120" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ff7a00" text-anchor="middle">END-TO-END DATA FLOW</text>
+
+    <!-- CSV Upload Flow -->
+    <text x="70" y="1150" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981">CSV Upload Pipeline:</text>
+    <text x="80" y="1175" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">1. Admin uploads CSV → Multer saves to /uploads → Creates Upload record (status: pending)</text>
+    <text x="80" y="1195" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">2. Backend spawns Python validator subprocess → Validates 58 fields, coordinates, duplicates</text>
+    <text x="80" y="1215" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">3. Python outputs JSON → Backend parses → Updates Upload status → Creates ValidationLogs</text>
+    <text x="80" y="1235" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">4. If valid → Locations imported to DB → Premium classification runs → isPremium flag set</text>
+
+    <!-- Map Display Flow -->
+    <text x="70" y="1265" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981">Map Display Pipeline:</text>
+    <text x="80" y="1290" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">1. User visits map → GET /api/locations (public, 10K limit) → Prisma queries PostgreSQL</text>
+    <text x="80" y="1310" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">2. Backend returns JSON with isPremium flags → Frontend parses → Creates Leaflet markers</text>
+    <text x="80" y="1330" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">3. Premium = Gold marker, Regular = Blue marker → Markers clustered → Rendered on map</text>
+    <text x="80" y="1350" font-family="Arial, sans-serif" font-size="12" fill="#e5e7eb">4. User searches "Near Me" → Haversine distance calc → Finds nearest → Draws line + popup</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="600" y="1385" font-family="Arial, sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">WatchDNA Store Locator - Full-Stack TypeScript Application with Geospatial Intelligence</text>
+</svg>

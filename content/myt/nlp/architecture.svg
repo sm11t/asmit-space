@@ -1,0 +1,297 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1260" style="background-color: #0a0e1a;">
+  <defs>
+    <style>
+      .title { fill: #ffffff; font-family: 'SF Pro Display', -apple-system, sans-serif; font-size: 28px; font-weight: 700; }
+      .subtitle { fill: #8b92a7; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 13px; }
+      .section-title { fill: #ffffff; font-family: 'SF Pro Display', -apple-system, sans-serif; font-size: 16px; font-weight: 600; }
+      .section-subtitle { fill: #8b92a7; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 11px; }
+      .item-text { fill: #c9d1d9; font-family: 'SF Mono', 'Monaco', monospace; font-size: 10px; }
+      .highlight { fill: #ff7a00; font-family: 'SF Mono', 'Monaco', monospace; font-size: 10px; }
+      .path-text { fill: #6e7681; font-family: 'SF Mono', 'Monaco', monospace; font-size: 9px; font-style: italic; }
+      .badge { fill: #ff7a00; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .badge-bg { fill: #1f2937; }
+      .arrow { stroke: #10b981; stroke-width: 2.5; fill: none; }
+      .arrow-head { fill: #10b981; }
+      .dotted-arrow { stroke: #6b7280; stroke-width: 2; stroke-dasharray: 5,5; fill: none; }
+    </style>
+
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" class="arrow-head" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="100" y="50" class="title">myYogaTeacher NLP — Complete Architecture</text>
+  <text x="100" y="70" class="subtitle">React Native → Go Gateway → Python NLU/ASR → PostgreSQL → Voice-Driven Reporting</text>
+
+  <!-- Section Labels -->
+  <g>
+    <!-- Data Ingestion Badge -->
+    <rect x="100" y="100" width="140" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="116" class="badge">① USER INTERFACE</text>
+
+    <!-- Processing Badge -->
+    <rect x="100" y="300" width="170" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="316" class="badge">② NLP PROCESSING</text>
+
+    <!-- Storage Badge -->
+    <rect x="100" y="620" width="140" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="636" class="badge">③ DATA STORAGE</text>
+
+    <!-- Visualization Badge -->
+    <rect x="750" y="300" width="130" height="24" rx="4" class="badge-bg" />
+    <text x="760" y="316" class="badge">④ VISUALIZATION</text>
+  </g>
+
+  <!-- 1. USER INTERFACE - React Frontend -->
+  <g>
+    <rect x="100" y="140" width="340" height="130" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="240" y="165" class="section-title" text-anchor="middle">React Frontend (Port 3000)</text>
+    <text x="240" y="180" class="section-subtitle" text-anchor="middle">frontend/src/</text>
+
+    <!-- Features -->
+    <g transform="translate(115, 195)">
+      <text y="0" class="highlight">📱 Features:</text>
+      <text y="15" class="item-text">• Voice Recording</text>
+      <text y="28" class="item-text">• Text Input (NL)</text>
+      <text y="41" class="item-text">• Mock Auth</text>
+      <text y="54" class="item-text">• MUI DataGrid</text>
+    </g>
+
+    <!-- Tech Stack -->
+    <g transform="translate(255, 195)">
+      <text y="0" class="highlight">🛠 Stack:</text>
+      <text y="15" class="item-text">• React 19.1.0</text>
+      <text y="28" class="item-text">• Material-UI 7</text>
+      <text y="41" class="item-text">• Axios (HTTP)</text>
+      <text y="54" class="item-text">• PapaParse</text>
+    </g>
+  </g>
+
+  <!-- 2. Authentication (side panel) -->
+  <g>
+    <rect x="480" y="140" width="240" height="130" rx="8" fill="#1a2332" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5" />
+    <text x="600" y="165" class="section-title" text-anchor="middle">Mock Authentication</text>
+    <text x="600" y="180" class="section-subtitle" text-anchor="middle">mockUsers.js</text>
+
+    <g transform="translate(500, 195)">
+      <text y="0" class="item-text">• Alice (Teacher ID: 1)</text>
+      <text y="15" class="item-text">• Bob (Teacher ID: 2)</text>
+      <text y="30" class="item-text">• localStorage Persistence</text>
+      <text y="45" class="item-text">• Ready for JWT/OAuth</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Frontend -> Go API -->
+  <path d="M 270 270 L 270 300 L 270 330" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="280" y="305" class="path-text">POST /query</text>
+
+  <!-- 3. GO API GATEWAY -->
+  <g>
+    <rect x="100" y="340" width="340" height="140" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="270" y="365" class="section-title" text-anchor="middle">Go API Gateway (Port 8080)</text>
+    <text x="270" y="380" class="section-subtitle" text-anchor="middle">go-api/cmd/server/</text>
+
+    <!-- Responsibilities -->
+    <g transform="translate(120, 395)">
+      <text y="0" class="highlight">⚡ Responsibilities:</text>
+      <text y="15" class="item-text">• CORS Middleware</text>
+      <text y="28" class="item-text">• Request Routing</text>
+      <text y="41" class="item-text">• Python NLU Client</text>
+      <text y="54" class="item-text">• PostgreSQL Query Execution</text>
+      <text y="67" class="item-text">• JSON Response Formatting</text>
+    </g>
+
+    <!-- Endpoints -->
+    <g transform="translate(280, 395)">
+      <text y="0" class="highlight">📍 Endpoints:</text>
+      <text y="15" class="item-text">• GET /healthz</text>
+      <text y="28" class="item-text">• POST /query</text>
+      <text y="41" class="item-text"></text>
+      <text y="54" class="highlight">Dependencies:</text>
+      <text y="67" class="item-text">• github.com/lib/pq</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Go -> Python NLU -->
+  <path d="M 270 480 L 270 510 L 270 540" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="280" y="515" class="path-text">HTTP POST</text>
+
+  <!-- 4. PYTHON NLU/ASR ENGINE -->
+  <g>
+    <rect x="100" y="550" width="560" height="240" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="380" y="575" class="section-title" text-anchor="middle">Python FastAPI Service (Port 8000)</text>
+    <text x="380" y="590" class="section-subtitle" text-anchor="middle">backend/app/</text>
+
+    <!-- NLU Component -->
+    <g>
+      <rect x="120" y="605" width="250" height="165" rx="6" fill="#0f1419" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="245" y="625" class="section-title" text-anchor="middle">NLU Engine</text>
+      <text x="245" y="638" class="section-subtitle" text-anchor="middle">nlu.py + sql_builder.py</text>
+
+      <g transform="translate(135, 650)">
+        <text y="0" class="highlight">🧠 Intent Recognition:</text>
+        <text y="13" class="item-text">• first_trial_session</text>
+        <text y="26" class="item-text">• trial_expiring</text>
+        <text y="39" class="item-text">• member_no_session</text>
+        <text y="52" class="item-text">• never_booked</text>
+        <text y="65" class="item-text">• trial_finished_no_membership</text>
+        <text y="78" class="item-text">• membership_renew_today</text>
+        <text y="91" class="item-text">• count_members_period</text>
+        <text y="104" class="item-text">• list_students</text>
+        <text y="117" class="item-text">• simple_filter (fallback)</text>
+      </g>
+    </g>
+
+    <!-- ASR Component -->
+    <g>
+      <rect x="390" y="605" width="250" height="165" rx="6" fill="#0f1419" stroke="#8b5cf6" stroke-width="1.5" />
+      <text x="515" y="625" class="section-title" text-anchor="middle">ASR Engine</text>
+      <text x="515" y="638" class="section-subtitle" text-anchor="middle">asr.py</text>
+
+      <g transform="translate(405, 650)">
+        <text y="0" class="highlight">🎤 Audio Transcription:</text>
+        <text y="15" class="item-text">• OpenAI Whisper (small model)</text>
+        <text y="30" class="item-text">• Supports WAV, MP3, etc.</text>
+        <text y="45" class="item-text">• POST /whisper endpoint</text>
+        <text y="60" class="item-text"></text>
+        <text y="75" class="highlight">Tech Stack:</text>
+        <text y="90" class="item-text">• PyTorch 2.7.0</text>
+        <text y="105" class="item-text">• spaCy 3.8.7</text>
+        <text y="120" class="item-text">• SQLAlchemy 2.0.41</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow: Python -> Database -->
+  <path d="M 380 790 L 380 805 L 380 820" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="390" y="810" class="path-text">SQL Query Execution</text>
+
+  <!-- 5. POSTGRESQL DATABASE -->
+  <g>
+    <rect x="100" y="820" width="560" height="280" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="380" y="845" class="section-title" text-anchor="middle">PostgreSQL Database</text>
+    <text x="380" y="860" class="section-subtitle" text-anchor="middle">db_seed.sql</text>
+
+    <!-- Tables -->
+    <g transform="translate(120, 875)">
+      <text y="0" class="highlight">📊 Core Tables:</text>
+      <text y="15" class="item-text">• student (id, name, email, credits, trial_dates)</text>
+      <text y="28" class="item-text">• teacher (id, name, email, experience, timezone)</text>
+      <text y="41" class="item-text">• session (id, student_id, teacher_id, start_time, status)</text>
+      <text y="54" class="item-text">• student_concierge (teacher-student associations)</text>
+      <text y="67" class="item-text">• membership (start_date, renewal_date, is_active)</text>
+      <text y="80" class="item-text">• transaction (payment records)</text>
+    </g>
+
+    <!-- Schema Features -->
+    <g transform="translate(120, 970)">
+      <text y="0" class="highlight">🔐 Data Isolation:</text>
+      <text y="15" class="item-text">• Teacher-based filtering via student_concierge</text>
+      <text y="28" class="item-text">• Teachers only see their students data</text>
+      <text y="41" class="item-text">• All queries auto-filter by teacher_id</text>
+    </g>
+
+    <!-- Example Query -->
+    <g transform="translate(120, 1030)">
+      <text y="0" class="highlight">🔍 Example Query:</text>
+      <text y="15" class="item-text">SELECT DISTINCT s.* FROM student s</text>
+      <text y="28" class="item-text">JOIN student_concierge sc ON s.id = sc.student_id</text>
+      <text y="41" class="item-text">WHERE sc.teacher_id = $1 AND s.trial_end_date = CURRENT_DATE + 1</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Go API results to Visualization -->
+  <path d="M 440 410 L 600 410 L 760 410" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="580" y="405" class="path-text">JSON Results</text>
+
+  <!-- 6. VISUALIZATION & EXPORT -->
+  <g>
+    <rect x="760" y="340" width="560" height="210" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="1040" y="365" class="section-title" text-anchor="middle">Result Visualization and Export</text>
+    <text x="1040" y="380" class="section-subtitle" text-anchor="middle">ResultView.js + DataTable.js</text>
+
+    <!-- Features -->
+    <g transform="translate(780, 395)">
+      <text y="0" class="highlight">📈 Display Features:</text>
+      <text y="15" class="item-text">• MUI X DataGrid with sorting</text>
+      <text y="28" class="item-text">• Dynamic column selection</text>
+      <text y="41" class="item-text">• Pagination and filtering</text>
+      <text y="54" class="item-text">• Responsive dark theme (#0a0e1a)</text>
+      <text y="67" class="item-text">• Brand color: #ff7a00 (orange)</text>
+    </g>
+
+    <!-- Export -->
+    <g transform="translate(1020, 395)">
+      <text y="0" class="highlight">📤 Export Capabilities:</text>
+      <text y="15" class="item-text">• CSV Export (PapaParse)</text>
+      <text y="28" class="item-text">• XLSX Export (xlsx library)</text>
+      <text y="41" class="item-text">• Client-side generation</text>
+      <text y="54" class="item-text">• Preserves column visibility</text>
+      <text y="67" class="item-text">• Filename: query-results-YYYY-MM-DD</text>
+    </g>
+
+    <!-- Components -->
+    <g transform="translate(780, 480)">
+      <text y="0" class="highlight">🧩 Components:</text>
+      <text y="15" class="item-text">• QueryForm.js - Voice/text input with recording UI</text>
+      <text y="28" class="item-text">• ResultView.js - Main results container</text>
+      <text y="41" class="item-text">• ColumnSelector.js - Dynamic column toggle</text>
+      <text y="54" class="item-text">• ExportButton.js - Multi-format export</text>
+    </g>
+  </g>
+
+  <!-- Data Flow Diagram -->
+  <g>
+    <text x="100" y="1140" class="section-title">End-to-End Data Flow:</text>
+
+    <!-- Flow boxes -->
+    <rect x="100" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="170" y="1175" class="item-text" text-anchor="middle">User speaks or</text>
+    <text x="170" y="1190" class="item-text" text-anchor="middle">types query</text>
+
+    <path d="M 240 1180 L 270 1180" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="270" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="340" y="1175" class="item-text" text-anchor="middle">Whisper ASR</text>
+    <text x="340" y="1190" class="item-text" text-anchor="middle">(if audio)</text>
+
+    <path d="M 410 1180 L 440 1180" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="440" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#3b82f6" stroke-width="1.5" />
+    <text x="510" y="1175" class="item-text" text-anchor="middle">Intent</text>
+    <text x="510" y="1190" class="item-text" text-anchor="middle">Recognition</text>
+
+    <path d="M 580 1180 L 610 1180" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="610" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="680" y="1175" class="item-text" text-anchor="middle">SQL</text>
+    <text x="680" y="1190" class="item-text" text-anchor="middle">Generation</text>
+
+    <path d="M 750 1180 L 780 1180" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="780" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="850" y="1175" class="item-text" text-anchor="middle">PostgreSQL</text>
+    <text x="850" y="1190" class="item-text" text-anchor="middle">Execution</text>
+
+    <path d="M 920 1180 L 950 1180" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="950" y="1155" width="140" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="1020" y="1175" class="item-text" text-anchor="middle">React Table</text>
+    <text x="1020" y="1190" class="item-text" text-anchor="middle">+ Export</text>
+  </g>
+
+  <!-- Key Technologies Footer -->
+  <g>
+    <text x="1100" y="1140" class="section-title">Key Technologies:</text>
+    <g transform="translate(1100, 1155)">
+      <text y="0" class="item-text">• React 19 + MUI 7</text>
+      <text y="15" class="item-text">• Go 1.22.2</text>
+      <text y="30" class="item-text">• Python 3.11 + FastAPI</text>
+      <text y="45" class="item-text">• PostgreSQL 14+</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="700" y="1240" class="path-text" text-anchor="middle">myYogaTeacher Voice-Driven Reporting System | Natural Language to SQL | Teacher-Isolated Data Access</text>
+</svg>

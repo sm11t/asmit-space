@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynti Mobility - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+            margin-bottom: 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .tech-stack-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack-content {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+
+            .report-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">Lynti Mobility</h1>
+            <p class="document-subtitle">Engineering Implementation Report — React Native · Expo · TypeScript · Google Maps</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>Cross-platform architecture</strong> built with React Native, Expo SDK, and TypeScript across 30+ modular components including screens, navigation, map integration, and authentication flows
+                        </li>
+                        <li>
+                            <strong>Multi-provider authentication system</strong> integrating Clerk authentication service with email verification, Google OAuth, biometric authentication, and secure token storage using AsyncStorage
+                        </li>
+                        <li>
+                            <strong>Location services architecture</strong> combining device GPS positioning, Google Maps Directions API, Google Places API with debounced search optimization, and polyline decoding for route visualization
+                        </li>
+                        <li>
+                            <strong>Route visualization engine</strong> featuring dynamic region calculation with automatic map bounds fitting, smooth 60fps map rendering with react-native-maps, and real-time driver location tracking
+                        </li>
+                        <li>
+                            <strong>State management implementation</strong> using Zustand stores for global location state, driver availability data, ride history, and user preferences with persistent storage
+                        </li>
+                        <li>
+                            <strong>Custom UI system</strong> leveraging NativeWind for utility-first styling, custom Razer theme with brand colors (#0CC25F green), and comprehensive typography system with custom fonts
+                        </li>
+                        <li>
+                            <strong>Backend optimization</strong> with dual API layers connecting Express.js backend and Neon PostgreSQL database for user management, ride data persistence, and driver matching algorithms
+                        </li>
+                    </ul>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-label">Tech Stack</div>
+                        <div class="tech-stack-content">
+                            React Native • Expo SDK • TypeScript • Google Maps API • Clerk Auth • Zustand • NativeWind • TailwindCSS • Express.js • Neon PostgreSQL • React Navigation
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="architecture.svg" alt="Lynti Mobility Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Personal Project — 2024
+        </div>
+    </div>
+</body>
+</html>
