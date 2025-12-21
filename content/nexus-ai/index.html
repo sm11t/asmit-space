@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI Solutions - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+            margin-bottom: 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .tech-stack-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack-content {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+
+            .report-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">Policy-Powered Support Chatbot</h1>
+            <p class="document-subtitle">Engineering Implementation Report — React · Flask · Hugging Face · RAG Pipeline · Vector DB</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>RAG (Retrieval-Augmented Generation) pipeline</strong> integrating Pinecone vector database with 500+ embedded policy documents, implementing semantic search with text-embedding-ada-002 (1536 dimensions), cosine similarity ranking, and GPT-3.5/4 context injection to generate accurate, policy-grounded responses with source attribution
+                        </li>
+                        <li>
+                            <strong>Multi-intent classification system</strong> using fine-tuned BERT transformer model achieving 95% accuracy across 7 intent categories (billing, refunds, technical support, account updates, product questions, general inquiries, escalation) with confidence thresholding and fallback handling
+                        </li>
+                        <li>
+                            <strong>Real-time conversational interface</strong> built with React 18, Socket.io WebSocket connections, and Flask-SocketIO backend enabling bidirectional streaming, typing indicators, message acknowledgments, conversation history persistence, and support for file attachments and rich media responses
+                        </li>
+                        <li>
+                            <strong>Named Entity Recognition (NER) pipeline</strong> leveraging spaCy 3.x with custom-trained models to extract critical entities including customer IDs, order numbers, product names, dates, monetary amounts, and ticket references for automatic context enrichment and API parameter population
+                        </li>
+                        <li>
+                            <strong>External system integrations</strong> connecting to Zendesk ticketing API for automatic escalation and agent handoff, Salesforce CRM for customer data retrieval and order history, SendGrid for email notifications, and Mixpanel/DataDog for analytics monitoring and error tracking
+                        </li>
+                        <li>
+                            <strong>Conversation state management</strong> implementing PostgreSQL-backed session tracking with multi-turn context caching, conversation threading, user preference storage, feedback collection (ratings and reports), and full-text search indexes for conversation retrieval and analysis
+                        </li>
+                        <li>
+                            <strong>Production-grade deployment architecture</strong> featuring Flask API with Gunicorn WSGI server, Docker containerization, horizontal scaling with load balancing, Redis caching for embedding lookups, rate limiting per customer, authentication via JWT tokens, and comprehensive logging with DataDog APM integration
+                        </li>
+                    </ul>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-label">Tech Stack</div>
+                        <div class="tech-stack-content">
+                            React 18 • Flask • Socket.io • Hugging Face Transformers • OpenAI GPT-3.5/4 • Pinecone Vector DB • PostgreSQL • spaCy • BERT • Docker • Gunicorn • Redis • JWT • Zendesk API • Salesforce API • SendGrid • Mixpanel • DataDog
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="architecture.svg" alt="Nexus AI Solutions Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Nexus AI Solutions — AI Engineer Intern | Feb 2024 – Nov 2024
+        </div>
+    </div>
+</body>
+</html>

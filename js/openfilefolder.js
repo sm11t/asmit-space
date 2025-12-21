@@ -71,7 +71,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     name: 'Nexus AI Solutions',
                     type: 'folder',
                     id: 'nexus-ai',
-                    content: []
+                    content: [
+                        {
+                            name: 'Engineering Report',
+                            type: 'file',
+                            id: 'nexus-ai-report',
+                            filePath: '../content/nexus-ai/index.html',
+                            meta: {
+                                role: 'AI Engineer Intern',
+                                dates: 'Feb 2024 – Nov 2024',
+                                tech: ['Flask', 'Hugging Face', 'RAG', 'Pinecone', 'React', 'GPT-4']
+                            }
+                        }
+                    ]
                 },
                 {
                     name: 'AI Society ASU',

@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1400" style="background-color: #0a0e1a;">
+  <defs>
+    <style>
+      .title { fill: #ffffff; font-family: 'SF Pro Display', -apple-system, sans-serif; font-size: 28px; font-weight: 700; }
+      .subtitle { fill: #8b92a7; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 13px; }
+      .section-title { fill: #ffffff; font-family: 'SF Pro Display', -apple-system, sans-serif; font-size: 16px; font-weight: 600; }
+      .section-subtitle { fill: #8b92a7; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 11px; }
+      .item-text { fill: #c9d1d9; font-family: 'SF Mono', 'Monaco', monospace; font-size: 10px; }
+      .highlight { fill: #3b82f6; font-family: 'SF Mono', 'Monaco', monospace; font-size: 10px; }
+      .path-text { fill: #6e7681; font-family: 'SF Mono', 'Monaco', monospace; font-size: 9px; font-style: italic; }
+      .badge { fill: #3b82f6; font-family: 'SF Pro Text', -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .badge-bg { fill: #1f2937; }
+      .arrow { stroke: #10b981; stroke-width: 2.5; fill: none; }
+      .arrow-head { fill: #10b981; }
+    </style>
+
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" class="arrow-head" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="100" y="50" class="title">Nexus AI — Policy-Powered Support Chatbot</text>
+  <text x="100" y="70" class="subtitle">React Frontend → Flask API → Hugging Face NLP → RAG Pipeline → Vector DB → Customer Support Integration</text>
+
+  <!-- Section Labels -->
+  <g>
+    <rect x="100" y="100" width="160" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="116" class="badge">① USER INTERFACE</text>
+
+    <rect x="100" y="360" width="180" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="376" class="badge">② NLP PROCESSING</text>
+
+    <rect x="100" y="760" width="200" height="24" rx="4" class="badge-bg" />
+    <text x="110" y="776" class="badge">③ KNOWLEDGE &amp; STORAGE</text>
+
+    <rect x="780" y="360" width="180" height="24" rx="4" class="badge-bg" />
+    <text x="790" y="376" class="badge">④ INTEGRATIONS</text>
+  </g>
+
+  <!-- 1. USER INTERFACE - React Chat -->
+  <g>
+    <rect x="100" y="140" width="420" height="140" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="310" y="165" class="section-title" text-anchor="middle">React Chat Interface</text>
+    <text x="310" y="180" class="section-subtitle" text-anchor="middle">customer-portal/</text>
+
+    <g transform="translate(120, 195)">
+      <text y="0" class="highlight">💬 Features:</text>
+      <text y="15" class="item-text">• Real-time messaging</text>
+      <text y="28" class="item-text">• Conversation history</text>
+      <text y="41" class="item-text">• File attachments</text>
+      <text y="54" class="item-text">• Typing indicators</text>
+      <text y="67" class="item-text">• Suggested queries</text>
+    </g>
+
+    <g transform="translate(290, 195)">
+      <text y="0" class="highlight">🛠 Stack:</text>
+      <text y="15" class="item-text">• React 18</text>
+      <text y="28" class="item-text">• Socket.io</text>
+      <text y="41" class="item-text">• TailwindCSS</text>
+      <text y="54" class="item-text">• React Query</text>
+      <text y="67" class="item-text">• Markdown renderer</text>
+    </g>
+  </g>
+
+  <!-- Customer Auth (side) -->
+  <g>
+    <rect x="560" y="140" width="220" height="140" rx="8" fill="#1a2332" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5" />
+    <text x="670" y="165" class="section-title" text-anchor="middle">Authentication</text>
+    <text x="670" y="180" class="section-subtitle" text-anchor="middle">JWT + OAuth</text>
+
+    <g transform="translate(580, 200)">
+      <text y="0" class="item-text">• Customer login</text>
+      <text y="15" class="item-text">• Session management</text>
+      <text y="30" class="item-text">• Role-based access</text>
+      <text y="45" class="item-text">• Support agent auth</text>
+      <text y="60" class="item-text">• SSO integration</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Frontend -> Backend -->
+  <path d="M 310 280 L 310 320 L 310 390" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="320" y="340" class="path-text">WebSocket/HTTP</text>
+
+  <!-- 2. FLASK API BACKEND -->
+  <g>
+    <rect x="100" y="400" width="420" height="160" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="310" y="425" class="section-title" text-anchor="middle">Flask API Server</text>
+    <text x="310" y="440" class="section-subtitle" text-anchor="middle">backend/api/</text>
+
+    <g transform="translate(120, 455)">
+      <text y="0" class="highlight">⚡ Core Services:</text>
+      <text y="15" class="item-text">• Conversation orchestration</text>
+      <text y="28" class="item-text">• Context management</text>
+      <text y="41" class="item-text">• Intent routing</text>
+      <text y="54" class="item-text">• Response formatting</text>
+      <text y="67" class="item-text">• Webhook handlers</text>
+      <text y="80" class="item-text">• Analytics tracking</text>
+    </g>
+
+    <g transform="translate(310, 455)">
+      <text y="0" class="highlight">📍 Endpoints:</text>
+      <text y="15" class="item-text">• POST /chat/message</text>
+      <text y="28" class="item-text">• GET /chat/history</text>
+      <text y="41" class="item-text">• POST /feedback</text>
+      <text y="54" class="item-text">• WS /chat/stream</text>
+      <text y="67" class="item-text"></text>
+      <text y="80" class="item-text">• Flask-SocketIO</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Backend -> NLP -->
+  <path d="M 310 560 L 310 590 L 310 620" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="320" y="595" class="path-text">Query processing</text>
+
+  <!-- 3. NLP PIPELINE -->
+  <g>
+    <rect x="100" y="620" width="620" height="260" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="410" y="645" class="section-title" text-anchor="middle">Hugging Face NLP Pipeline</text>
+    <text x="410" y="660" class="section-subtitle" text-anchor="middle">nlp-service/</text>
+
+    <!-- Intent Classifier -->
+    <g>
+      <rect x="120" y="675" width="180" height="185" rx="6" fill="#0f1419" stroke="#3b82f6" stroke-width="1.5" />
+      <text x="210" y="695" class="section-title" text-anchor="middle">Intent Classifier</text>
+
+      <g transform="translate(135, 710)">
+        <text y="0" class="highlight">🎯 Intents:</text>
+        <text y="13" class="item-text">• billing_inquiry</text>
+        <text y="26" class="item-text">• refund_request</text>
+        <text y="39" class="item-text">• technical_support</text>
+        <text y="52" class="item-text">• account_update</text>
+        <text y="65" class="item-text">• product_question</text>
+        <text y="78" class="item-text">• general_inquiry</text>
+        <text y="91" class="item-text">• escalation</text>
+        <text y="104" class="item-text"></text>
+        <text y="117" class="highlight">Model:</text>
+        <text y="130" class="item-text">• BERT fine-tuned</text>
+        <text y="143" class="item-text">• 95% accuracy</text>
+      </g>
+    </g>
+
+    <!-- RAG Engine -->
+    <g>
+      <rect x="320" y="675" width="185" height="185" rx="6" fill="#0f1419" stroke="#8b5cf6" stroke-width="1.5" />
+      <text x="412" y="695" class="section-title" text-anchor="middle">RAG Engine</text>
+
+      <g transform="translate(335, 710)">
+        <text y="0" class="highlight">📚 Retrieval:</text>
+        <text y="15" class="item-text">• Query embedding</text>
+        <text y="30" class="item-text">• Semantic search</text>
+        <text y="45" class="item-text">• Top-K retrieval</text>
+        <text y="60" class="item-text">• Context ranking</text>
+        <text y="75" class="item-text"></text>
+        <text y="90" class="highlight">Generation:</text>
+        <text y="105" class="item-text">• GPT-3.5/4</text>
+        <text y="120" class="item-text">• Context injection</text>
+        <text y="135" class="item-text">• Temperature: 0.7</text>
+      </g>
+    </g>
+
+    <!-- Entity Extraction -->
+    <g>
+      <rect x="525" y="675" width="175" height="185" rx="6" fill="#0f1419" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="612" y="695" class="section-title" text-anchor="middle">Entity Extraction</text>
+
+      <g transform="translate(540, 710)">
+        <text y="0" class="highlight">🏷️ Entities:</text>
+        <text y="15" class="item-text">• Customer ID</text>
+        <text y="30" class="item-text">• Order number</text>
+        <text y="45" class="item-text">• Product name</text>
+        <text y="60" class="item-text">• Date/time</text>
+        <text y="75" class="item-text">• Amounts</text>
+        <text y="90" class="item-text"></text>
+        <text y="105" class="highlight">NER Model:</text>
+        <text y="120" class="item-text">• spaCy 3.x</text>
+        <text y="135" class="item-text">• Custom training</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow: NLP -> Database -->
+  <path d="M 410 880 L 410 905 L 410 930" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="420" y="910" class="path-text">Store &amp; Retrieve</text>
+
+  <!-- 4. KNOWLEDGE &amp; STORAGE -->
+  <g>
+    <!-- Vector DB -->
+    <rect x="100" y="930" width="280" height="180" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="240" y="955" class="section-title" text-anchor="middle">Pinecone Vector DB</text>
+    <text x="240" y="970" class="section-subtitle" text-anchor="middle">Policy Knowledge Base</text>
+
+    <g transform="translate(120, 985)">
+      <text y="0" class="highlight">📖 Content:</text>
+      <text y="15" class="item-text">• Company policies (500+ docs)</text>
+      <text y="28" class="item-text">• FAQs and guides</text>
+      <text y="41" class="item-text">• Product documentation</text>
+      <text y="54" class="item-text">• Support workflows</text>
+      <text y="67" class="item-text"></text>
+      <text y="80" class="highlight">Embeddings:</text>
+      <text y="93" class="item-text">• text-embedding-ada-002</text>
+      <text y="106" class="item-text">• 1536 dimensions</text>
+      <text y="119" class="item-text">• Cosine similarity search</text>
+    </g>
+  </g>
+
+  <!-- PostgreSQL -->
+  <g>
+    <rect x="400" y="930" width="320" height="180" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="560" y="955" class="section-title" text-anchor="middle">PostgreSQL Database</text>
+
+    <g transform="translate(420, 975)">
+      <text y="0" class="highlight">💾 Tables:</text>
+      <text y="15" class="item-text">• conversations (chat history)</text>
+      <text y="28" class="item-text">• messages (all interactions)</text>
+      <text y="41" class="item-text">• users (customer accounts)</text>
+      <text y="54" class="item-text">• feedback (ratings, reports)</text>
+      <text y="67" class="item-text">• analytics (metrics, KPIs)</text>
+      <text y="80" class="item-text">• tickets (escalated cases)</text>
+      <text y="93" class="item-text"></text>
+      <text y="106" class="item-text">• Full-text search indexes</text>
+      <text y="119" class="item-text">• Conversation context caching</text>
+    </g>
+  </g>
+
+  <!-- Arrow: Backend -> Integrations -->
+  <path d="M 520 480 L 650 480 L 780 480" class="arrow" marker-end="url(#arrowhead)" />
+  <text x="640" y="475" class="path-text">API calls</text>
+
+  <!-- 5. INTEGRATIONS -->
+  <g>
+    <rect x="780" y="400" width="540" height="180" rx="8" fill="#1a2332" stroke="#10b981" stroke-width="2.5" />
+    <text x="1050" y="425" class="section-title" text-anchor="middle">External Integrations</text>
+
+    <!-- Zendesk -->
+    <g transform="translate(800, 445)">
+      <text y="0" class="highlight">🎫 Zendesk:</text>
+      <text y="15" class="item-text">• Ticket creation API</text>
+      <text y="28" class="item-text">• Auto-escalation</text>
+      <text y="41" class="item-text">• Agent handoff</text>
+      <text y="54" class="item-text">• Status sync</text>
+    </g>
+
+    <!-- CRM -->
+    <g transform="translate(1000, 445)">
+      <text y="0" class="highlight">👥 Salesforce:</text>
+      <text y="15" class="item-text">• Customer data fetch</text>
+      <text y="28" class="item-text">• Order history</text>
+      <text y="41" class="item-text">• Account details</text>
+      <text y="54" class="item-text">• Activity logging</text>
+    </g>
+
+    <!-- Email -->
+    <g transform="translate(1200, 445)">
+      <text y="0" class="highlight">📧 SendGrid:</text>
+      <text y="15" class="item-text">• Conversation summaries</text>
+      <text y="28" class="item-text">• Follow-up emails</text>
+      <text y="41" class="item-text">• Notifications</text>
+      <text y="54" class="item-text">• Templates</text>
+    </g>
+
+    <!-- Analytics -->
+    <g transform="translate(800, 515)">
+      <text y="0" class="highlight">📊 Mixpanel:</text>
+      <text y="15" class="item-text">• User interaction tracking</text>
+      <text y="28" class="item-text">• Conversion funnels</text>
+      <text y="41" class="item-text">• A/B testing</text>
+      <text y="54" class="item-text">• Dashboards</text>
+    </g>
+
+    <!-- Monitoring -->
+    <g transform="translate(1050, 515)">
+      <text y="0" class="highlight">🔍 DataDog:</text>
+      <text y="15" class="item-text">• Performance monitoring</text>
+      <text y="28" class="item-text">• Error tracking</text>
+      <text y="41" class="item-text">• Uptime alerts</text>
+      <text y="54" class="item-text">• Log aggregation</text>
+    </g>
+  </g>
+
+  <!-- Data Flow -->
+  <g>
+    <text x="100" y="1150" class="section-title">Complete Data Flow:</text>
+
+    <rect x="100" y="1165" width="150" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="175" y="1185" class="item-text" text-anchor="middle">Customer</text>
+    <text x="175" y="1200" class="item-text" text-anchor="middle">sends query</text>
+
+    <path d="M 250 1190 L 280 1190" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="280" y="1165" width="150" height="50" rx="4" fill="#1f2937" stroke="#3b82f6" stroke-width="1.5" />
+    <text x="355" y="1185" class="item-text" text-anchor="middle">Intent</text>
+    <text x="355" y="1200" class="item-text" text-anchor="middle">classification</text>
+
+    <path d="M 430 1190 L 460 1190" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="460" y="1165" width="150" height="50" rx="4" fill="#1f2937" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="535" y="1185" class="item-text" text-anchor="middle">Vector search</text>
+    <text x="535" y="1200" class="item-text" text-anchor="middle">+ RAG</text>
+
+    <path d="M 610 1190 L 640 1190" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="640" y="1165" width="150" height="50" rx="4" fill="#1f2937" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="715" y="1185" class="item-text" text-anchor="middle">Response</text>
+    <text x="715" y="1200" class="item-text" text-anchor="middle">generation</text>
+
+    <path d="M 790 1190 L 820 1190" class="arrow" marker-end="url(#arrowhead)" />
+
+    <rect x="820" y="1165" width="150" height="50" rx="4" fill="#1f2937" stroke="#10b981" stroke-width="1.5" />
+    <text x="895" y="1185" class="item-text" text-anchor="middle">Customer</text>
+    <text x="895" y="1200" class="item-text" text-anchor="middle">receives answer</text>
+  </g>
+
+  <!-- Tech Stack -->
+  <g>
+    <text x="1050" y="1150" class="section-title">Tech Stack:</text>
+    <g transform="translate(1050, 1165)">
+      <text y="0" class="item-text">• React 18 + Socket.io</text>
+      <text y="15" class="item-text">• Flask + Gunicorn</text>
+      <text y="30" class="item-text">• Hugging Face Transformers</text>
+      <text y="45" class="item-text">• OpenAI GPT-3.5/4</text>
+      <text y="60" class="item-text">• Pinecone + PostgreSQL</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="700" y="1370" class="path-text" text-anchor="middle">Nexus AI Solutions — Policy-Powered Customer Support | RAG Pipeline | Multi-Intent Classification | Real-time Chat</text>
+</svg>
