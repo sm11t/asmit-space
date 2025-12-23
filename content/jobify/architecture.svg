@@ -1,0 +1,255 @@
+<svg viewBox="0 0 1400 1650" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1400" height="1650" fill="#0a0e1a"/>
+
+  <!-- Title -->
+  <text x="700" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#10b981" text-anchor="middle">
+    JobifyASU - Automated Job Application System
+  </text>
+  <text x="700" y="70" font-family="Arial, sans-serif" font-size="14" fill="#9ca3af" text-anchor="middle">
+    AI-Powered Desktop Automation for ASU Student/Staff Positions
+  </text>
+
+  <!-- Section 1: User Interface Layer -->
+  <circle cx="120" cy="130" r="20" fill="#ff7a00"/>
+  <text x="120" y="138" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">①</text>
+  <text x="160" y="138" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">USER INTERFACE LAYER</text>
+
+  <!-- GUI Component -->
+  <rect x="50" y="160" width="600" height="180" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="350" y="185" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">CustomTkinter Desktop GUI</text>
+
+  <!-- Left Frame -->
+  <rect x="70" y="200" width="270" height="120" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="205" y="220" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Input Frame</text>
+  <text x="85" y="240" font-family="monospace" font-size="10" fill="#e5e7eb">• ASU Username/Password</text>
+  <text x="85" y="260" font-family="monospace" font-size="10" fill="#e5e7eb">• Resume PDF Upload</text>
+  <text x="85" y="280" font-family="monospace" font-size="10" fill="#e5e7eb">• Start Date Filter</text>
+  <text x="85" y="300" font-family="monospace" font-size="10" fill="#e5e7eb">• Output Directory Selection</text>
+
+  <!-- Right Frame -->
+  <rect x="360" y="200" width="270" height="120" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="495" y="220" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Status &amp; Console</text>
+  <text x="375" y="240" font-family="monospace" font-size="10" fill="#e5e7eb">• ScrolledFrame Job List</text>
+  <text x="375" y="260" font-family="monospace" font-size="10" fill="#e5e7eb">• Real-time Console Output</text>
+  <text x="375" y="280" font-family="monospace" font-size="10" fill="#e5e7eb">• Apply/Cancel Buttons</text>
+  <text x="375" y="300" font-family="monospace" font-size="10" fill="#e5e7eb">• Cover Letter Preview Links</text>
+
+  <!-- Threading Badge -->
+  <rect x="680" y="230" width="140" height="50" rx="4" fill="#ff7a00" stroke="#ff7a00" stroke-width="2"/>
+  <text x="750" y="250" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0a0e1a" text-anchor="middle">THREADING</text>
+  <text x="750" y="268" font-family="monospace" font-size="9" fill="#0a0e1a" text-anchor="middle">Non-blocking</text>
+  <text x="750" y="280" font-family="monospace" font-size="9" fill="#0a0e1a" text-anchor="middle">Execution</text>
+
+  <!-- Arrow to Automation Layer -->
+  <defs>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10b981"/>
+    </marker>
+  </defs>
+  <line x1="350" y1="340" x2="350" y2="390" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+  <text x="370" y="370" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">User submits credentials &amp; settings</text>
+
+  <!-- Section 2: Automation Layer -->
+  <circle cx="120" cy="430" r="20" fill="#ff7a00"/>
+  <text x="120" y="438" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">②</text>
+  <text x="160" y="438" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">AUTOMATION &amp; WEB SCRAPING LAYER</text>
+
+  <!-- Selenium Component -->
+  <rect x="50" y="460" width="600" height="220" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="350" y="485" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">Selenium WebDriver Automation</text>
+
+  <!-- Stealth Config -->
+  <rect x="70" y="500" width="270" height="90" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="205" y="520" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Stealth Configuration</text>
+  <text x="85" y="540" font-family="monospace" font-size="10" fill="#e5e7eb">• Headless Chrome</text>
+  <text x="85" y="555" font-family="monospace" font-size="10" fill="#e5e7eb">• User-Agent Spoofing</text>
+  <text x="85" y="570" font-family="monospace" font-size="10" fill="#e5e7eb">• Disabled Automation Flags</text>
+  <text x="85" y="585" font-family="monospace" font-size="10" fill="#e5e7eb">• selenium-stealth Package</text>
+
+  <!-- Job Processing -->
+  <rect x="360" y="500" width="270" height="90" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="495" y="520" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Job Processing Logic</text>
+  <text x="375" y="540" font-family="monospace" font-size="10" fill="#e5e7eb">• XPath Job List Iteration</text>
+  <text x="375" y="555" font-family="monospace" font-size="10" fill="#e5e7eb">• Duplicate Detection</text>
+  <text x="375" y="570" font-family="monospace" font-size="10" fill="#e5e7eb">• Multi-step Form Automation</text>
+  <text x="375" y="585" font-family="monospace" font-size="10" fill="#e5e7eb">• Iframe Navigation (Uploads)</text>
+
+  <!-- Web Scraping -->
+  <rect x="70" y="600" width="560" height="60" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="350" y="620" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Dynamic Content Scraping</text>
+  <text x="85" y="640" font-family="monospace" font-size="10" fill="#e5e7eb">• Job Description • Essential Duties • Required Qualifications • Grant-Funded Status</text>
+  <text x="85" y="655" font-family="monospace" font-size="10" fill="#e5e7eb">• AngularJS ng-scope Element Targeting</text>
+
+  <!-- Arrow to Authentication -->
+  <line x1="350" y1="680" x2="350" y2="730" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+  <text x="370" y="710" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">Initiates login flow</text>
+
+  <!-- Section 3: Authentication & External Services -->
+  <circle cx="120" cy="770" r="20" fill="#ff7a00"/>
+  <text x="120" y="778" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">③</text>
+  <text x="160" y="778" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">AUTHENTICATION &amp; EXTERNAL SERVICES</text>
+
+  <!-- ASU Portal -->
+  <rect x="50" y="800" width="380" height="180" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="240" y="825" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">ASU Job Portal (Brassring)</text>
+
+  <rect x="70" y="840" width="340" height="120" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="240" y="860" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">SSO Authentication Flow</text>
+  <text x="85" y="880" font-family="monospace" font-size="10" fill="#e5e7eb">① weblogin.asu.edu → CAS/SAML 2.0</text>
+  <text x="85" y="900" font-family="monospace" font-size="10" fill="#e5e7eb">② Duo Security 2FA (iframe push)</text>
+  <text x="85" y="920" font-family="monospace" font-size="10" fill="#e5e7eb">③ Shibboleth redirect</text>
+  <text x="85" y="940" font-family="monospace" font-size="10" fill="#e5e7eb">④ Brassring job system (Provider: 5495)</text>
+  <text x="85" y="955" font-family="monospace" font-size="10" fill="#6b7280" font-style="italic">30s timeout for 2FA approval</text>
+
+  <!-- OpenAI API -->
+  <rect x="470" y="800" width="380" height="180" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="660" y="825" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">OpenAI API Integration</text>
+
+  <rect x="490" y="840" width="340" height="120" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="660" y="860" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Cover Letter Generation</text>
+  <text x="505" y="880" font-family="monospace" font-size="10" fill="#e5e7eb">• Model: GPT-3.5-turbo</text>
+  <text x="505" y="900" font-family="monospace" font-size="10" fill="#e5e7eb">• Input: Job Description + Resume</text>
+  <text x="505" y="920" font-family="monospace" font-size="10" fill="#e5e7eb">• Prompt Engineering: Contextual</text>
+  <text x="505" y="940" font-family="monospace" font-size="10" fill="#e5e7eb">  Date-Aware Personalization</text>
+  <text x="505" y="955" font-family="monospace" font-size="10" fill="#6b7280" font-style="italic">Returns tailored cover letter text</text>
+
+  <!-- Arrows from Automation to Services -->
+  <line x1="240" y1="680" x2="240" y2="800" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+  <line x1="460" y1="680" x2="660" y2="800" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+  <!-- Section 4: Document Processing -->
+  <circle cx="120" cy="1020" r="20" fill="#ff7a00"/>
+  <text x="120" y="1028" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0a0e1a" text-anchor="middle">④</text>
+  <text x="160" y="1028" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">DOCUMENT PROCESSING LAYER</text>
+
+  <!-- Document Processing Box -->
+  <rect x="50" y="1050" width="600" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="350" y="1075" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">PDF Operations</text>
+
+  <!-- Resume Parsing -->
+  <rect x="70" y="1090" width="270" height="80" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="205" y="1110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Input: Resume Parsing</text>
+  <text x="85" y="1130" font-family="monospace" font-size="10" fill="#e5e7eb">• PyPDF2 Text Extraction</text>
+  <text x="85" y="1145" font-family="monospace" font-size="10" fill="#e5e7eb">• Multi-page Concatenation</text>
+  <text x="85" y="1160" font-family="monospace" font-size="10" fill="#e5e7eb">• Feed to OpenAI API</text>
+
+  <!-- Cover Letter Generation -->
+  <rect x="360" y="1090" width="270" height="80" rx="4" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="495" y="1110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">Output: CL Generation</text>
+  <text x="375" y="1130" font-family="monospace" font-size="10" fill="#e5e7eb">• FPDF PDF Creation</text>
+  <text x="375" y="1145" font-family="monospace" font-size="10" fill="#e5e7eb">• Date-stamped Folders</text>
+  <text x="375" y="1160" font-family="monospace" font-size="10" fill="#e5e7eb">• {JobName}_CL.pdf Format</text>
+
+  <!-- Storage -->
+  <rect x="680" y="1090" width="240" height="80" rx="4" fill="#1a1f2e" stroke="#ff7a00" stroke-width="2"/>
+  <text x="800" y="1110" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">File System Storage</text>
+  <text x="695" y="1130" font-family="monospace" font-size="10" fill="#e5e7eb">{base_path}/</text>
+  <text x="695" y="1145" font-family="monospace" font-size="10" fill="#e5e7eb">  └── YYYY-MM-DD/</text>
+  <text x="695" y="1160" font-family="monospace" font-size="10" fill="#e5e7eb">      └── *_CL.pdf</text>
+
+  <!-- Arrow back to GUI -->
+  <line x1="350" y1="1190" x2="350" y2="1240" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+  <text x="370" y="1220" font-family="Arial, sans-serif" font-size="11" fill="#9ca3af">CL ready for user review</text>
+
+  <!-- Data Flow Section -->
+  <rect x="50" y="1270" width="1300" height="350" rx="8" fill="#1a1f2e" stroke="#ff7a00" stroke-width="3"/>
+  <text x="700" y="1300" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ff7a00" text-anchor="middle">END-TO-END DATA FLOW</text>
+
+  <!-- Flow Steps -->
+  <g transform="translate(0, 0)">
+    <!-- Step 1 -->
+    <rect x="80" y="1320" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="170" y="1345" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">1. USER INPUT</text>
+    <text x="170" y="1362" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Credentials + Resume</text>
+    <text x="170" y="1377" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">+ Start Date Filter</text>
+
+    <!-- Arrow -->
+    <line x1="260" y1="1355" x2="300" y2="1355" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 2 -->
+    <rect x="300" y="1320" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="390" y="1345" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">2. AUTHENTICATION</text>
+    <text x="390" y="1362" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">SSO Login → Duo 2FA</text>
+    <text x="390" y="1377" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">→ Brassring Portal</text>
+
+    <!-- Arrow -->
+    <line x1="480" y1="1355" x2="520" y2="1355" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 3 -->
+    <rect x="520" y="1320" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="610" y="1345" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">3. JOB SEARCH</text>
+    <text x="610" y="1362" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Advanced Search</text>
+    <text x="610" y="1377" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Date Filtering</text>
+
+    <!-- Arrow -->
+    <line x1="700" y1="1355" x2="740" y2="1355" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 4 -->
+    <rect x="740" y="1320" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="830" y="1345" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">4. SCRAPING</text>
+    <text x="830" y="1362" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Extract Job Details</text>
+    <text x="830" y="1377" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Parse Resume PDF</text>
+
+    <!-- Arrow -->
+    <line x1="920" y1="1355" x2="960" y2="1355" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 5 -->
+    <rect x="960" y="1320" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="1050" y="1345" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">5. AI GENERATION</text>
+    <text x="1050" y="1362" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">OpenAI API Call</text>
+    <text x="1050" y="1377" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">GPT-3.5-turbo</text>
+
+    <!-- Arrow down -->
+    <line x1="1050" y1="1390" x2="1050" y2="1420" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 6 -->
+    <rect x="960" y="1420" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="1050" y="1445" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">6. PDF CREATION</text>
+    <text x="1050" y="1462" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">FPDF Generation</text>
+    <text x="1050" y="1477" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Save to Filesystem</text>
+
+    <!-- Arrow left -->
+    <line x1="960" y1="1455" x2="920" y2="1455" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 7 -->
+    <rect x="740" y="1420" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="830" y="1445" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">7. USER REVIEW</text>
+    <text x="830" y="1462" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Display in GUI</text>
+    <text x="830" y="1477" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Apply/Cancel Choice</text>
+
+    <!-- Arrow left -->
+    <line x1="740" y1="1455" x2="700" y2="1455" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 8 -->
+    <rect x="520" y="1420" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="610" y="1445" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">8. FORM AUTO</text>
+    <text x="610" y="1462" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">7x "Save &amp; Continue"</text>
+    <text x="610" y="1477" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Resume + CL Upload</text>
+
+    <!-- Arrow left -->
+    <line x1="520" y1="1455" x2="480" y2="1455" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 9 -->
+    <rect x="300" y="1420" width="180" height="70" rx="6" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="2"/>
+    <text x="390" y="1445" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#10b981" text-anchor="middle">9. SUBMISSION</text>
+    <text x="390" y="1462" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Final Submit Click</text>
+    <text x="390" y="1477" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Application Complete</text>
+
+    <!-- Arrow left -->
+    <line x1="300" y1="1455" x2="260" y2="1455" stroke="#10b981" stroke-width="2" marker-end="url(#arrowgreen)"/>
+
+    <!-- Step 10 -->
+    <rect x="80" y="1420" width="180" height="70" rx="6" fill="#ff7a00" fill-opacity="0.2" stroke="#ff7a00" stroke-width="2"/>
+    <text x="170" y="1445" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ff7a00" text-anchor="middle">10. STATUS UPDATE</text>
+    <text x="170" y="1462" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">GUI Shows "APPLIED"</text>
+    <text x="170" y="1477" font-family="monospace" font-size="9" fill="#e5e7eb" text-anchor="middle">Loop to Next Job</text>
+  </g>
+
+  <!-- Tech Stack Footer -->
+  <rect x="80" y="1530" width="1240" height="80" rx="6" fill="#1a1f2e" stroke="#6b7280" stroke-width="1"/>
+  <text x="700" y="1555" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ff7a00" text-anchor="middle">TECHNOLOGY STACK</text>
+  <text x="100" y="1575" font-family="monospace" font-size="10" fill="#e5e7eb">Frontend: CustomTkinter 5.2.2 • tkscrolledframe</text>
+  <text x="100" y="1590" font-family="monospace" font-size="10" fill="#e5e7eb">Automation: Selenium 4.21.0 • selenium-stealth 1.0.6 • webdriver-manager 4.0.1 • Chrome WebDriver</text>
+  <text x="100" y="1605" font-family="monospace" font-size="10" fill="#e5e7eb">AI/ML: OpenAI API (GPT-3.5-turbo) • Documents: PyPDF2 3.0.1 • FPDF 1.7.2 • HTTP: aiohttp • httpx • requests</text>
+</svg>

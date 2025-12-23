@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroPilot - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+            margin-bottom: 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .tech-stack-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack-content {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+
+            .report-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">NeuroPilot</h1>
+            <p class="document-subtitle">Engineering Implementation Report — Intelligent Browser Platform · NLP · Multi-Platform Integration</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>All-in-one intelligent browser platform</strong> integrating multi-platform services including Email (Gmail/Outlook), WhatsApp Web, YouTube, and Spotify with secure inter-process communication (IPC), OAuth authentication flows, bidirectional WebSocket connections, and intelligent rate limiting to prevent API throttling
+                        </li>
+                        <li>
+                            <strong>NLP-powered intent recognition engine</strong> processing natural language commands like "remind me to buy groceries after work" with entity extraction for dates, times, people, and tasks, implementing message-to-action pipeline that converts WhatsApp messages into auto-reminders, and context-aware datetime resolution handling relative time expressions
+                        </li>
+                        <li>
+                            <strong>Context aggregation layer</strong> analyzing behavior patterns across YouTube watch history, Spotify listening habits, email activity, and browsing patterns to generate personalized recommendation scores, priority-based filtering, and time-of-day adjustments (displaying financial widgets during work hours, lo-fi playlists at night)
+                        </li>
+                        <li>
+                            <strong>Cross-platform automation engine</strong> featuring Email-to-calendar NLP integration that parses phrases like "meet next Tuesday 3pm" to automatically create calendar events, WhatsApp message parser with intent classification, and 40% reduction in false positives through multi-factor contextual validation
+                        </li>
+                        <li>
+                            <strong>Configurable widget framework</strong> with drag-and-drop interface builder, real-time WebSocket synchronization for WhatsApp message streaming, financial markets widgets with live data feeds, health metrics tracking, and optimistic rendering achieving sub-100ms UI latency through local-first architecture
+                        </li>
+                        <li>
+                            <strong>Two-level JavaScript execution bridge</strong> implementing nested executeJavaScript calls for webview text extraction, DOM traversal heuristics targeting semantic HTML elements (&lt;article&gt;, &lt;main&gt;, &lt;p&gt;), intelligent 10K character truncation, and sliding window memory management for efficient content processing
+                        </li>
+                        <li>
+                            <strong>OAuth-based multi-platform authentication</strong> supporting Gmail/Outlook IMAP connections, YouTube Data API v3, Spotify Web API, WhatsApp Web session management, AES-256 encrypted token storage with hardware keychain integration, exponential backoff retry logic, and rate limit handling (YouTube: 10K quota/day, Spotify: 180 requests/30 seconds)
+                        </li>
+                    </ul>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-label">Tech Stack</div>
+                        <div class="tech-stack-content">
+                            Electron • Browser APIs • WebSocket • OAuth 2.0 • NLP • Entity Extraction • IMAP • YouTube Data API v3 • Spotify Web API • WhatsApp Web • AES-256 Encryption • IPC • DOM Manipulation • Drag-and-Drop API
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="architecture.svg" alt="NeuroPilot Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Personal Project — 2025
+        </div>
+    </div>
+</body>
+</html>

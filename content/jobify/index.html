@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobifyAI - Engineering Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e14;
+            color: #e2e8f0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .document-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 16px;
+            border: 2.5px solid #00d4aa;
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+            overflow: hidden;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            padding: 40px 50px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .document-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .document-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .document-body {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: #0f1419;
+            border: 1.5px solid #00d4aa;
+            color: #00d4aa;
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .report-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-section {
+            background: #151922;
+            border: 2px solid #4a90e2;
+            border-radius: 16px;
+            padding: 40px 50px;
+            margin-bottom: 50px;
+        }
+
+        .achievements-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #00d4aa;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #cbd5e0;
+            line-height: 1.8;
+        }
+
+        .achievements-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .achievements-list li strong {
+            color: #00d4aa;
+            font-weight: 600;
+        }
+
+        .tech-stack {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .tech-stack-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack-content {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        .architecture-container {
+            background: #0a0e14;
+            border-radius: 12px;
+            padding: 30px;
+            border: 2px solid #1e293b;
+        }
+
+        .architecture-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .document-body {
+                padding: 30px 25px;
+            }
+
+            .document-header {
+                padding: 30px 25px;
+            }
+
+            .achievements-section {
+                padding: 30px 25px;
+            }
+
+            .document-title {
+                font-size: 28px;
+            }
+
+            .report-heading {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1 class="document-title">JobifyAI</h1>
+            <p class="document-subtitle">Engineering Implementation Report — Job Application Automation · Selenium · AI-Powered Cover Letters</p>
+        </div>
+
+        <div class="document-body">
+            <!-- Engineering Report Heading -->
+            <h2 class="report-heading">Engineering Report</h2>
+
+            <!-- Achievements Section -->
+            <div class="section">
+                <span class="section-label">Key Achievements</span>
+                <div class="achievements-section">
+                    <h2 class="achievements-title">Key Engineering Achievements</h2>
+                    <ul class="achievements-list">
+                        <li>
+                            <strong>578-line automation pipeline</strong> engineered to handle Arizona State University's complex Brassring job portal, implementing multi-stage form navigation, dynamic field detection, conditional logic for optional fields, and robust error recovery mechanisms to maintain session continuity across 15+ minute application sessions
+                        </li>
+                        <li>
+                            <strong>Threading synchronization architecture</strong> implementing Python's threading module to execute browser automation in background threads, maintaining non-blocking UI responsiveness during long-running Selenium operations, with thread-safe queue communication and graceful cancellation support for user interruptions
+                        </li>
+                        <li>
+                            <strong>selenium-stealth configuration</strong> deploying advanced anti-detection techniques including user agent rotation, WebDriver property masking, Chrome DevTools Protocol (CDP) commands to remove automation flags, randomized mouse movements, and human-like typing delays to bypass Brassring's automation detection systems
+                        </li>
+                        <li>
+                            <strong>Context-aware AI prompts</strong> integrating OpenAI GPT-4 API with job-specific context injection, generating personalized cover letters by analyzing job descriptions, extracting key requirements, matching candidate qualifications, and producing tailored 300-400 word cover letters with company-specific customization and ATS-friendly formatting
+                        </li>
+                        <li>
+                            <strong>Complex iframe navigation</strong> solving nested iframe document upload challenges through explicit WebDriverWait conditions, iframe context switching with try-catch error handling, file path validation for cross-platform compatibility (Windows/macOS/Linux), and automatic fallback to manual upload prompts on failure
+                        </li>
+                        <li>
+                            <strong>10+ sequential form steps fully automated</strong> including personal information, education history, work experience, custom questions with radio/checkbox/textarea handling, document uploads (resume/cover letter/transcripts), diversity questions, and final review page with screenshot capture for verification
+                        </li>
+                        <li>
+                            <strong>Date-stamped file organization</strong> implementing platform-agnostic file path handling using pathlib, automatic directory creation with timestamp-based naming (YYYY-MM-DD_HH-MM-SS), cover letter archiving, application screenshots storage, and comprehensive logging with error trace preservation for debugging failed applications
+                        </li>
+                    </ul>
+
+                    <div class="tech-stack">
+                        <div class="tech-stack-label">Tech Stack</div>
+                        <div class="tech-stack-content">
+                            Python • Selenium • selenium-stealth • Threading • OpenAI GPT-4 API • Chrome WebDriver • pathlib • WebDriverWait • Explicit Waits • Iframe Navigation • File I/O • Logging • Exception Handling
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Section -->
+            <div class="section">
+                <span class="section-label">System Architecture</span>
+                <div class="architecture-container">
+                    <img src="architecture.svg" alt="JobifyAI Architecture Diagram">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Personal Project — 2024
+        </div>
+    </div>
+</body>
+</html>

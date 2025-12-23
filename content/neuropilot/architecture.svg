@@ -1,0 +1,362 @@
+<svg viewBox="0 0 1200 1600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="1600" fill="#0a0e1a"/>
+
+  <!-- Title -->
+  <text x="600" y="40" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#10b981" text-anchor="middle">
+    NeuroPilot Architecture
+  </text>
+  <text x="600" y="65" font-family="Arial, sans-serif" font-size="14" fill="#9ca3af" text-anchor="middle">
+    AI-Powered Contextual Browser with Cross-Platform Intelligence
+  </text>
+
+  <!-- ==================== LAYER 1: FRONTEND ==================== -->
+  <!-- Section Badge 1 -->
+  <circle cx="80" cy="110" r="18" fill="#ff7a00"/>
+  <text x="80" y="116" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">①</text>
+  <text x="110" y="116" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">FRONTEND LAYER</text>
+
+  <!-- Electron Main Process -->
+  <rect x="50" y="140" width="340" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="260" y="148" width="120" height="20" rx="4" fill="#ff7a00"/>
+  <text x="320" y="162" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Node.js</text>
+  <text x="220" y="190" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Electron Main Process
+  </text>
+  <text x="60" y="210" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="60" dy="0">• Window Management</tspan>
+    <tspan x="60" dy="16">• IPC Handler (Main ↔ Renderer)</tspan>
+    <tspan x="60" dy="16">• LLM Service Integration</tspan>
+    <tspan x="60" dy="16">• Context Bridge Security</tspan>
+    <tspan x="60" dy="16">• API Orchestration Layer</tspan>
+  </text>
+
+  <!-- Renderer Process -->
+  <rect x="430" y="140" width="340" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="630" y="148" width="130" height="20" rx="4" fill="#ff7a00"/>
+  <text x="695" y="162" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Chromium/Blink</text>
+  <text x="600" y="190" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Renderer Process
+  </text>
+  <text x="440" y="210" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="440" dy="0">• Landing Page (Categorization)</tspan>
+    <tspan x="440" dy="16">• Work/Relax Dashboards</tspan>
+    <tspan x="440" dy="16">• Embedded Webview Browser</tspan>
+    <tspan x="440" dy="16">• Health Widget UI</tspan>
+    <tspan x="440" dy="16">• Configurable Widget Grid</tspan>
+  </text>
+
+  <!-- UI Stack -->
+  <rect x="810" y="140" width="340" height="140" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="980" y="190" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    UI Stack
+  </text>
+  <text x="820" y="210" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="820" dy="0">• HTML5 + CSS3 (Custom Properties)</tspan>
+    <tspan x="820" dy="16">• Tailwind CSS (Utility Framework)</tspan>
+    <tspan x="820" dy="16">• Vanilla JavaScript (ES6+)</tspan>
+    <tspan x="820" dy="16">• Font Awesome Icons</tspan>
+    <tspan x="820" dy="16">• Dynamic Widget Rendering</tspan>
+  </text>
+
+  <!-- IPC Arrows -->
+  <path d="M 220 280 L 220 330" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <text x="230" y="310" font-family="Arial, sans-serif" font-size="10" fill="#10b981">IPC Channel</text>
+
+  <path d="M 600 280 L 600 330" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <text x="610" y="310" font-family="Arial, sans-serif" font-size="10" fill="#10b981">DOM Events</text>
+
+  <!-- ==================== LAYER 2: BACKEND SERVICES ==================== -->
+  <!-- Section Badge 2 -->
+  <circle cx="80" cy="350" r="18" fill="#ff7a00"/>
+  <text x="80" y="356" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">②</text>
+  <text x="110" y="356" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">BACKEND SERVICES</text>
+
+  <!-- LLM Service -->
+  <rect x="50" y="380" width="340" height="160" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="260" y="388" width="120" height="20" rx="4" fill="#ff7a00"/>
+  <text x="320" y="402" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">llmService.js</text>
+  <text x="220" y="430" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    LLM Service
+  </text>
+  <text x="60" y="450" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="60" dy="0">• OpenAI Integration (GPT-3.5)</tspan>
+    <tspan x="60" dy="16">• Page Summarization Engine</tspan>
+    <tspan x="60" dy="16">• Wellness Advice Generator</tspan>
+    <tspan x="60" dy="16">• Context-Aware Prompting</tspan>
+    <tspan x="60" dy="16">• Conversation History Manager</tspan>
+    <tspan x="60" dy="16">• Text Truncation (10K chars)</tspan>
+  </text>
+
+  <!-- Memory Store -->
+  <rect x="430" y="380" width="340" height="160" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="630" y="388" width="130" height="20" rx="4" fill="#ff7a00"/>
+  <text x="695" y="402" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">electron-store</text>
+  <text x="600" y="430" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Memory Store
+  </text>
+  <text x="440" y="450" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="440" dy="0">• Persistent JSON Storage</tspan>
+    <tspan x="440" dy="16">• User Preferences &amp; Settings</tspan>
+    <tspan x="440" dy="16">• Conversation Q&amp;A Pairs</tspan>
+    <tspan x="440" dy="16">• Service Categorization Data</tspan>
+    <tspan x="440" dy="16">• Sliding Window (Max 5 Pairs)</tspan>
+    <tspan x="440" dy="16">• Atomic File Operations</tspan>
+  </text>
+
+  <!-- Preload Bridge -->
+  <rect x="810" y="380" width="340" height="160" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="1000" y="388" width="140" height="20" rx="4" fill="#ff7a00"/>
+  <text x="1070" y="402" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Security Layer</text>
+  <text x="980" y="430" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Preload Bridge
+  </text>
+  <text x="820" y="450" font-family="Arial, sans-serif" font-size="11" fill="#e5e7eb">
+    <tspan x="820" dy="0">• Context Isolation Boundary</tspan>
+    <tspan x="820" dy="16">• Secure API Exposure</tspan>
+    <tspan x="820" dy="16">• window.novaAPI Interface:</tspan>
+    <tspan x="820" dy="16">  - getPageText()</tspan>
+    <tspan x="820" dy="16">  - summarizePage(text)</tspan>
+    <tspan x="820" dy="16">  - getWorkAdvice(metrics)</tspan>
+  </text>
+
+  <!-- API Arrow -->
+  <path d="M 220 540 L 220 620" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <text x="230" y="585" font-family="Arial, sans-serif" font-size="10" fill="#10b981">HTTPS API</text>
+
+  <!-- ==================== LAYER 3: INTEGRATION SERVICES ==================== -->
+  <!-- Section Badge 3 -->
+  <circle cx="80" cy="640" r="18" fill="#ff7a00"/>
+  <text x="80" y="646" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">③</text>
+  <text x="110" y="646" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">INTEGRATION SERVICES (Vision)</text>
+
+  <!-- Email Integration -->
+  <rect x="50" y="670" width="270" height="130" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="210" y="678" width="100" height="18" rx="4" fill="#ff7a00"/>
+  <text x="260" y="690" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#0a0e1a" text-anchor="middle">IMAP/OAuth</text>
+  <text x="185" y="715" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Email Integration
+  </text>
+  <text x="60" y="735" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="60" dy="0">• Gmail/Outlook API</tspan>
+    <tspan x="60" dy="15">• Real-time Message Sync</tspan>
+    <tspan x="60" dy="15">• NLP Event Extraction</tspan>
+    <tspan x="60" dy="15">• Auto-Calendar Integration</tspan>
+  </text>
+
+  <!-- WhatsApp Integration -->
+  <rect x="350" y="670" width="270" height="130" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="505" y="678" width="110" height="18" rx="4" fill="#ff7a00"/>
+  <text x="560" y="690" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#0a0e1a" text-anchor="middle">WebSocket</text>
+  <text x="485" y="715" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    WhatsApp Integration
+  </text>
+  <text x="360" y="735" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="360" dy="0">• WhatsApp Web API</tspan>
+    <tspan x="360" dy="15">• Message Parsing Engine</tspan>
+    <tspan x="360" dy="15">• Intent Recognition (NLP)</tspan>
+    <tspan x="360" dy="15">• Context Extraction</tspan>
+  </text>
+
+  <!-- YouTube Integration -->
+  <rect x="650" y="670" width="270" height="130" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="805" y="678" width="105" height="18" rx="4" fill="#ff7a00"/>
+  <text x="857" y="690" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#0a0e1a" text-anchor="middle">REST API</text>
+  <text x="785" y="715" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    YouTube Integration
+  </text>
+  <text x="660" y="735" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="660" dy="0">• YouTube Data API v3</tspan>
+    <tspan x="660" dy="15">• Watch History Analysis</tspan>
+    <tspan x="660" dy="15">• Recommendation Engine</tspan>
+    <tspan x="660" dy="15">• Content Categorization</tspan>
+  </text>
+
+  <!-- Spotify Integration -->
+  <rect x="950" y="670" width="200" height="130" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="1050" y="715" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Spotify API
+  </text>
+  <text x="960" y="735" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="960" dy="0">• Listening History</tspan>
+    <tspan x="960" dy="15">• Mood Detection</tspan>
+    <tspan x="960" dy="15">• Genre Preferences</tspan>
+    <tspan x="960" dy="15">• Smart Playlists</tspan>
+  </text>
+
+  <!-- ==================== LAYER 4: AI/NLP CORE ==================== -->
+  <!-- Section Badge 4 -->
+  <circle cx="80" cy="840" r="18" fill="#ff7a00"/>
+  <text x="80" y="846" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">④</text>
+  <text x="110" y="846" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">AI/NLP INTELLIGENCE CORE</text>
+
+  <!-- Arrows from integrations to NLP -->
+  <path d="M 185 800 L 185 830 L 300 830 L 300 870" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <path d="M 485 800 L 485 830 L 400 830 L 400 870" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+  <path d="M 785 800 L 785 850 L 600 850 L 600 870" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+
+  <!-- NLP Engine -->
+  <rect x="50" y="870" width="450" height="150" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="340" y="878" width="150" height="20" rx="4" fill="#ff7a00"/>
+  <text x="415" y="892" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">GPT-3.5 + Custom NLP</text>
+  <text x="275" y="920" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    NLP &amp; Intent Recognition Engine
+  </text>
+  <text x="60" y="940" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="60" dy="0">• Natural Language Query Processing ("remind me to...")</tspan>
+    <tspan x="60" dy="15">• Entity Extraction (dates, times, people, tasks)</tspan>
+    <tspan x="60" dy="15">• Cross-App Context Understanding</tspan>
+    <tspan x="60" dy="15">• Intent Classification (reminder, event, search, action)</tspan>
+    <tspan x="60" dy="15">• Message-to-Action Parser (WhatsApp → Reminder)</tspan>
+  </text>
+
+  <!-- Context Aggregator -->
+  <rect x="540" y="870" width="310" height="150" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="710" y="878" width="130" height="20" rx="4" fill="#ff7a00"/>
+  <text x="775" y="892" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">ML Aggregator</text>
+  <text x="695" y="920" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Context Aggregation Layer
+  </text>
+  <text x="550" y="940" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="550" dy="0">• User Activity Timeline Builder</tspan>
+    <tspan x="550" dy="15">• Cross-Platform Data Correlation</tspan>
+    <tspan x="550" dy="15">• Behavior Pattern Recognition</tspan>
+    <tspan x="550" dy="15">• Cognitive Load Reduction Engine</tspan>
+    <tspan x="550" dy="15">• Personalized Content Filtering</tspan>
+  </text>
+
+  <!-- Automation Engine -->
+  <rect x="880" y="870" width="270" height="150" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="1015" y="920" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Automation Engine
+  </text>
+  <text x="890" y="940" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="890" dy="0">• Task Scheduler</tspan>
+    <tspan x="890" dy="15">• Reminder Creation System</tspan>
+    <tspan x="890" dy="15">• Auto-Event Addition</tspan>
+    <tspan x="890" dy="15">• Cross-App Actions</tspan>
+    <tspan x="890" dy="15">• Smart Notification Router</tspan>
+  </text>
+
+  <!-- ==================== LAYER 5: EXTERNAL SERVICES ==================== -->
+  <!-- Section Badge 5 -->
+  <circle cx="80" cy="1060" r="18" fill="#ff7a00"/>
+  <text x="80" y="1066" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">⑤</text>
+  <text x="110" y="1066" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">EXTERNAL SERVICES</text>
+
+  <!-- OpenAI API -->
+  <rect x="50" y="1090" width="360" height="100" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="280" y="1098" width="120" height="18" rx="4" fill="#ff7a00"/>
+  <text x="340" y="1110" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#0a0e1a" text-anchor="middle">Cloud AI Service</text>
+  <text x="230" y="1135" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    OpenAI API
+  </text>
+  <text x="60" y="1155" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="60" dy="0">• Model: gpt-3.5-turbo</tspan>
+    <tspan x="60" dy="15">• Endpoint: /v1/chat/completions</tspan>
+    <tspan x="60" dy="15">• Multi-turn Context Window</tspan>
+  </text>
+
+  <!-- Financial Markets API -->
+  <rect x="440" y="1090" width="340" height="100" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="610" y="1135" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Financial Markets API (Vision)
+  </text>
+  <text x="450" y="1155" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="450" dy="0">• Alpha Vantage / Yahoo Finance</tspan>
+    <tspan x="450" dy="15">• Stock Price Widgets</tspan>
+    <tspan x="450" dy="15">• Crypto Market Data</tspan>
+  </text>
+
+  <!-- Google Search -->
+  <rect x="810" y="1090" width="340" height="100" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <text x="980" y="1135" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Google Search
+  </text>
+  <text x="820" y="1155" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="820" dy="0">• Private Web Search</tspan>
+    <tspan x="820" dy="15">• External Browser Integration</tspan>
+    <tspan x="820" dy="15">• Privacy Statistics Tracking</tspan>
+  </text>
+
+  <!-- ==================== LAYER 6: DATA PERSISTENCE ==================== -->
+  <!-- Section Badge 6 -->
+  <circle cx="80" cy="1230" r="18" fill="#ff7a00"/>
+  <text x="80" y="1236" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#0a0e1a" text-anchor="middle">⑥</text>
+  <text x="110" y="1236" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981">DATA PERSISTENCE</text>
+
+  <!-- Data Store Arrow -->
+  <path d="M 275 1020 L 275 1070 L 500 1070 L 500 1260" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowgreen)"/>
+
+  <!-- Persistent Store -->
+  <rect x="50" y="1260" width="1100" height="100" rx="8" fill="none" stroke="#10b981" stroke-width="2"/>
+  <rect x="970" y="1268" width="170" height="20" rx="4" fill="#ff7a00"/>
+  <text x="1055" y="1282" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0a0e1a" text-anchor="middle">No Database Required</text>
+  <text x="600" y="1305" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">
+    Electron Store (JSON-Based File Storage)
+  </text>
+  <text x="60" y="1325" font-family="Arial, sans-serif" font-size="10" fill="#e5e7eb">
+    <tspan x="60" dy="0">• File Location: User App Data Directory</tspan>
+    <tspan x="60" dy="15">• Schema: { userId: [{ query, answer }], app-categories: { work: [], relax: [] }, user-activity: {}, widget-config: {} }</tspan>
+    <tspan x="60" dy="15">• Max Conversation History: 5 Q&amp;A Pairs per User (Sliding Window) • OAuth Tokens (Encrypted) • Activity Timeline Cache</tspan>
+  </text>
+
+  <!-- ==================== DATA FLOW SECTION ==================== -->
+  <text x="600" y="1410" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10b981" text-anchor="middle">
+    End-to-End Intelligence Flows
+  </text>
+
+  <!-- Flow 1: Cross-App Intelligence -->
+  <rect x="50" y="1440" width="360" height="140" rx="8" fill="none" stroke="#ff7a00" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="230" y="1462" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">
+    Cross-App Intelligence Flow
+  </text>
+  <text x="60" y="1480" font-family="Arial, sans-serif" font-size="9" fill="#e5e7eb">
+    <tspan x="65" dy="0">1. WhatsApp: "Mom: Buy groceries after work"</tspan>
+    <tspan x="65" dy="14">2. NLP extracts: Task="buy groceries", Time="after work"</tspan>
+    <tspan x="65" dy="14">3. Context: User work ends at 6pm (from calendar)</tspan>
+    <tspan x="65" dy="14">4. Automation Engine creates reminder: 6:15pm</tspan>
+    <tspan x="65" dy="14">5. Reminder appears in dashboard widget</tspan>
+    <tspan x="65" dy="14">6. User gets notification at scheduled time</tspan>
+  </text>
+
+  <!-- Flow 2: NLP Query Processing -->
+  <rect x="430" y="1440" width="360" height="140" rx="8" fill="none" stroke="#ff7a00" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="610" y="1462" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">
+    NLP Query Processing
+  </text>
+  <text x="440" y="1480" font-family="Arial, sans-serif" font-size="9" fill="#e5e7eb">
+    <tspan x="445" dy="0">1. User types: "Remind me to call John tomorrow at 2pm"</tspan>
+    <tspan x="445" dy="14">2. NLP Engine parses: action=remind, task="call John",</tspan>
+    <tspan x="445" dy="14">   date=tomorrow, time=2pm</tspan>
+    <tspan x="445" dy="14">3. Entity extraction validates datetime</tspan>
+    <tspan x="445" dy="14">4. Creates structured reminder object</tspan>
+    <tspan x="445" dy="14">5. Stores in memory + schedules notification</tspan>
+  </text>
+
+  <!-- Flow 3: Contextual Recommendations -->
+  <rect x="810" y="1440" width="340" height="140" rx="8" fill="none" stroke="#ff7a00" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="980" y="1462" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ff7a00" text-anchor="middle">
+    Contextual Recommendations
+  </text>
+  <text x="820" y="1480" font-family="Arial, sans-serif" font-size="9" fill="#e5e7eb">
+    <tspan x="825" dy="0">1. User in "Relax" mode at 8pm</tspan>
+    <tspan x="825" dy="14">2. Context Aggregator analyzes:</tspan>
+    <tspan x="825" dy="14">   • YouTube watch history (tech reviews)</tspan>
+    <tspan x="825" dy="14">   • Spotify listens (lo-fi beats)</tspan>
+    <tspan x="825" dy="14">3. Recommends: Similar tech videos + playlists</tspan>
+    <tspan x="825" dy="14">4. Populates widgets with personalized content</tspan>
+  </text>
+
+  <!-- Arrow Definitions -->
+  <defs>
+    <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Footer -->
+  <text x="600" y="1595" font-family="Arial, sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">
+    NeuroPilot | Electron • OpenAI GPT-3.5 • electron-store • Multi-Platform Integrations | AI-Powered Contextual Intelligence Browser
+  </text>
+</svg>

@@ -138,13 +138,35 @@ document.addEventListener("DOMContentLoaded", function () {
                     name: 'NeuroPilot',
                     type: 'folder',
                     id: 'neuropilot',
-                    content: []
+                    content: [
+                        {
+                            name: 'Engineering Report',
+                            type: 'file',
+                            id: 'neuropilot-report',
+                            filePath: '../content/neuropilot/index.html',
+                            meta: {
+                                year: '2025',
+                                tech: ['Electron', 'Browser APIs', 'WebSocket', 'NLP', 'OAuth 2.0', 'IPC']
+                            }
+                        }
+                    ]
                 },
                 {
                     name: 'JobifyAI',
                     type: 'folder',
                     id: 'jobifyai',
-                    content: []
+                    content: [
+                        {
+                            name: 'Engineering Report',
+                            type: 'file',
+                            id: 'jobifyai-report',
+                            filePath: '../content/jobify/index.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['Python', 'Selenium', 'GPT-4', 'Threading', 'Automation']
+                            }
+                        }
+                    ]
                 }
             ]
         },
