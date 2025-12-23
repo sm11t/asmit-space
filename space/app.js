@@ -47,6 +47,29 @@ const clock = new THREE.Clock();
 init();
 animate();
 
+// Hide loading screen with fade out
+function hideLoadingScreen(){
+  const loadingScreen = document.getElementById('loading-screen');
+  if(loadingScreen){
+    loadingScreen.classList.add('hidden');
+    // Remove from DOM after transition
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+    }, 500);
+  }
+
+  // Focus the window to enable keyboard input immediately
+  window.focus();
+  document.body.focus();
+
+  // Also try to focus the canvas if it exists
+  const canvas = renderer?.domElement;
+  if(canvas){
+    canvas.focus();
+    canvas.setAttribute('tabindex', '0');
+  }
+}
+
 function init(){
   scene = new THREE.Scene();
 
@@ -59,6 +82,16 @@ function init(){
   renderer.setSize(innerWidth, innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+  // Make canvas focusable for keyboard input
+  renderer.domElement.setAttribute('tabindex', '0');
+  renderer.domElement.style.outline = 'none'; // Remove focus outline
+
+  // Focus canvas on click to ensure keyboard events work
+  renderer.domElement.addEventListener('click', () => {
+    renderer.domElement.focus();
+  });
+
   document.body.appendChild(renderer.domElement);
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.35));
@@ -627,6 +660,11 @@ async function loadAssetsOrFallback(){
 
       // Add jewelry display case in the center of the room
       displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
+
+      // Hide loading screen after a short delay to ensure rendering
+      setTimeout(() => {
+        hideLoadingScreen();
+      }, 500);
     },
     undefined,
     (err) => {
@@ -668,6 +706,11 @@ function createFallbackRoom(){
 
   // Add jewelry display case in the center of the room
   displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
+
+  // Hide loading screen after a short delay to ensure rendering
+  setTimeout(() => {
+    hideLoadingScreen();
+  }, 500);
 }
 
 function animate(){

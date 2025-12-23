@@ -115,7 +115,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     name: 'SentinalAI',
                     type: 'folder',
                     id: 'sentinalai',
-                    content: []
+                    content: [
+                        {
+                            name: 'Engineering Report',
+                            type: 'file',
+                            id: 'sentinalai-report',
+                            filePath: '../content/voxel-cctv/index.html',
+                            meta: {
+                                year: '2024',
+                                tech: ['Python', 'YOLOv8', 'PyTorch', 'FastAPI', 'Computer Vision', 'Edge Computing']
+                            }
+                        }
+                    ]
                 },
                 {
                     name: 'Lynti Mobility',

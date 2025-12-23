@@ -40,7 +40,23 @@ function createWebWindow(appTitle, appIcon, url) {
     // 4) Initialize drag/resize and window controls
     initWebWindowDragAndResize(webWindow);
 
-    // 5) Return the created element
+    // 5) Focus the iframe when it loads to enable keyboard input
+    const iframe = webWindow.querySelector('iframe');
+    if(iframe){
+        iframe.addEventListener('load', () => {
+            // Small delay to ensure the iframe content is ready
+            setTimeout(() => {
+                try {
+                    iframe.contentWindow?.focus();
+                } catch(e) {
+                    // Cross-origin iframes can't be focused programmatically
+                    console.log('Could not focus iframe:', e);
+                }
+            }, 100);
+        });
+    }
+
+    // 6) Return the created element
     return webWindow;
 }
 
