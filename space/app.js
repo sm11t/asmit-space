@@ -49,24 +49,31 @@ animate();
 
 // Hide loading screen with fade out
 function hideLoadingScreen(){
+  console.log('Hiding loading screen...');
   const loadingScreen = document.getElementById('loading-screen');
   if(loadingScreen){
     loadingScreen.classList.add('hidden');
     // Remove from DOM after transition
     setTimeout(() => {
       loadingScreen.style.display = 'none';
+      console.log('Loading screen hidden');
     }, 500);
+  } else {
+    console.warn('Loading screen element not found');
   }
 
-  // Focus the window to enable keyboard input immediately
-  window.focus();
-  document.body.focus();
+  // Focus the window to enable keyboard input immediately (wrapped in try-catch)
+  try {
+    window.focus();
+    document.body.focus();
 
-  // Also try to focus the canvas if it exists
-  const canvas = renderer?.domElement;
-  if(canvas){
-    canvas.focus();
-    canvas.setAttribute('tabindex', '0');
+    // Also try to focus the canvas if it exists
+    if(renderer && renderer.domElement){
+      renderer.domElement.focus();
+      renderer.domElement.setAttribute('tabindex', '0');
+    }
+  } catch(e) {
+    console.log('Focus error (non-critical):', e);
   }
 }
 
@@ -84,13 +91,17 @@ function init(){
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
   // Make canvas focusable for keyboard input
-  renderer.domElement.setAttribute('tabindex', '0');
-  renderer.domElement.style.outline = 'none'; // Remove focus outline
+  try {
+    renderer.domElement.setAttribute('tabindex', '0');
+    renderer.domElement.style.outline = 'none'; // Remove focus outline
 
-  // Focus canvas on click to ensure keyboard events work
-  renderer.domElement.addEventListener('click', () => {
-    renderer.domElement.focus();
-  });
+    // Focus canvas on click to ensure keyboard events work
+    renderer.domElement.addEventListener('click', () => {
+      renderer.domElement.focus();
+    });
+  } catch(e) {
+    console.warn('Could not set canvas attributes:', e);
+  }
 
   document.body.appendChild(renderer.domElement);
 
@@ -662,7 +673,9 @@ async function loadAssetsOrFallback(){
       displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
 
       // Hide loading screen after a short delay to ensure rendering
+      console.log('Room loaded, scheduling loading screen hide...');
       setTimeout(() => {
+        console.log('Timeout executed, calling hideLoadingScreen...');
         hideLoadingScreen();
       }, 500);
     },
@@ -708,7 +721,9 @@ function createFallbackRoom(){
   displayCase = createJewelryDisplay(new THREE.Vector3(roomCenter.x, box.min.y, roomCenter.z));
 
   // Hide loading screen after a short delay to ensure rendering
+  console.log('Fallback room loaded, scheduling loading screen hide...');
   setTimeout(() => {
+    console.log('Fallback timeout executed, calling hideLoadingScreen...');
     hideLoadingScreen();
   }, 500);
 }
