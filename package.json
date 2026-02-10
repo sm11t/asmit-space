@@ -1,11 +1,14 @@
 {
   "scripts": {
-    "start": "npx http-server -p 8080 -c-1",
-    "dev": "npx http-server -p 8080 -c-1"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "old-server": "npx http-server -p 8080 -c-1"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "firebase": "^12.6.0",
     "gsap": "^3.12.7",
-    "howler": "^2.2.4"
+    "howler": "^2.2.4",
+    "http-proxy-middleware": "^2.0.6"
   }
 }

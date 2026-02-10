@@ -6,7 +6,8 @@
       "Bash(cat:*)",
       "Bash(git push:*)",
       "Bash(lsof:*)",
-      "Bash(xargs kill -9)"
+      "Bash(xargs kill -9)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
