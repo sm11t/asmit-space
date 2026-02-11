@@ -1,5 +1,5 @@
-// Runtime configuration
-// Edit this file on Hostinger to change API URL without rebuilding
+// Runtime configuration - Edit this file on Hostinger to change API URL
+// No rebuild needed!
 window.PASH_CONFIG = {
-  API_URL: 'https://stickers-kenneth-otherwise-addresses.trycloudflare.com'
+  API_URL: 'https://pash-api.asmit.space'
 };
