@@ -178,6 +178,23 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
                     ]
+                },
+                {
+                    name: 'LeadEngine',
+                    type: 'folder',
+                    id: 'leadengine',
+                    content: [
+                        {
+                            name: 'Engineering Report',
+                            type: 'file',
+                            id: 'leadengine-report',
+                            filePath: '../content/showcase_leadengine/index.html',
+                            meta: {
+                                year: '2025',
+                                tech: ['AI', 'Real Estate', 'Lead Generation', 'Analytics', 'Pipeline']
+                            }
+                        }
+                    ]
                 }
             ]
         },

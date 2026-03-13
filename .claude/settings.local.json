@@ -9,7 +9,8 @@
       "Bash(xargs kill -9)",
       "Bash(done)",
       "Bash(grep -r \"name\\\\|description\" /Users/sm1t/Code/asmit-space/content/*/index.html)",
-      "Bash(wc -l /Users/sm1t/Code/asmit-space/js/*.js /Users/sm1t/Code/asmit-space/space/*.js /Users/sm1t/Code/asmit-space/css/*.css)"
+      "Bash(wc -l /Users/sm1t/Code/asmit-space/js/*.js /Users/sm1t/Code/asmit-space/space/*.js /Users/sm1t/Code/asmit-space/css/*.css)",
+      "Bash(find /Users/sm1t/Code/asmit-space -type d -name *showcase* -o -type d -name *lead*)"
     ],
     "deny": [],
     "ask": []
