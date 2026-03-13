@@ -52,11 +52,6 @@ app.get('/pash/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'pash', 'index.html'));
 });
 
-// Serve Lead Engine showcase at /lead-engine
-app.get('/lead-engine', (req, res) => {
-  res.sendFile(path.join(__dirname, 'content', 'showcase_leadengine', 'index.html'));
-});
-
 // Serve main website static files
 app.use(express.static(__dirname));
 
