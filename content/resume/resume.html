@@ -3,147 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asmit's Resume</title>
+    <title>Asmit Datta — Resume</title>
     <link rel="stylesheet" href="resume.css">
 </head>
 <body>
+<div class="scanline-overlay"></div>
 <div class="resume-window" id="resume-window">
     <div class="resume-header">
     </div>
 
     <div class="resume-content">
+        <!-- Hero / Identity -->
+        <div class="hero-block">
+            <div class="hero-name-row">
+                <span class="hero-tag">&lt;</span>
+                <h1 class="hero-name">Asmit Datta</h1>
+                <span class="hero-tag">/&gt;</span>
+            </div>
+            <div class="hero-meta">
+                <span class="meta-chip"><i class="icon">📍</i> Tempe, AZ</span>
+                <span class="meta-chip"><i class="icon">✉</i> asmit77@icloud.com</span>
+                <span class="meta-chip link"><i class="icon">🌐</i> <a href="https://asmit.space" target="_blank">asmit.space</a></span>
+                <span class="meta-chip link"><i class="icon">⚡</i> <a href="https://github.com/sm11t" target="_blank">github.com/sm11t</a></span>
+                <span class="meta-chip link"><i class="icon">🔗</i> <a href="https://linkedin.com/in/asmitrajeet" target="_blank">linkedin.com/in/asmitrajeet</a></span>
+            </div>
+            <div class="status-bar">
+                <span class="status-dot pulse"></span>
+                <span class="status-text">SYSTEMS ONLINE</span>
+                <span class="status-divider">|</span>
+                <span class="status-text dim">B.S. Computer Science · Arizona State University · May 2026</span>
+            </div>
+        </div>
+
         <!-- Technical Skills Section -->
-        <section class="skills-section">
-            <h2>Technical Skills</h2>
+        <section class="section-block">
+            <div class="section-header">
+                <span class="section-icon">⌘</span>
+                <h2>Technical Skills</h2>
+                <span class="section-line"></span>
+            </div>
             <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Programming Languages</h3>
-                    <p>Python, Java, JavaScript, TypeScript, C++, SQL</p>
+                <div class="skill-card">
+                    <div class="skill-label">Languages</div>
+                    <div class="skill-tags">
+                        <span class="tag primary">TypeScript</span>
+                        <span class="tag primary">JavaScript</span>
+                        <span class="tag primary">Python</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Go</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">Rust</span>
+                    </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Web Development</h3>
-                    <p>React.js, Angular, Node.js, Express.js, Flask, React Native</p>
+                <div class="skill-card">
+                    <div class="skill-label">Frontend & Mobile</div>
+                    <div class="skill-tags">
+                        <span class="tag primary">React</span>
+                        <span class="tag primary">React Native</span>
+                        <span class="tag">Tailwind CSS</span>
+                        <span class="tag">NativeWind</span>
+                        <span class="tag">Three.js</span>
+                        <span class="tag">HTML/CSS</span>
+                    </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Cloud & DevOps</h3>
-                    <p>AWS, Docker, Kubernetes, Azure, Firebase</p>
+                <div class="skill-card">
+                    <div class="skill-label">Backend & APIs</div>
+                    <div class="skill-tags">
+                        <span class="tag primary">Node.js</span>
+                        <span class="tag primary">FastAPI</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">Flask</span>
+                        <span class="tag">REST</span>
+                        <span class="tag">WebSocket</span>
+                        <span class="tag">GraphQL</span>
+                    </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Machine Learning</h3>
-                    <p>PyTorch, TensorFlow, Scikit-learn, Keras</p>
+                <div class="skill-card">
+                    <div class="skill-label">Databases & Cloud</div>
+                    <div class="skill-tags">
+                        <span class="tag primary">PostgreSQL</span>
+                        <span class="tag primary">AWS</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">CI/CD</span>
+                        <span class="tag">S3</span>
+                        <span class="tag">Lambda</span>
+                        <span class="tag">SQS</span>
+                    </div>
                 </div>
-                <div class="skill-category">
-                    <h3>Tools & Frameworks</h3>
-                    <p>Selenium, Jenkins, JIRA, Tableau</p>
-                </div>
-                <div class="skill-category">
-                    <h3>Other Skills</h3>
-                    <p>Git, REST APIs, GraphQL, Agile Methodologies</p>
+                <div class="skill-card">
+                    <div class="skill-label">AI & Tools</div>
+                    <div class="skill-tags">
+                        <span class="tag primary">OpenAI</span>
+                        <span class="tag primary">LangChain</span>
+                        <span class="tag">Pinecone</span>
+                        <span class="tag">Selenium</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Mixpanel</span>
+                        <span class="tag">DataDog</span>
+                        <span class="tag">Agile</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Work Experience Section -->
-        <section class="experience-section">
-            <h2>Work Experience</h2>
+        <section class="section-block">
+            <div class="section-header">
+                <span class="section-icon">▶</span>
+                <h2>Experience</h2>
+                <span class="section-line"></span>
+            </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <h3>AI Developer</h3>
-                    <div class="company-details">
-                        <span class="company">Nexus AI Solutions</span>
-                        <span class="duration">Feb 2024 – Nov 2024 | Remote</span>
+            <div class="exp-card">
+                <div class="exp-timeline-dot"></div>
+                <div class="exp-top">
+                    <div class="exp-title-row">
+                        <h3>Software Engineer Intern</h3>
+                        <span class="exp-date">May 2025 – Jan 2026</span>
+                    </div>
+                    <div class="exp-company-row">
+                        <span class="exp-company">My Yoga Teacher</span>
+                        <span class="exp-location">San Diego, CA</span>
                     </div>
                 </div>
-                <ul class="achievements">
-                    <li>Developed Agentic AI module to automate decision-making processes, improving task efficiency by 30%</li>
-                    <li>Implemented scalable APIs for seamless integration into client systems, reducing deployment time by 40%</li>
-                    <li>Enhanced model performance through iterative testing, achieving 90% success rate in diverse operational scenarios</li>
+                <ul class="exp-bullets">
+                    <li>Architected a production React Native mobile app processing real-time biometric data for <span class="highlight">10K+ users</span> with 99.9% uptime, implementing offline-first architecture and time-series deduplication</li>
+                    <li>Engineered full-stack microservices using React 19, Go API gateway, Python FastAPI, and PostgreSQL; built a voice-to-SQL pipeline with OpenAI Whisper and streaming LLM responses, reducing manual query effort by <span class="highlight">60%</span></li>
+                    <li>Deployed containerized services via CI/CD on AWS using Docker; instrumented analytics tracking engagement, session metrics, and health insights, accelerating issue detection by <span class="highlight">3×</span></li>
                 </ul>
             </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <h3>Intern</h3>
-                    <div class="company-details">
-                        <span class="company">Flickmatch</span>
-                        <span class="duration">Jan 2023 – Jul 2023 | New Delhi</span>
+            <div class="exp-card">
+                <div class="exp-timeline-dot"></div>
+                <div class="exp-top">
+                    <div class="exp-title-row">
+                        <h3>Full-Stack Developer</h3>
+                        <span class="exp-date">Aug 2025 – Present</span>
+                    </div>
+                    <div class="exp-company-row">
+                        <span class="exp-company">WatchDNA</span>
+                        <span class="exp-location">Remote</span>
                     </div>
                 </div>
-                <ul class="achievements">
-                    <li>Strategized and executed marketing campaigns, boosting social media engagement by 60% and driving 3x increase in website bookings</li>
-                    <li>Enhanced UI/UX design using HTML and Figma, achieving 35% increase in user retention</li>
+                <ul class="exp-bullets">
+                    <li>Developed an interactive map with Mapbox GL JS, custom markers, real-time filtering, and JWT authentication with role-based access control, enabling users to locate assets <span class="highlight">30% faster</span></li>
+                    <li>Engineered a web-scraping system using Python, BeautifulSoup, and Selenium with rate limiting and schema validation, cutting manual data-collection time by <span class="highlight">50%</span></li>
                 </ul>
             </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <h3>Volunteer</h3>
-                    <div class="company-details">
-                        <span class="company">Covrelief</span>
-                        <span class="duration">May 2020 – Sep 2020 | Dwarka, New Delhi</span>
+            <div class="exp-card">
+                <div class="exp-timeline-dot"></div>
+                <div class="exp-top">
+                    <div class="exp-title-row">
+                        <h3>Software Engineer Intern</h3>
+                        <span class="exp-date">Feb 2024 – Nov 2024</span>
+                    </div>
+                    <div class="exp-company-row">
+                        <span class="exp-company">Nexus AI Solutions</span>
+                        <span class="exp-location">Bangalore, India</span>
                     </div>
                 </div>
-                <ul class="achievements">
-                    <li>Streamlined vaccination drives with registration system (HTML/CSS/DBMS), reducing barriers by 80% for 100+ individuals</li>
-                    <li>Managed data analytics to support 15+ underserved students, raising $2,400+ for education</li>
+                <ul class="exp-bullets">
+                    <li>Developed TypeScript/Node.js microservices with a RAG pipeline using Pinecone vector DB, semantic search, and GPT-3.5/4 integration, achieving <span class="highlight">40% latency reduction</span> across 1M+ queries</li>
+                    <li>Built a real-time chat interface using React 18, Socket.io, and Flask-SocketIO backend with bidirectional streaming, typing indicators, and CSV/XLSX export, improving collaboration efficiency by <span class="highlight">35%</span></li>
                 </ul>
             </div>
         </section>
 
-        <!-- Research Experience Section -->
-        <section class="research-section">
-            <h2>Research Experience</h2>
-            <div class="experience-item">
-                <div class="experience-header">
-                    <h3>Research Assistant</h3>
-                    <div class="company-details">
-                        <span class="company">University of Delhi, Deen Dayal College</span>
-                        <span class="duration">Jan 2024 – May 2024</span>
+        <!-- Projects Section -->
+        <section class="section-block">
+            <div class="section-header">
+                <span class="section-icon">◆</span>
+                <h2>Projects</h2>
+                <span class="section-line"></span>
+            </div>
+
+            <div class="project-card">
+                <div class="project-top">
+                    <h3>Pash</h3>
+                    <div class="project-tags">
+                        <span class="ptag">React</span>
+                        <span class="ptag">Tailwind</span>
+                        <span class="ptag">FastAPI</span>
+                        <span class="ptag">AWS S3</span>
+                        <span class="ptag">SQS</span>
+                        <span class="ptag">CUDA</span>
+                    </div>
+                    <a href="https://asmit.space/pash" target="_blank" class="project-link">asmit.space/pash ↗</a>
+                </div>
+                <ul class="exp-bullets">
+                    <li>Built a full-stack audio stem isolation platform using React + Tailwind and FastAPI, leveraging Demucs v4 for AI-powered instrument separation with <span class="highlight">5–10× faster</span> processing via GPU workers</li>
+                    <li>Designed a decoupled cloud architecture with AWS S3 + SQS, implementing async job queueing, remote CUDA GPU offloading, and in-browser stem caching for instant track switching</li>
+                </ul>
+            </div>
+
+            <div class="project-card">
+                <div class="project-top">
+                    <h3>Lead Engine</h3>
+                    <div class="project-tags">
+                        <span class="ptag">Python</span>
+                        <span class="ptag">FastAPI</span>
+                        <span class="ptag">React</span>
+                        <span class="ptag">Selenium</span>
+                        <span class="ptag">APScheduler</span>
+                    </div>
+                    <a href="https://asmit.space/lead-engine" target="_blank" class="project-link">asmit.space/lead-engine ↗</a>
+                </div>
+                <ul class="exp-bullets">
+                    <li>Built an autonomous AI lead agent using Python, FastAPI, and React that runs 24/7 scouts to discover, enrich, and score real estate leads from Zillow, Redfin, and county records</li>
+                    <li>Designed a multi-dimensional scoring algorithm (Motivation × Ability × Timeline) with an automated valuation model using comparable sales analysis, integrated with Telegram bot for real-time alerts</li>
+                </ul>
+            </div>
+
+            <div class="project-card">
+                <div class="project-top">
+                    <h3>Lynti Mobility</h3>
+                    <div class="project-tags">
+                        <span class="ptag">React Native</span>
+                        <span class="ptag">Node.js</span>
+                        <span class="ptag">PostgreSQL</span>
+                        <span class="ptag">WebSocket</span>
+                        <span class="ptag">Google Maps</span>
                     </div>
                 </div>
-                <ul class="achievements">
-                    <li>Developed ML models with 86.96% accuracy for heart disease risk prediction</li>
-                    <li>Utilized TreeHugger for scalable healthcare diagnostics</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Personal Projects Section -->
-        <section class="projects-section">
-            <h2>Personal Projects</h2>
-
-            <div class="project-item">
-                <div class="project-header">
-                    <h3>Lynti - Transportation Optimization Platform</h3>
-                    <span class="status">(Ongoing)</span>
-                </div>
-                <ul class="project-details">
-                    <li>Developing platform to streamline Shillong-Guwahati transportation using real-time tracking</li>
-                    <li>Technologies: React Native, Google APIs, Node.js, Websocket API, Tailwind CSS, Neon, Clerk, Zustand</li>
-                </ul>
-            </div>
-
-            <div class="project-item">
-                <div class="project-header">
-                    <h3>JobifyASU 2024</h3>
-                </div>
-                <ul class="project-details">
-                    <li>Reduced job application time by 85% using automated web scraping and resume parsing</li>
-                    <li>Improved search efficiency by 90% with targeted filtering and compatibility analysis</li>
+                <ul class="exp-bullets">
+                    <li>Developed a consumer-facing mobile app for real-time transport with live driver tracking, route optimization, and sub-second ETA updates using WebSocket and cross-platform architecture</li>
+                    <li>Built Node.js backend with PostgreSQL for ride matching algorithms and location streaming; integrated Google Maps APIs, Clerk authentication, and payment foundations</li>
                 </ul>
             </div>
         </section>
 
         <!-- Education Section -->
-        <section class="education-section">
-            <h2>Education</h2>
-            <div class="education-item">
-                <h3>Arizona State University</h3>
-                <div class="education-details">
-                    <span class="degree">Bachelor of Engineering in Computer Science</span>
-                    <span class="minor">Business Minor</span>
-                    <span class="graduation">Expected Graduation: 2026</span>
+        <section class="section-block">
+            <div class="section-header">
+                <span class="section-icon">⎔</span>
+                <h2>Education</h2>
+                <span class="section-line"></span>
+            </div>
+            <div class="edu-card">
+                <div class="edu-top">
+                    <h3>Arizona State University</h3>
+                    <span class="exp-date">Aug 2022 – May 2026</span>
+                </div>
+                <div class="edu-details">
+                    <span class="edu-degree">B.S. in Computer Science</span>
+                    <span class="edu-minor">Minor in Business</span>
+                    <span class="edu-loc">Tempe, AZ</span>
                 </div>
             </div>
         </section>

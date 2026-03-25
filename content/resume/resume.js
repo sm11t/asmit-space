@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     downloadBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const link = document.createElement('a');
-        link.href = '../Resume2025v3.pdf';
-        link.download = 'Asmit_Resume.pdf';
+        link.href = '../Asmit_Swe.pdf';
+        link.download = 'Asmit_Datta_Resume.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
