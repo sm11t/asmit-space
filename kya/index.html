@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KYA — Know Your Agent</title>
+  <title>KYA - Know Your Agent</title>
   <style>
     :root {
       --green: #00FF41;
@@ -1014,17 +1014,17 @@
 <div class="hero">
   <div class="hero-badge">
     <div class="dot"></div>
-    Proof of Concept · MCP Proxy · ~700 lines TypeScript
+    Proof of Concept / MCP Proxy / ~700 lines of TypeScript
   </div>
   <h1><span class="glitch" data-text="KYA">KYA</span></h1>
   <div style="font-size: clamp(20px, 3vw, 28px); color: var(--text-dim); letter-spacing: 2px; margin-bottom: 20px; font-weight: 300;">
     Know Your Agent
   </div>
   <p class="hero-sub">
-    A trust layer between AI agents and paid tools. Identity. Budgets. Accountability.
+    A trust layer between AI agents and paid tools so you always know who's spending what, and why.
   </p>
   <p class="hero-tagline">
-    "Who is this agent? Can it afford this call? Who's accountable if something goes wrong?"
+    "Which agent made this call? Can it actually afford it? And who's on the hook if things go sideways?"
   </p>
   <div class="hero-actions">
     <a href="#how" class="btn-primary">See How It Works</a>
@@ -1038,7 +1038,7 @@
     <div class="section-label">// The Problem</div>
     <div class="section-title">Agents can spend freely.<br>Nobody's watching.</div>
     <p class="section-desc">
-      MCP tools charge per call. Wallets are getting attached to agents. But there's no guardrail layer — no identity, no budgets, no audit trail.
+      MCP tools charge per call. Wallets are getting attached to agents. But there's no guardrail layer. No identity, no budgets, no audit trail.
     </p>
   </div>
 
@@ -1046,17 +1046,17 @@
     <div class="problem-card">
       <div class="icon">🪪</div>
       <h3>No Identity</h3>
-      <p>Tools receive anonymous API calls. There's no standard way to know <em>which</em> agent is calling, <em>who</em> authorized it, or what it's allowed to do.</p>
+      <p>Tools just see anonymous API calls. There's no way to tell <em>which</em> agent is calling, <em>who</em> authorized it, or what it should be allowed to do.</p>
     </div>
     <div class="problem-card">
       <div class="icon">💸</div>
       <h3>No Spending Controls</h3>
-      <p>An autonomous agent with a wallet and MCP client can drain funds with zero oversight. No per-session budgets, no per-call caps, no rate limits.</p>
+      <p>Give an autonomous agent a wallet and an MCP client and it can drain funds with zero oversight. No session budgets, no per-call caps, no rate limits.</p>
     </div>
     <div class="problem-card">
       <div class="icon">🔍</div>
       <h3>No Accountability</h3>
-      <p>When an agent overspends or hits a malicious tool, there's no ledger to trace what happened. No audit trail means no dispute resolution.</p>
+      <p>When an agent overspends or calls something it shouldn't, there's no record of what happened. Without an audit trail, there's no way to resolve disputes.</p>
     </div>
   </div>
 </section>
@@ -1070,7 +1070,7 @@
       <div class="section-label">// How It Works</div>
       <div class="section-title">One proxy. Three guarantees.</div>
       <p class="section-desc">
-        KYA sits between the agent and every paid tool. Every call flows through it. Nothing bypasses the trust layer.
+        KYA sits between the agent and every paid tool. Every call goes through it, no exceptions.
       </p>
     </div>
 
@@ -1128,7 +1128,7 @@
     </div>
 
     <div class="quote-block fade-in">
-      Think of Stripe as the <em>bank</em>. KYA is the <em>expense policy</em>. Your agents have wallets — but the company still sets spending limits and approval workflows.
+      Think of Stripe as the <em>bank</em>. KYA is the <em>expense policy</em>. Your agents have wallets, but the company still sets spending limits and approval workflows.
     </div>
   </section>
 </div>
@@ -1138,7 +1138,7 @@
   <div class="fade-in">
     <div class="section-label">// Policy Engine</div>
     <div class="section-title">A human defines the rules.<br>The proxy enforces them.</div>
-    <p class="section-desc">Write a simple JSON policy. The proxy does the rest — before the agent touches a single paid API.</p>
+    <p class="section-desc">You write a simple JSON policy. The proxy handles the rest before the agent touches a single paid API.</p>
   </div>
 
   <div class="policy-demo fade-in">
@@ -1230,7 +1230,7 @@
         <div class="icon">🪪</div>
         <h3>Identity</h3>
       </div>
-      <p>JWT-based agent tokens link every agent to a human owner. Tools don't see an anonymous API call — they see "this is Asmit's coding agent, authorized to spend up to $10." Verifiable without a DB round-trip. Expirable. Carries permissions.</p>
+      <p>JWT-based agent tokens link every agent to a human owner. Tools don't see an anonymous API call, they see "this is Asmit's coding agent, authorized to spend up to $10." Verifiable without a DB round-trip, and the token carries its own permissions.</p>
       <span class="layer-tag">JWT · HS256 · Bearer tokens</span>
     </div>
 
@@ -1240,7 +1240,7 @@
         <div class="icon">📋</div>
         <h3>Policy Engine</h3>
       </div>
-      <p>Per-agent JSON policies. Session budgets, per-call cost caps, tool allowlists/blocklists, rate limits. A human defines what the agent can and can't do — before it ever starts. The proxy enforces these rules on every single call.</p>
+      <p>Per-agent JSON policies covering session budgets, per-call cost caps, tool allowlists/blocklists, and rate limits. A human defines what the agent can and can't do before it ever starts running. The proxy enforces these rules on every single call.</p>
       <span class="layer-tag">JSON policies · Rule evaluation · Zero-trust</span>
     </div>
 
@@ -1260,7 +1260,7 @@
         <div class="icon">📒</div>
         <h3>Ledger</h3>
       </div>
-      <p>SQLite audit trail. Every tool call logged: agent ID, tool name, cost, whether it was blocked and why, upstream response time. Full accountability chain. If an agent overspends, you can trace exactly what happened — the foundation for dispute resolution.</p>
+      <p>SQLite audit trail. Every tool call gets logged with the agent ID, tool name, cost, block reason (if any), and upstream response time. If an agent overspends, you can trace exactly what happened. That's the foundation for dispute resolution.</p>
       <span class="layer-tag">SQLite · WAL mode · Full audit trail</span>
     </div>
 
@@ -1270,7 +1270,7 @@
         <div class="icon">💳</div>
         <h3>x402 Integration</h3>
       </div>
-      <p>The proxy handles HTTP 402 payment challenges automatically. Parses the challenge, checks the agent's policy and wallet balance, pays on behalf of the agent, retries. The agent is completely payment-unaware — it just makes tool calls.</p>
+      <p>The proxy handles HTTP 402 payment challenges automatically. It parses the challenge, checks the agent's policy and wallet balance, pays on behalf of the agent, and retries. The agent never knows about payments, it just makes tool calls.</p>
       <span class="layer-tag">HTTP 402 · USDC · Base chain · Auto-retry</span>
     </div>
 
@@ -1280,7 +1280,7 @@
         <div class="icon">👛</div>
         <h3>Wallet System</h3>
       </div>
-      <p>Per-agent wallets with balances, debits, credits, and transaction history. Different agents get different trust levels — your research bot gets $20/day, a new untested agent gets $0.50. The trust boundary between who has money and who can spend it.</p>
+      <p>Per-agent wallets with balances, debits, credits, and transaction history. Different agents get different trust levels. Your research bot might get $20/day while a new untested agent gets $0.50. It's the trust boundary between who has money and who can spend it.</p>
       <span class="layer-tag">Per-agent balances · Full tx history · Scoped trust</span>
     </div>
 
@@ -1294,7 +1294,7 @@
       <div class="section-label">// Dashboard</div>
       <div class="section-title">Real-time observability.<br>You can't trust what you can't see.</div>
       <p class="section-desc">
-        A human should be able to glance and know: are my agents behaving? Auto-refreshes every 5 seconds.
+        You should be able to glance at a screen and know if your agents are behaving. This refreshes every 5 seconds.
       </p>
     </div>
 
@@ -1461,7 +1461,7 @@
       The human controls <span style="color:var(--green);">policy</span>.<br>The agent controls <span style="color:var(--green);">execution</span>.<br>KYA is the boundary between them.
     </div>
     <p style="color:var(--text-dim); font-size:14px; max-width:480px; margin:0 auto 40px;">
-      Built in a day as a proof-of-concept to work through the identity + accountability gap in agentic payments. ~700 lines of TypeScript. Bun + Hono + SQLite.
+      Built in a day as a proof of concept to work through the identity and accountability gap in agentic payments. About 700 lines of TypeScript running on Bun + Hono + SQLite.
     </p>
     <a href="/" class="btn-secondary">← Back to asmit.space</a>
   </div>
@@ -1469,8 +1469,8 @@
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <p>KYA · Know Your Agent · A proof-of-concept by <a href="/">Asmit</a></p>
-  <p style="margin-top:8px; font-size:11px;">MCP · x402 · JWT · SQLite · Bun · Hono</p>
+  <p>KYA - Know Your Agent - a proof of concept by <a href="/">Asmit</a></p>
+  <p style="margin-top:8px; font-size:11px;">MCP / x402 / JWT / SQLite / Bun / Hono</p>
 </footer>
 
 <script>
@@ -1490,10 +1490,10 @@
   const logData = [
     { status: 'ok',      agent: 'coding-agent-01', tool: 'web_search',    cost: '$0.12', time: '00:00' },
     { status: 'ok',      agent: 'research-bot',     tool: 'premium_llm',   cost: '$0.45', time: '00:01' },
-    { status: 'blocked', agent: 'data-scraper',     tool: 'crypto_trading',cost: '—',     time: '00:01', reason: 'blocklist' },
+    { status: 'blocked', agent: 'data-scraper',     tool: 'crypto_trading',cost: '-',     time: '00:01', reason: 'blocklist' },
     { status: 'ok',      agent: 'coding-agent-01',  tool: 'github_api',    cost: '$0.05', time: '00:02' },
     { status: 'ok',      agent: 'research-bot',     tool: 'web_search',    cost: '$0.12', time: '00:03' },
-    { status: 'blocked', agent: 'research-bot',     tool: 'data_api',      cost: '—',     time: '00:04', reason: 'budget exceeded' },
+    { status: 'blocked', agent: 'research-bot',     tool: 'data_api',      cost: '-',     time: '00:04', reason: 'budget exceeded' },
     { status: 'ok',      agent: 'coding-agent-01',  tool: 'code_executor', cost: '$0.08', time: '00:05' },
     { status: 'ok',      agent: 'data-scraper',     tool: 'web_search',    cost: '$0.12', time: '00:06' },
   ];
