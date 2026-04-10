@@ -903,7 +903,8 @@
       /* Nav */
       nav { padding: 12px 16px; }
       nav .nav-links { display: none; }
-      nav .nav-back { font-size: 10px; }
+      nav .nav-hamburger { display: flex; }
+      nav .nav-back { display: none; }
 
       /* Hero */
       .hero { padding: 80px 16px 40px; min-height: auto; }
@@ -1075,6 +1076,56 @@
 
     nav .nav-back:hover { color: #fff; }
 
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--text-dim);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 3px); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -3px); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(10px);
+      padding: 64px 24px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .nav-mobile-menu.open { display: flex; }
+
+    .nav-mobile-menu a {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-mobile-menu a:hover { color: var(--green); }
+
     /* scroll animation */
     .fade-in {
       opacity: 0;
@@ -1099,7 +1150,17 @@
     <a href="#dashboard">Dashboard</a>
   </div>
   <a href="/" class="nav-back">← asmit.space</a>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="#problem" onclick="toggleMenu()">Problem</a>
+  <a href="#how" onclick="toggleMenu()">How It Works</a>
+  <a href="#layers" onclick="toggleMenu()">Architecture</a>
+  <a href="#dashboard" onclick="toggleMenu()">Dashboard</a>
+  <a href="/" onclick="toggleMenu()">← asmit.space</a>
+</div>
 
 <!-- ─── HERO ─── -->
 <div class="hero">
@@ -1586,6 +1647,12 @@
 </footer>
 
 <script>
+  // ── Mobile menu toggle ──
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+    document.querySelector('.nav-hamburger').classList.toggle('open');
+  }
+
   // ── Fade-in on scroll ──
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
