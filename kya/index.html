@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KYA - Know Your Agent</title>
+  <title>Torii - Know Your Agent</title>
   <style>
     :root {
       --green: #00FF41;
@@ -21,6 +21,9 @@
       --text-muted: #444;
       --red: #ff3333;
       --yellow: #ffcc00;
+      --torii-red: #c0392b;
+      --torii-red-bright: #e74c3c;
+      --torii-glow: rgba(231, 76, 60, 0.3);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -990,7 +993,18 @@
       to { opacity: 1; }
     }
 
-    /* Glitch on KYA text */
+    /* ─── TORII GATE LOGO ─── */
+    .torii-logo {
+      margin-bottom: 32px;
+    }
+
+    .torii-logo svg {
+      width: clamp(120px, 20vw, 200px);
+      height: auto;
+      filter: drop-shadow(0 0 30px var(--torii-glow)) drop-shadow(0 0 60px rgba(231, 76, 60, 0.15));
+    }
+
+    /* Glitch on TORII text */
     .glitch {
       position: relative;
     }
@@ -999,7 +1013,7 @@
       content: attr(data-text);
       position: absolute;
       left: 2px; top: 0;
-      color: var(--green);
+      color: var(--torii-red-bright);
       clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
       animation: glitch 4s infinite;
       opacity: 0.5;
@@ -1029,7 +1043,7 @@
     nav .nav-logo {
       font-size: 14px;
       font-weight: 900;
-      color: var(--green);
+      color: var(--torii-red-bright);
       letter-spacing: 3px;
       text-decoration: none;
       font-family: 'Arial Black', sans-serif;
@@ -1077,7 +1091,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">KYA</a>
+  <a href="/" class="nav-logo">TORII</a>
   <div class="nav-links">
     <a href="#problem">Problem</a>
     <a href="#how">How It Works</a>
@@ -1093,7 +1107,28 @@
     <div class="dot"></div>
     Proof of Concept / MCP Proxy / ~700 lines of TypeScript
   </div>
-  <h1><span class="glitch" data-text="KYA">KYA</span></h1>
+  <div class="torii-logo">
+    <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Top beam (kasagi) -->
+      <rect x="10" y="20" width="180" height="14" rx="3" fill="#c0392b"/>
+      <!-- Curved top overhang -->
+      <path d="M5 18 Q100 -5 195 18 L195 24 Q100 2 5 24 Z" fill="#e74c3c"/>
+      <!-- Second beam (nuki) -->
+      <rect x="30" y="52" width="140" height="10" rx="2" fill="#c0392b"/>
+      <!-- Left pillar (hashira) -->
+      <rect x="38" y="20" width="16" height="190" rx="3" fill="#c0392b"/>
+      <!-- Right pillar (hashira) -->
+      <rect x="146" y="20" width="16" height="190" rx="3" fill="#c0392b"/>
+      <!-- Left pillar base -->
+      <rect x="32" y="200" width="28" height="8" rx="2" fill="#e74c3c"/>
+      <!-- Right pillar base -->
+      <rect x="140" y="200" width="28" height="8" rx="2" fill="#e74c3c"/>
+      <!-- Subtle glow on pillars -->
+      <rect x="42" y="34" width="8" height="166" rx="1" fill="#e74c3c" opacity="0.3"/>
+      <rect x="150" y="34" width="8" height="166" rx="1" fill="#e74c3c" opacity="0.3"/>
+    </svg>
+  </div>
+  <h1><span class="glitch" data-text="TORII">TORII</span></h1>
   <div style="font-size: clamp(20px, 3vw, 28px); color: var(--text-dim); letter-spacing: 2px; margin-bottom: 20px; font-weight: 300;">
     Know Your Agent
   </div>
@@ -1147,7 +1182,7 @@
       <div class="section-label">// How It Works</div>
       <div class="section-title">One proxy. Three guarantees.</div>
       <p class="section-desc">
-        KYA sits between the agent and every paid tool. Every call goes through it, no exceptions.
+        Torii sits between the agent and every paid tool. Every call goes through it, no exceptions.
       </p>
     </div>
 
@@ -1161,7 +1196,7 @@
           <div class="pv-node-sub">Claude · GPT · Custom<br>Any MCP client</div>
         </div>
 
-        <!-- Arrow agent → KYA -->
+        <!-- Arrow agent → Torii -->
         <div class="pv-connector">
           <div class="pv-line">
             <div class="packet"></div>
@@ -1169,9 +1204,9 @@
           <div class="pv-connector-label">tool call</div>
         </div>
 
-        <!-- KYA Proxy -->
+        <!-- Torii Proxy -->
         <div class="pv-node kya" style="max-width:280px;">
-          <div class="pv-node-title">KYA Proxy</div>
+          <div class="pv-node-title">Torii Proxy</div>
           <div class="pv-node-sub" style="margin-top:8px; line-height:2;">
             <span style="color:var(--green);">① Verify identity</span><br>
             <span style="color:var(--green);">② Check policy</span><br>
@@ -1181,7 +1216,7 @@
           </div>
         </div>
 
-        <!-- Arrow KYA → Tools -->
+        <!-- Arrow Torii → Tools -->
         <div class="pv-connector">
           <div class="pv-line">
             <div class="packet"></div>
@@ -1205,7 +1240,7 @@
     </div>
 
     <div class="quote-block fade-in">
-      Think of Stripe as the <em>bank</em>. KYA is the <em>expense policy</em>. Your agents have wallets, but the company still sets spending limits and approval workflows.
+      Think of Stripe as the <em>bank</em>. Torii is the <em>expense policy</em>. Your agents have wallets, but the company still sets spending limits and approval workflows.
     </div>
   </section>
 </div>
@@ -1392,7 +1427,7 @@
       <!-- Dashboard header -->
       <div class="db-header">
         <div>
-          <div class="db-logo">KYA <span>know your agent</span></div>
+          <div class="db-logo">TORII <span>know your agent</span></div>
         </div>
         <div class="db-refresh">Auto-refresh in 5s</div>
       </div>
@@ -1535,7 +1570,7 @@
   <div class="fade-in" style="text-align:center; padding: 40px 0;">
     <div class="section-label" style="text-align:center;">// The Design Principle</div>
     <div class="section-title" style="text-align:center; max-width:700px; margin: 16px auto 24px;">
-      The human controls <span style="color:var(--green);">policy</span>.<br>The agent controls <span style="color:var(--green);">execution</span>.<br>KYA is the boundary between them.
+      The human controls <span style="color:var(--green);">policy</span>.<br>The agent controls <span style="color:var(--green);">execution</span>.<br>Torii is the boundary between them.
     </div>
     <p style="color:var(--text-dim); font-size:14px; max-width:480px; margin:0 auto 40px;">
       Built in a day as a proof of concept to work through the identity and accountability gap in agentic payments. About 700 lines of TypeScript running on Bun + Hono + SQLite.
@@ -1546,7 +1581,7 @@
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <p>KYA - Know Your Agent - a proof of concept by <a href="/">Asmit</a></p>
+  <p>Torii - Know Your Agent - a proof of concept by <a href="/">Asmit</a></p>
   <p style="margin-top:8px; font-size:11px;">MCP / x402 / JWT / SQLite / Bun / Hono</p>
 </footer>
 
