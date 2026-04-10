@@ -898,14 +898,6 @@
       text-decoration: none;
     }
 
-    /* ─── NAV RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      nav { padding: 12px 16px; }
-      nav .nav-links { display: none; }
-      nav .nav-hamburger { display: flex; }
-      nav .nav-back { display: none; }
-    }
-
     /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
 
@@ -1132,6 +1124,14 @@
     }
 
     .nav-mobile-menu a:hover { color: var(--green); }
+
+    /* ─── NAV RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 12px 16px; }
+      nav .nav-links { display: none !important; }
+      nav .nav-hamburger { display: flex; }
+      nav .nav-back { display: none !important; }
+    }
 
     /* scroll animation */
     .fade-in {
