@@ -25,18 +25,19 @@
   const dec = new TextDecoder();
 
   async function loadListings() {
-    // 1. Plaintext path — brain / local dev.
+    // Try the encrypted file first. On the portfolio it always exists, so
+    // the production console stays clean. On the brain side it 404s
+    // (acceptable — that 404 stays in dev tools where nobody but us looks).
+    const blobText = await tryFetch(CIPHER_URL);
+    if (blobText) {
+      const blob = JSON.parse(blobText);
+      const plaintext = await unlock(blob);
+      return JSON.parse(plaintext);
+    }
+    // Fallback: plaintext file (brain / local dev).
     const direct = await tryFetch(PLAINTEXT_URL);
     if (direct) return JSON.parse(direct);
-
-    // 2. Encrypted path — portfolio.
-    const blobText = await tryFetch(CIPHER_URL);
-    if (!blobText) {
-      throw new Error('Could not load listings (neither plaintext nor encrypted file present).');
-    }
-    const blob = JSON.parse(blobText);
-    const plaintext = await unlock(blob);
-    return JSON.parse(plaintext);
+    throw new Error('Could not load listings (neither plaintext nor encrypted file present).');
   }
 
   async function tryFetch(url) {
