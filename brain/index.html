@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brain — The Lightest AI Infrastructure</title>
+  <meta name="description" content="A personal second-brain that runs on markdown + wikilinks + Claude Code. The lightest AI infrastructure you can build for yourself." />
+  <style>
+    :root {
+      --green: #00FF41;
+      --green-dim: #00cc33;
+      --green-glow: rgba(0, 255, 65, 0.25);
+      --green-glow-sm: rgba(0, 255, 65, 0.12);
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --surface2: #161616;
+      --surface3: #1e1e1e;
+      --border: #1f1f1f;
+      --border-green: rgba(0, 255, 65, 0.2);
+      --text: #e0e0e0;
+      --text-dim: #666;
+      --text-muted: #444;
+      --red: #ff3333;
+      --yellow: #ffcc00;
+      --purple: #a855f7;
+      --cyan: #22d3ee;
+      --orange: #ff9966;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', 'Roboto Mono', monospace;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCANLINES OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      background: rgba(8,8,8,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    nav .nav-logo {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: 3px;
+      text-decoration: none;
+      font-family: 'Arial Black', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav .nav-logo-dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 32px;
+      flex-shrink: 1;
+      overflow: hidden;
+    }
+
+    nav .nav-links a {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav .nav-links a:hover { color: var(--green); }
+
+    nav .nav-back {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav .nav-back:hover { color: #fff; }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block; width: 18px; height: 2px;
+      background: var(--text-dim);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 3px); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -3px); }
+
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(10px);
+      padding: 64px 24px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .nav-mobile-menu.open { display: flex; }
+
+    .nav-mobile-menu a {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-mobile-menu a:hover { color: var(--green); }
+
+    @media (max-width: 900px) {
+      nav { padding: 12px 16px; }
+      nav .nav-links { display: none !important; }
+      nav .nav-hamburger { display: flex; }
+      nav .nav-back { display: none !important; }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(0,255,65,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Background graph */
+    .hero-graph {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 80%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-glow-sm);
+      border: 1px solid var(--border-green);
+      color: var(--green);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+      50% { opacity: 0.4; box-shadow: none; }
+    }
+
+    .hero h1 {
+      font-size: clamp(56px, 10vw, 128px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 20px;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+    }
+
+    .hero h1 span {
+      color: var(--green);
+      text-shadow: 0 0 40px var(--green-glow), 0 0 80px rgba(0,255,65,0.15);
+    }
+
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 2px; top: 0;
+      color: var(--green);
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      animation: glitch 4s infinite;
+      opacity: 0.6;
+    }
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translateX(0); opacity: 0; }
+      92% { transform: translateX(-3px); opacity: 0.6; }
+      94% { transform: translateX(3px); opacity: 0.6; }
+      96% { transform: translateX(0); opacity: 0; }
+    }
+
+    .hero-tag {
+      font-size: clamp(18px, 2.8vw, 26px);
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-size: clamp(13px, 2vw, 16px);
+      color: var(--text-dim);
+      max-width: 620px;
+      margin: 0 auto 16px;
+      line-height: 1.7;
+    }
+
+    .hero-tagline {
+      font-size: clamp(14px, 2vw, 17px);
+      color: var(--green);
+      font-style: italic;
+      margin-bottom: 52px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #000;
+      border: none;
+      padding: 12px 32px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+      transition: box-shadow 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 24px var(--green-glow), 0 0 48px rgba(0,255,65,0.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--border-green);
+      padding: 12px 32px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--green-glow-sm);
+      box-shadow: 0 0 16px var(--green-glow-sm);
+    }
+
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 28px 24px;
+    }
+    .stats-row {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+    .stat-cell {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green);
+      font-family: 'Arial Black', sans-serif;
+      text-shadow: 0 0 16px var(--green-glow-sm);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      color: var(--text-dim);
+      font-size: 15px;
+      max-width: 620px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ─── PROBLEM ─── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 60px;
+    }
+    .problem-card {
+      background: var(--surface);
+      padding: 36px 32px;
+    }
+    .problem-card .icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    .problem-card h3 {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .problem-card p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .problem-card p em {
+      color: var(--green);
+      font-style: normal;
+    }
+
+    /* ─── DAILY FLOW PIPELINE ─── */
+    .flow-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .flow-section section { max-width: 1100px; }
+
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 60px;
+      flex-wrap: nowrap;
+    }
+
+    .pipe-step {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      padding: 28px 16px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.3s, background 0.3s;
+      min-width: 120px;
+    }
+    .pipe-step:hover {
+      border-color: var(--green);
+      background: rgba(0,255,65,0.03);
+      box-shadow: 0 0 24px var(--green-glow-sm);
+    }
+    .pipe-num {
+      position: absolute;
+      top: 8px; right: 12px;
+      font-size: 9px;
+      color: var(--green);
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    .pipe-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .pipe-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .pipe-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+    .pipe-arrow {
+      width: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      font-size: 16px;
+      position: relative;
+    }
+    .pipe-arrow::before {
+      content: '';
+      position: absolute;
+      left: 4px; right: 4px;
+      top: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-green), var(--green));
+    }
+    .pipe-arrow span {
+      background: var(--surface);
+      z-index: 1;
+      padding: 0 4px;
+    }
+
+    /* ─── FEATURE BLOCK ─── */
+    .feature-block {
+      margin-top: 60px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-block::before {
+      content: attr(data-label);
+      position: absolute;
+      top: 16px; right: 16px;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--green);
+      opacity: 0.6;
+      z-index: 2;
+    }
+    .feature-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 0;
+    }
+    .feature-visual {
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-visual img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .feature-content {
+      padding: 40px 36px;
+    }
+    .fc-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      background: var(--green-glow-sm);
+      border: 1px solid var(--border-green);
+      padding: 3px 10px;
+      margin-bottom: 16px;
+    }
+    .fc-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .fc-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+    .fc-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .fc-bullets li {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .fc-bullets li strong { color: #fff; }
+    .fc-bullet-icon {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border: 1px solid var(--border-green);
+      background: var(--green-glow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      font-size: 11px;
+      margin-top: 1px;
+    }
+
+    /* ─── ANIMATED GRAPH VISUAL ─── */
+    .graph-visual {
+      position: relative;
+      width: 100%; height: 100%;
+      min-height: 440px;
+    }
+    .graph-visual svg {
+      width: 100%; height: 100%;
+      display: block;
+    }
+    .graph-node {
+      fill: var(--surface3);
+      stroke: var(--border-green);
+      stroke-width: 1;
+      transition: fill 0.3s, r 0.3s;
+    }
+    .graph-node.hub {
+      fill: rgba(0,255,65,0.15);
+      stroke: var(--green);
+      stroke-width: 1.5;
+    }
+    .graph-node.active {
+      fill: var(--green);
+      stroke: var(--green);
+    }
+    .graph-edge {
+      stroke: var(--border-green);
+      stroke-width: 0.6;
+      fill: none;
+      opacity: 0.4;
+    }
+    .graph-edge.live {
+      stroke: var(--green);
+      stroke-width: 1;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 4px var(--green));
+    }
+    .graph-label {
+      font-family: 'Courier New', monospace;
+      font-size: 8px;
+      fill: var(--text-dim);
+      pointer-events: none;
+    }
+    .graph-label.hub {
+      fill: var(--green);
+      font-size: 9px;
+      font-weight: 700;
+    }
+    @keyframes node-pulse {
+      0%, 100% { r: 5; opacity: 1; }
+      50% { r: 7; opacity: 0.7; }
+    }
+    @keyframes edge-flow {
+      0% { stroke-dashoffset: 40; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .graph-node.pulse { animation: node-pulse 2.4s ease-in-out infinite; }
+    .graph-edge.flow {
+      stroke-dasharray: 4 4;
+      animation: edge-flow 1.6s linear infinite;
+    }
+
+    /* ─── CLI TERMINAL ─── */
+    .cli-window {
+      width: 100%; height: 100%;
+      min-height: 440px;
+      background: #050505;
+      padding: 14px 16px 20px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text);
+      overflow: hidden;
+      position: relative;
+    }
+    .cli-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cli-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .cli-dot.r { background: #ff5f56; }
+    .cli-dot.y { background: #ffbd2e; }
+    .cli-dot.g { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .cli-title {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+    .cli-prompt { color: var(--green); }
+    .cli-user { color: var(--cyan); }
+    .cli-path { color: var(--text-dim); }
+    .cli-line { margin-bottom: 4px; white-space: pre-wrap; }
+    .cli-you {
+      color: #fff;
+      font-weight: 700;
+    }
+    .cli-thinking { color: var(--text-muted); font-style: italic; }
+    .cli-ok { color: var(--green); }
+    .cli-warn { color: var(--yellow); }
+    .cli-tool { color: var(--orange); }
+    .cli-wikilink { color: var(--purple); }
+    .cli-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* ─── 6 LAYERS ─── */
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 60px;
+    }
+    .layer-card {
+      background: var(--surface);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .layer-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    .layer-card:hover::before { background: var(--green); }
+    .layer-num {
+      font-size: 42px;
+      font-weight: 900;
+      color: rgba(0,255,65,0.06);
+      position: absolute;
+      top: 16px; right: 20px;
+      font-family: 'Arial Black', 'Arial', sans-serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .layer-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .layer-title .icon {
+      width: 34px; height: 34px;
+      border: 1px solid var(--border-green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      background: var(--green-glow-sm);
+      flex-shrink: 0;
+    }
+    .layer-title h3 {
+      font-size: 13px;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .layer-card p {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .layer-tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 3px 10px;
+      background: var(--green-glow-sm);
+      border: 1px solid var(--border-green);
+      color: var(--green);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+
+    /* ─── SAMPLE NOTES ─── */
+    .notes-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .code-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+    }
+    .code-block-label {
+      position: absolute;
+      top: -1px; left: 20px;
+      background: var(--green);
+      color: #000;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+    }
+    .code-block pre {
+      font-size: 11.5px;
+      line-height: 1.85;
+      color: var(--text);
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .code-block .fm { color: var(--text-muted); }
+    .code-block .h1 { color: #fff; font-weight: 700; }
+    .code-block .h2 { color: var(--green); font-weight: 700; }
+    .code-block .wl { color: var(--purple); }
+    .code-block .tag { color: var(--cyan); }
+    .code-block .hl { background: rgba(0,255,65,0.08); padding: 0 2px; }
+    .code-block .str { color: var(--orange); }
+    .code-block .num { color: var(--cyan); }
+    .code-block .c { color: var(--text-muted); font-style: italic; }
+
+    /* ─── POSITIONING QUOTE ─── */
+    .quote-block {
+      border-left: 3px solid var(--green);
+      padding: 28px 32px;
+      margin-top: 60px;
+      background: var(--surface2);
+      font-size: 17px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .quote-block em { color: var(--green); font-style: normal; }
+
+    /* ─── USE CASES ─── */
+    .use-cases-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .use-pillar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      position: relative;
+    }
+    .use-pillar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--green);
+      opacity: 0.5;
+    }
+    .use-pillar-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .use-pillar-tag {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .use-pillar h3 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Arial Black', sans-serif;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .use-pillar-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+    .use-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .use-item:last-child { border-bottom: none; }
+    .use-item-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .use-item:hover .use-item-icon {
+      border-color: var(--green);
+      background: var(--green-glow-sm);
+    }
+    .use-item-body h4 {
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+    }
+    .use-item-body p {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    /* ─── SCREENSHOTS GRID ─── */
+    .shots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .shot-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .shot-card:hover {
+      border-color: var(--border-green);
+      box-shadow: 0 0 24px var(--green-glow-sm);
+    }
+    .shot-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface3);
+    }
+    .shot-top .cli-dot { width: 8px; height: 8px; }
+    .shot-top .shot-label {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+    .shot-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      overflow: hidden;
+      position: relative;
+    }
+    .shot-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .shot-img .placeholder {
+      color: var(--text-muted);
+      text-align: center;
+      padding: 20px;
+    }
+    .shot-info {
+      padding: 16px 18px;
+    }
+    .shot-info h4 {
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+    }
+    .shot-info p {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    /* ─── LLM ARCH DIAGRAM ─── */
+    .arch-diagram {
+      margin: 60px 0 40px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 40px 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .arch-diagram::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(transparent 0%, transparent 98%, rgba(0,255,65,0.04) 100%),
+        linear-gradient(90deg, transparent 0%, transparent 98%, rgba(0,255,65,0.04) 100%);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .arch-diagram-label {
+      position: relative;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .arch-diagram-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--green);
+      margin-right: 10px;
+      box-shadow: 0 0 8px var(--green-glow);
+      vertical-align: middle;
+    }
+    .arch-flow {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      align-items: stretch;
+    }
+    .arch-node {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 18px 12px 14px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .arch-node.accent { border-color: var(--border-green); }
+    .arch-node:hover {
+      border-color: var(--border-green);
+      box-shadow: 0 0 16px var(--green-glow-sm);
+    }
+    .arch-node .n-num {
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .arch-node .n-title {
+      font-size: 13px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .arch-node.accent .n-title { color: var(--green); text-shadow: 0 0 8px var(--green-glow-sm); }
+    .arch-node .n-sub {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+      font-family: 'Courier New', monospace;
+    }
+    .arch-node .n-arrow {
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 1px;
+      background: var(--green);
+      z-index: 2;
+    }
+    .arch-node .n-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 4px solid var(--green);
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+    }
+    .arch-node:last-child .n-arrow { display: none; }
+    .arch-loop {
+      position: relative;
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px dashed var(--border);
+      text-align: center;
+    }
+    .arch-loop::before {
+      content: '↺';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface2);
+      color: var(--green);
+      font-size: 18px;
+      padding: 0 10px;
+      text-shadow: 0 0 10px var(--green-glow);
+    }
+    .arch-loop-text {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+    .arch-loop-text em {
+      color: var(--green);
+      font-style: normal;
+      font-weight: 700;
+    }
+    .arch-diff {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .arch-diff span {
+      color: var(--green);
+      margin: 0 4px;
+    }
+
+    /* ─── CLOSING ─── */
+    .closing {
+      text-align: center;
+      padding: 40px 0;
+    }
+    .closing .section-title {
+      text-align: center;
+      max-width: 720px;
+      margin: 16px auto 24px;
+    }
+    .closing p {
+      color: var(--text-dim);
+      font-size: 14px;
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    /* ─── FADE-IN ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: repeat(3, 1fr); }
+      .stat-cell:nth-child(4),
+      .stat-cell:nth-child(5) { display: none; }
+      .pipeline { flex-direction: column; gap: 8px; }
+      .pipe-arrow { transform: rotate(90deg); height: 24px; margin: 0 auto; }
+      .pipe-arrow::before { display: none; }
+      .feature-inner { grid-template-columns: 1fr; }
+      .feature-visual { min-height: 320px; border-right: none; border-bottom: 1px solid var(--border); }
+      .feature-content { padding: 28px 20px; }
+      .layers-grid { grid-template-columns: 1fr; }
+      .notes-demo { grid-template-columns: 1fr; gap: 16px; }
+      .use-cases-wrap { grid-template-columns: 1fr; gap: 16px; }
+      .shots-grid { grid-template-columns: 1fr; }
+      .arch-flow { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .arch-node .n-arrow { display: none; }
+      .problem-grid { grid-template-columns: 1fr; margin-top: 32px; }
+      section { padding: 60px 16px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: clamp(44px, 14vw, 72px); }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-cell:nth-child(3) { display: none; }
+      .code-block pre { font-size: 10px; }
+      .quote-block { padding: 18px 20px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    BRAIN
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#flow">Daily Loop</a>
+    <a href="#graph">Graph View</a>
+    <a href="#agent">Agent</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#use-cases">Use Cases</a>
+  </div>
+  <a href="/" class="nav-back">← asmit.space</a>
+  <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile-menu" id="mobile-menu">
+  <a href="#problem" onclick="toggleMenu()">Problem</a>
+  <a href="#flow" onclick="toggleMenu()">Daily Loop</a>
+  <a href="#graph" onclick="toggleMenu()">Graph View</a>
+  <a href="#agent" onclick="toggleMenu()">Agent</a>
+  <a href="#architecture" onclick="toggleMenu()">Architecture</a>
+  <a href="#use-cases" onclick="toggleMenu()">Use Cases</a>
+  <a href="/" onclick="toggleMenu()">← asmit.space</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <!-- Ambient background graph -->
+  <svg class="hero-graph" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+    <g stroke="rgba(0,255,65,0.35)" stroke-width="0.7" fill="none">
+      <line x1="600" y1="350" x2="220" y2="180"/>
+      <line x1="600" y1="350" x2="420" y2="90"/>
+      <line x1="600" y1="350" x2="820" y2="110"/>
+      <line x1="600" y1="350" x2="970" y2="260"/>
+      <line x1="600" y1="350" x2="1050" y2="490"/>
+      <line x1="600" y1="350" x2="860" y2="590"/>
+      <line x1="600" y1="350" x2="520" y2="610"/>
+      <line x1="600" y1="350" x2="280" y2="540"/>
+      <line x1="600" y1="350" x2="130" y2="380"/>
+      <line x1="220" y1="180" x2="420" y2="90"/>
+      <line x1="820" y1="110" x2="970" y2="260"/>
+      <line x1="1050" y1="490" x2="860" y2="590"/>
+      <line x1="280" y1="540" x2="520" y2="610"/>
+      <line x1="130" y1="380" x2="280" y2="540"/>
+    </g>
+    <g>
+      <circle cx="600" cy="350" r="10" fill="rgba(0,255,65,0.3)" stroke="#00FF41" stroke-width="1.5"/>
+      <circle cx="220" cy="180" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="420" cy="90" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="820" cy="110" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="970" cy="260" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="1050" cy="490" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="860" cy="590" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="520" cy="610" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="280" cy="540" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+      <circle cx="130" cy="380" r="5" fill="#0f0f0f" stroke="rgba(0,255,65,0.5)"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="dot"></div>
+      Lightweight AI Infrastructure · Claude Code + Obsidian · No DB required
+    </div>
+    <h1><span class="glitch" data-text="BRAIN">BRAIN</span></h1>
+    <div class="hero-tag">Your memory, your graph, your agent.</div>
+    <p class="hero-sub">
+      A personal second-brain that runs on markdown files, wikilinks, and a Claude Code loop.
+      The lightest AI infrastructure you can build for yourself — no vector DB, no SaaS lock-in, no bloat.
+    </p>
+    <p class="hero-tagline">
+      "The smartest thing I've built for myself is a folder of files."
+    </p>
+    <div class="hero-actions">
+      <a href="#graph" class="btn-primary">See the Graph</a>
+      <a href="#agent" class="btn-secondary">Watch the Agent</a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── STATS STRIP ─── -->
+<div class="stats-strip">
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-num" id="stat-notes">340+</div>
+      <div class="stat-label">Intelligence Notes</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Daily Logs</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Maps of Content</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Wedge Ideas</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Routing File</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PROBLEM ─── -->
+<section id="problem">
+  <div class="fade-in">
+    <div class="section-label">// The Problem</div>
+    <div class="section-title">LLMs forget.<br>Notes don't link.<br>Search is flat.</div>
+    <p class="section-desc">
+      Every AI chat starts cold. Every note app is a list, not a mesh. Every Google search pulls
+      strangers' opinions but not <em>your own</em> thinking from three weeks ago. There's no
+      infrastructure for the thing you actually own: context about your own world.
+    </p>
+  </div>
+
+  <div class="problem-grid fade-in">
+    <div class="problem-card">
+      <div class="icon">🧊</div>
+      <h3>No Continuity</h3>
+      <p>LLMs forget everything the moment a session closes. Every question re-litigates context you already gave it. <em>Your own research evaporates.</em></p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🕸️</div>
+      <h3>No Connection</h3>
+      <p>Notion, Apple Notes, Google Docs — all flat lists. Nothing tells you <em>"this founder built the company you're tracking for your wedge."</em> The links aren't wired.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🎛️</div>
+      <h3>No Control</h3>
+      <p>Cloud tools own your data, change pricing, kill features, lock exports. If your thinking depends on someone else's server, it's not really <em>yours</em>.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── DAILY LOOP ─── -->
+<div class="flow-section" id="flow">
+  <section>
+    <div class="fade-in">
+      <div class="section-label">// The Daily Loop</div>
+      <div class="section-title">Five steps.<br>Ten minutes a day.</div>
+      <p class="section-desc">
+        Drop a URL or a thought. The agent extracts entities, links them bidirectionally, updates
+        the graph, and logs the day. The same loop, every morning, compounding.
+      </p>
+    </div>
+
+    <div class="pipeline fade-in">
+      <div class="pipe-step">
+        <div class="pipe-num">01</div>
+        <div class="pipe-icon">📥</div>
+        <div class="pipe-title">Ingest</div>
+        <div class="pipe-desc">Drop a URL, tweet, paper, or voice note into the inbox</div>
+      </div>
+      <div class="pipe-arrow"><span>→</span></div>
+      <div class="pipe-step">
+        <div class="pipe-num">02</div>
+        <div class="pipe-icon">🔎</div>
+        <div class="pipe-title">Extract</div>
+        <div class="pipe-desc">Pull out companies, people, concepts, claims, signals</div>
+      </div>
+      <div class="pipe-arrow"><span>→</span></div>
+      <div class="pipe-step">
+        <div class="pipe-num">03</div>
+        <div class="pipe-icon">🔗</div>
+        <div class="pipe-title">Link</div>
+        <div class="pipe-desc">Bidirectional wikilinks wire every entity into the graph</div>
+      </div>
+      <div class="pipe-arrow"><span>→</span></div>
+      <div class="pipe-step">
+        <div class="pipe-num">04</div>
+        <div class="pipe-icon">🧠</div>
+        <div class="pipe-title">Synthesize</div>
+        <div class="pipe-desc">Morning brief + weekly review surface themes and gaps</div>
+      </div>
+      <div class="pipe-arrow"><span>→</span></div>
+      <div class="pipe-step">
+        <div class="pipe-num">05</div>
+        <div class="pipe-icon">🎯</div>
+        <div class="pipe-title">Surface</div>
+        <div class="pipe-desc">Wedges, outreach targets, decisions bubble to the top</div>
+      </div>
+    </div>
+
+    <div class="quote-block fade-in">
+      Think of Notion as a <em>filing cabinet</em>. Brain is a <em>living organism</em> — every
+      note you drop feeds a graph that answers questions the cabinet never could.
+    </div>
+  </section>
+</div>
+
+<!-- ─── GRAPH VIEW FEATURE ─── -->
+<section id="graph">
+  <div class="fade-in">
+    <div class="section-label">// The Wow Moment</div>
+    <div class="section-title">Open Obsidian.<br>See your mind, graphed.</div>
+    <p class="section-desc">
+      Every company, person, paper, and concept becomes a node. Every <code style="color:var(--purple);">[[wikilink]]</code>
+      becomes an edge. The graph view surfaces clusters you didn't know existed — and hands you the
+      thesis that's been hiding in your own notes.
+    </p>
+  </div>
+
+  <div class="feature-block fade-in" data-label="LIVE GRAPH">
+    <div class="feature-inner">
+      <div class="feature-visual">
+        <img src="screenshots/graph.png" alt="Obsidian graph view of the vault" class="feature-img"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div class="graph-visual" style="display:none;">
+          <svg viewBox="0 0 520 440" preserveAspectRatio="xMidYMid meet">
+            <g>
+              <line class="graph-edge" x1="260" y1="220" x2="130" y2="110"/>
+              <line class="graph-edge" x1="260" y1="220" x2="260" y2="80"/>
+              <line class="graph-edge" x1="260" y1="220" x2="400" y2="110"/>
+              <line class="graph-edge" x1="260" y1="220" x2="440" y2="210"/>
+              <line class="graph-edge" x1="260" y1="220" x2="410" y2="330"/>
+              <line class="graph-edge" x1="260" y1="220" x2="260" y2="370"/>
+              <line class="graph-edge" x1="260" y1="220" x2="110" y2="340"/>
+              <line class="graph-edge" x1="260" y1="220" x2="80" y2="220"/>
+              <line class="graph-edge" x1="260" y1="220" x2="180" y2="80"/>
+              <line class="graph-edge flow live" x1="260" y1="220" x2="340" y2="70"/>
+              <line class="graph-edge" x1="130" y1="110" x2="180" y2="80"/>
+              <line class="graph-edge" x1="130" y1="110" x2="80" y2="220"/>
+              <line class="graph-edge" x1="80" y1="220" x2="110" y2="340"/>
+              <line class="graph-edge" x1="410" y1="330" x2="440" y2="210"/>
+              <line class="graph-edge" x1="400" y1="110" x2="340" y2="70"/>
+              <line class="graph-edge" x1="440" y1="210" x2="400" y2="110"/>
+              <line class="graph-edge" x1="260" y1="370" x2="410" y2="330"/>
+              <line class="graph-edge" x1="260" y1="370" x2="110" y2="340"/>
+              <line class="graph-edge" x1="180" y1="80" x2="260" y2="80"/>
+              <line class="graph-edge" x1="260" y1="80" x2="340" y2="70"/>
+              <line class="graph-edge" x1="340" y1="70" x2="400" y2="110"/>
+            </g>
+            <circle class="graph-node hub pulse" cx="260" cy="220" r="9"/>
+            <text class="graph-label hub" x="260" y="244" text-anchor="middle">cloud.md</text>
+            <circle class="graph-node" cx="130" cy="110" r="5"/>
+            <text class="graph-label" x="130" y="100" text-anchor="middle">Anthropic</text>
+            <circle class="graph-node" cx="180" cy="80" r="4"/>
+            <text class="graph-label" x="180" y="68" text-anchor="middle">MCP</text>
+            <circle class="graph-node" cx="80" cy="220" r="4"/>
+            <text class="graph-label" x="80" y="212" text-anchor="middle">LangGraph</text>
+            <circle class="graph-node" cx="110" cy="340" r="5"/>
+            <text class="graph-label" x="110" y="356" text-anchor="middle">Mem0</text>
+            <circle class="graph-node" cx="260" cy="80" r="4"/>
+            <text class="graph-label" x="260" y="68" text-anchor="middle">S. Altman</text>
+            <circle class="graph-node active" cx="340" cy="70" r="5"/>
+            <text class="graph-label hub" x="340" y="58" text-anchor="middle">J. Cappos</text>
+            <circle class="graph-node" cx="400" cy="110" r="4"/>
+            <text class="graph-label" x="400" y="100" text-anchor="middle">NYU Tandon</text>
+            <circle class="graph-node" cx="440" cy="210" r="5"/>
+            <text class="graph-label" x="440" y="200" text-anchor="middle">AGI House</text>
+            <circle class="graph-node" cx="410" cy="330" r="4"/>
+            <text class="graph-label" x="410" y="346" text-anchor="middle">TraqCheck</text>
+            <circle class="graph-node" cx="260" cy="370" r="6"/>
+            <text class="graph-label" x="260" y="388" text-anchor="middle">Wedge Tracker</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="feature-content">
+        <div class="fc-tag">Obsidian Node View</div>
+        <div class="fc-title">The mesh reveals the thesis.</div>
+        <p class="fc-desc">
+          A cluster of 5 companies around one concept means the sector is hot. A person linked to
+          three clusters means they're a bridge. An orphan node means you captured a signal without
+          thinking through the implications. The graph shows you where your thinking is dense —
+          and where it's thin.
+        </p>
+        <ul class="fc-bullets">
+          <li>
+            <div class="fc-bullet-icon">▸</div>
+            <span><strong>Every mention links</strong> — type <code style="color:var(--purple);">[[Anthropic]]</code> and every note in your vault wires to it automatically.</span>
+          </li>
+          <li>
+            <div class="fc-bullet-icon">▸</div>
+            <span><strong>Unresolved links become a TODO queue</strong> — the dim nodes in the graph are the research you haven't done yet.</span>
+          </li>
+          <li>
+            <div class="fc-bullet-icon">▸</div>
+            <span><strong>Filter + color</strong> by tag: <code style="color:var(--cyan);">#company</code> in one shade, <code style="color:var(--cyan);">#person</code> in another, <code style="color:var(--cyan);">#wedge</code> in neon.</span>
+          </li>
+          <li>
+            <div class="fc-bullet-icon">▸</div>
+            <span><strong>Local-graph</strong> on any note shows the single-note neighborhood — who's connected to whom, two hops out.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── CLAUDE CODE AGENT FEATURE ─── -->
+<div class="flow-section" id="agent">
+  <section>
+    <div class="fade-in">
+      <div class="section-label">// The Agent Layer</div>
+      <div class="section-title">One routing file.<br>Infinite commands.</div>
+      <p class="section-desc">
+        <code style="color:var(--green);">cloud.md</code> tells Claude Code how to navigate the vault.
+        After that, you just talk: <em>"run the morning brief"</em>, <em>"ingest this URL"</em>,
+        <em>"who should I reach out to at AGI House?"</em>. The agent reads files, writes files,
+        wikilinks, and logs itself into the daily note.
+      </p>
+    </div>
+
+    <div class="feature-block fade-in" data-label="LIVE SESSION">
+      <div class="feature-inner">
+        <div class="feature-visual" style="padding:0;">
+          <div class="cli-window">
+            <div class="cli-titlebar">
+              <div class="cli-dot r"></div>
+              <div class="cli-dot y"></div>
+              <div class="cli-dot g"></div>
+              <div class="cli-title">asmitsbrain — claude code</div>
+            </div>
+            <div id="cli-output"></div>
+          </div>
+        </div>
+
+        <div class="feature-content">
+          <div class="fc-tag">Claude Code Loop</div>
+          <div class="fc-title">A brain that works while you sleep.</div>
+          <p class="fc-desc">
+            The morning brief runs as a scheduled Claude Code job. It pulls overnight news, updates
+            company notes, writes the daily log, flags new signals, and queues three questions for
+            you by the time you pour coffee. You wake up already caught up.
+          </p>
+          <ul class="fc-bullets">
+            <li>
+              <div class="fc-bullet-icon">▸</div>
+              <span><strong>run the morning brief</strong> — web search + note updates + daily log, one command.</span>
+            </li>
+            <li>
+              <div class="fc-bullet-icon">▸</div>
+              <span><strong>ingest this: &lt;url&gt;</strong> — entity extraction + source note + bidirectional links.</span>
+            </li>
+            <li>
+              <div class="fc-bullet-icon">▸</div>
+              <span><strong>weekly review</strong> — synthesize themes, surface patterns, flag the top 3 wedges.</span>
+            </li>
+            <li>
+              <div class="fc-bullet-icon">▸</div>
+              <span><strong>what do we know about X?</strong> — the agent reads the note + all backlinks, gives you a briefing.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ─── ARCHITECTURE ─── -->
+<section id="architecture">
+  <div class="fade-in">
+    <div class="section-label">// Architecture</div>
+    <div class="section-title">Six folders.<br>One agent.<br>Zero infrastructure.</div>
+    <p class="section-desc">
+      No Postgres, no Pinecone, no Supabase. Just six folders of markdown files and a routing doc
+      the agent reads first. The whole system is under a megabyte of plain text.
+    </p>
+  </div>
+
+  <div class="layers-grid fade-in">
+    <div class="layer-card">
+      <div class="layer-num">01</div>
+      <div class="layer-title">
+        <div class="icon">🧭</div>
+        <h3>Context</h3>
+      </div>
+      <p>Who you are, what you're building, what you're optimizing for. The agent reads this first so every response is calibrated to your mission, constraints, and strategy — not generic best practice.</p>
+      <span class="layer-tag">about · mission · strategy · constraints</span>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num">02</div>
+      <div class="layer-title">
+        <div class="icon">🧠</div>
+        <h3>Intelligence</h3>
+      </div>
+      <p>The knowledge base. Companies, people, industries, trends, papers — each one a markdown file with frontmatter, a <code style="color:var(--green);">## Connections</code> block, and bidirectional wikilinks into everything else.</p>
+      <span class="layer-tag">companies · people · industries · trends</span>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num">03</div>
+      <div class="layer-title">
+        <div class="icon">📅</div>
+        <h3>Daily</h3>
+      </div>
+      <p>One file per day. The agent writes the morning brief, logs what you worked on, captures decisions. Time-series memory — so next Tuesday you can ask <em>"what did we decide last week?"</em> and get a real answer.</p>
+      <span class="layer-tag">daily · session log · decisions</span>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num">04</div>
+      <div class="layer-title">
+        <div class="icon">🗺️</div>
+        <h3>Maps</h3>
+      </div>
+      <p>Maps of Content (MOCs) are curated index notes. <code style="color:var(--purple);">[[AI-Agents-MOC]]</code> lists every company in the ecosystem by layer. <code style="color:var(--purple);">[[People-MOC]]</code> is the priority reading list. They're your own table of contents.</p>
+      <span class="layer-tag">MOCs · priority lists · thematic index</span>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num">05</div>
+      <div class="layer-title">
+        <div class="icon">🚀</div>
+        <h3>Projects</h3>
+      </div>
+      <p>Live work: wedge trackers, startup hypotheses, position papers. Each one pulls intelligence from the rest of the vault and compounds over time. The wedge tracker is the place ideas either die or become theses.</p>
+      <span class="layer-tag">wedge tracker · active work · hypotheses</span>
+    </div>
+
+    <div class="layer-card">
+      <div class="layer-num">06</div>
+      <div class="layer-title">
+        <div class="icon">✉️</div>
+        <h3>Outreach</h3>
+      </div>
+      <p>Lightweight CRM. Contacts from Apollo, drafts to review, sent archive. The agent personalizes every email using intelligence notes about the recipient — so "cold" outreach is actually warm because it references their real work.</p>
+      <span class="layer-tag">contacts · drafts · sent archive</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── HOW IT WORKS WITH AN LLM ─── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">// How It Works With An LLM</div>
+    <div class="section-title">Retrieval is a path.<br>Not a similarity score.</div>
+    <p class="section-desc">
+      Traditional RAG crushes your notes into vectors and hopes cosine similarity brings back the
+      right chunk. This system does the opposite — the agent walks explicit paths through a graph
+      you authored. No embeddings. No guessing. The wikilinks <em>are</em> the retrieval plan.
+    </p>
+  </div>
+
+  <div class="arch-diagram fade-in">
+    <div class="arch-diagram-label">LLM · retrieval loop</div>
+
+    <div class="arch-flow">
+      <div class="arch-node">
+        <div class="n-num">01</div>
+        <div class="n-title">YOU</div>
+        <div class="n-sub">intent · question<br>raw ask</div>
+        <div class="n-arrow"></div>
+      </div>
+
+      <div class="arch-node accent">
+        <div class="n-num">02</div>
+        <div class="n-title">AGENT</div>
+        <div class="n-sub">Claude Code<br>loop · tools</div>
+        <div class="n-arrow"></div>
+      </div>
+
+      <div class="arch-node">
+        <div class="n-num">03</div>
+        <div class="n-title">cloud.md</div>
+        <div class="n-sub">routing map<br>where to look</div>
+        <div class="n-arrow"></div>
+      </div>
+
+      <div class="arch-node accent">
+        <div class="n-num">04</div>
+        <div class="n-title">VAULT</div>
+        <div class="n-sub">grep · glob<br>follow [[links]]</div>
+        <div class="n-arrow"></div>
+      </div>
+
+      <div class="arch-node">
+        <div class="n-num">05</div>
+        <div class="n-title">LLM</div>
+        <div class="n-sub">reason<br>synthesize</div>
+        <div class="n-arrow"></div>
+      </div>
+
+      <div class="arch-node accent">
+        <div class="n-num">06</div>
+        <div class="n-title">OUTPUT</div>
+        <div class="n-sub">response +<br>new markdown</div>
+      </div>
+    </div>
+
+    <div class="arch-loop">
+      <div class="arch-loop-text">
+        output <em>persists as markdown</em> &nbsp;·&nbsp; becomes tomorrow's context &nbsp;·&nbsp; the vault grows every session
+      </div>
+    </div>
+
+    <div class="arch-diff">
+      no vector DB <span>·</span> no embeddings <span>·</span> no chunks <span>·</span> wikilinks = explicit retrieval paths
+    </div>
+  </div>
+
+  <div class="shots-grid fade-in">
+    <div class="shot-card">
+      <div class="shot-top">
+        <div class="cli-dot r"></div><div class="cli-dot y"></div><div class="cli-dot g"></div>
+        <div class="shot-label">local graph</div>
+      </div>
+      <div class="shot-img">
+        <img src="screenshots/local-graph.png" alt="Local graph view around a single note" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div class="placeholder" style="display:none;">[ local-graph.png — one note's neighborhood ]</div>
+      </div>
+      <div class="shot-info">
+        <h4>Local graph</h4>
+        <p>Zoom into a single note and watch its neighborhood light up — one or two hops out. This is exactly the slice the agent walks when you ask a question.</p>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-top">
+        <div class="cli-dot r"></div><div class="cli-dot y"></div><div class="cli-dot g"></div>
+        <div class="shot-label">map of content</div>
+      </div>
+      <div class="shot-img">
+        <img src="screenshots/moc.png" alt="A Map of Content note" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div class="placeholder" style="display:none;">[ moc.png — a curated MOC index note ]</div>
+      </div>
+      <div class="shot-info">
+        <h4>Map of Content</h4>
+        <p>Curated index notes — the human table of contents. The agent uses MOCs as high-level landing pages before it dives into individual files.</p>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <div class="shot-top">
+        <div class="cli-dot r"></div><div class="cli-dot y"></div><div class="cli-dot g"></div>
+        <div class="shot-label">backlinks</div>
+      </div>
+      <div class="shot-img">
+        <img src="screenshots/backlinks.png" alt="Backlinks panel showing every reference to a note" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+        <div class="placeholder" style="display:none;">[ backlinks.png — backlinks panel open ]</div>
+      </div>
+      <div class="shot-info">
+        <h4>Backlinks</h4>
+        <p>Every place a note is referenced — automatically. The graph is bidirectional, so retrieval is too: you can walk forward <em>or</em> backward along any wikilink.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── POSITIONING ─── -->
+<div class="flow-section">
+  <section>
+    <div class="fade-in">
+      <div class="section-label">// Positioning</div>
+      <div class="section-title">Heavy AI stacks.<br>Lightweight beats them.</div>
+      <p class="section-desc">
+        Most "AI memory" products demand a vector DB, an embedding pipeline, a retrieval API, and a
+        multi-thousand-a-month bill. None of that is necessary. Wikilinks are explicit retrieval.
+        The agent is the pipeline. The file system is the database.
+      </p>
+    </div>
+
+    <div class="quote-block fade-in">
+      <em>No vector DB. No SaaS lock-in. No platform risk.</em><br>
+      Just markdown files, wikilinks, and a Claude Code loop that reads one routing file first.
+      The whole stack fits in a GitHub repo and runs on a laptop.
+    </div>
+
+    <div class="quote-block fade-in" style="margin-top:16px;">
+      <em>You can back it up with git.</em> You can read it in Notepad. You can port it to Logseq
+      tomorrow. The data outlives every tool you run on top of it — including this one.
+    </div>
+  </section>
+</div>
+
+<!-- ─── USE CASES ─── -->
+<section id="use-cases">
+  <div class="fade-in">
+    <div class="section-label">// Use Cases</div>
+    <div class="section-title">Tailored for a builder.<br>Works for anyone.</div>
+    <p class="section-desc">
+      This specific instance is instrumented for building an AI-infra startup — wedge hunting,
+      founder outreach, thesis sharpening. But the pattern generalizes: swap the domain and the
+      same six folders power a dozen different workflows.
+    </p>
+  </div>
+
+  <div class="use-cases-wrap fade-in">
+
+    <div class="use-pillar">
+      <div class="use-pillar-head">
+        <div class="use-pillar-tag">// Builder Mode</div>
+      </div>
+      <h3>The original use case</h3>
+      <div class="use-pillar-sub">How Asmit actually runs it today.</div>
+
+      <div class="use-item">
+        <div class="use-item-icon">🎯</div>
+        <div class="use-item-body">
+          <h4>Wedge hunting</h4>
+          <p>Track 5–10 hypothesis ideas in <code style="color:var(--green);">projects/</code>. The graph clusters adjacent companies so you see what's hot and what's hollow.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">📡</div>
+        <div class="use-item-body">
+          <h4>Sector research</h4>
+          <p>Morning brief ingests news for a specific sub-sector. Over 30 days, you out-read every competitor who isn't running the same loop.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">✉️</div>
+        <div class="use-item-body">
+          <h4>Personalized outreach</h4>
+          <p>Apollo finds the person, the vault drafts the email using their actual work. Cold outreach that reads like it's from someone who's been studying you.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">📄</div>
+        <div class="use-item-body">
+          <h4>Thesis sharpening</h4>
+          <p>Pull every note tagged <code style="color:var(--cyan);">#thesis</code>. The agent synthesizes them into a one-pager. Ready for investors, co-founders, or yourself at 3am.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-pillar">
+      <div class="use-pillar-head">
+        <div class="use-pillar-tag">// Anyone Mode</div>
+      </div>
+      <h3>Same stack, different domain</h3>
+      <div class="use-pillar-sub">Swap the folders. Keep the pattern.</div>
+
+      <div class="use-item">
+        <div class="use-item-icon">🎓</div>
+        <div class="use-item-body">
+          <h4>PhD / Academic research</h4>
+          <p><code style="color:var(--green);">intelligence/</code> becomes papers and authors. Citation graphs surface the field's real thinkers — not just who Google ranks.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">📰</div>
+        <div class="use-item-body">
+          <h4>Journalism / Reporting</h4>
+          <p>Sources, events, quotes, timelines all wired together. The agent drafts a story scaffold from notes you've been taking for weeks.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">💼</div>
+        <div class="use-item-body">
+          <h4>Sales / Lightweight CRM</h4>
+          <p>Accounts in <code style="color:var(--green);">companies/</code>, contacts in <code style="color:var(--green);">people/</code>. Every call gets logged. Every follow-up has context.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">🧑‍💼</div>
+        <div class="use-item-body">
+          <h4>Chief-of-staff / Exec ops</h4>
+          <p>People you manage, projects in flight, decisions made. The weekly review becomes a board-ready digest without lifting a finger.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">📚</div>
+        <div class="use-item-body">
+          <h4>Continuous learning</h4>
+          <p>Every book, podcast, and lecture becomes a source note. Your Anki — but the agent synthesizes, not just quizzes.</p>
+        </div>
+      </div>
+      <div class="use-item">
+        <div class="use-item-icon">💞</div>
+        <div class="use-item-body">
+          <h4>Personal memory</h4>
+          <p>Friends, conversations, gift ideas, book recs they gave you. A relationship graph that remembers so you don't have to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CLOSING ─── -->
+<section>
+  <div class="fade-in closing">
+    <div class="section-label" style="text-align:center;">// The Design Principle</div>
+    <div class="section-title">
+      Memory is <span style="color:var(--green);">files</span>.<br>
+      Retrieval is <span style="color:var(--green);">links</span>.<br>
+      The agent is the <span style="color:var(--green);">pipeline</span>.
+    </div>
+    <p>
+      Built as a daily tool, not a product. Free to fork. You own every byte.
+      The lightest AI infrastructure you'll ever need — because the heaviest part is yours already.
+    </p>
+    <a href="/" class="btn-secondary">← Back to asmit.space</a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>Brain — a personal second-brain by <a href="/">Asmit</a></p>
+  <p style="margin-top:8px; font-size:11px;">Obsidian · Claude Code · Markdown · Wikilinks · No DB · No SaaS</p>
+</footer>
+
+<script>
+  // ── Mobile menu ──
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+    document.querySelector('.nav-hamburger').classList.toggle('open');
+  }
+
+  // ── Fade-in on scroll ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── CLI animated session ──
+  const cliOutput = document.getElementById('cli-output');
+  const session = [
+    { t: 0,    type: 'line',   html: '<span class="cli-prompt">asmit@brain</span> <span class="cli-path">~/asmitsbrain</span> <span class="cli-prompt">$</span> claude' },
+    { t: 700,  type: 'line',   html: '<span class="cli-thinking">› reading cloud.md</span>' },
+    { t: 1200, type: 'line',   html: '<span class="cli-thinking">› vault loaded · 340 notes · 6 MOCs</span>' },
+    { t: 1700, type: 'line',   html: '<span class="cli-ok">✓ ready</span>' },
+    { t: 2300, type: 'line',   html: '&nbsp;' },
+    { t: 2500, type: 'line',   html: '<span class="cli-you">&gt; run the morning brief</span>' },
+    { t: 3300, type: 'line',   html: '<span class="cli-thinking">› pulling AI infra news (last 24h)...</span>' },
+    { t: 4100, type: 'line',   html: '<span class="cli-tool">[web_search]</span> anthropic mcp spec update' },
+    { t: 4900, type: 'line',   html: '<span class="cli-tool">[write]</span> intelligence/companies/<span class="cli-wikilink">Anthropic.md</span>' },
+    { t: 5500, type: 'line',   html: '<span class="cli-tool">[update]</span> <span class="cli-wikilink">[[MCP]]</span> spec v0.4 · connections ++' },
+    { t: 6300, type: 'line',   html: '<span class="cli-tool">[write]</span> sources/<span class="cli-wikilink">mem0-memory-v2.md</span>' },
+    { t: 7100, type: 'line',   html: '<span class="cli-tool">[link]</span> <span class="cli-wikilink">[[Mem0]]</span> ↔ <span class="cli-wikilink">[[Memory-Platforms]]</span>' },
+    { t: 7900, type: 'line',   html: '<span class="cli-tool">[write]</span> daily/<span class="cli-wikilink">2026-04-16.md</span>' },
+    { t: 8600, type: 'line',   html: '<span class="cli-ok">✓ morning brief complete</span> <span style="color:var(--text-muted);">· 4 notes updated · 7 wikilinks</span>' },
+    { t: 9300, type: 'line',   html: '&nbsp;' },
+    { t: 9500, type: 'line',   html: '<span style="color:var(--text-dim);">Three questions for today:</span>' },
+    { t: 10100,type: 'line',   html: '<span class="cli-warn">①</span> Is the MCP registry wedge a 1-week MVP?' },
+    { t: 10700,type: 'line',   html: '<span class="cli-warn">②</span> Which NYC lab should we open with?' },
+    { t: 11300,type: 'line',   html: '<span class="cli-warn">③</span> TraqCheck — founder call or email first?' },
+    { t: 12000,type: 'cursor', html: '<span class="cli-prompt">&gt;</span> <span class="cli-cursor"></span>' },
+  ];
+
+  function runSession() {
+    cliOutput.innerHTML = '';
+    session.forEach(step => {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.className = 'cli-line';
+        line.innerHTML = step.html;
+        cliOutput.appendChild(line);
+
+        // auto-scroll
+        cliOutput.scrollTop = cliOutput.scrollHeight;
+
+        // Keep buffer to ~16 lines
+        while (cliOutput.children.length > 18) {
+          cliOutput.removeChild(cliOutput.firstChild);
+        }
+      }, step.t);
+    });
+
+    // Loop
+    setTimeout(runSession, 18000);
+  }
+
+  // Start CLI when it enters viewport
+  const cliWindow = document.querySelector('.cli-window');
+  if (cliWindow) {
+    const cliObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          runSession();
+          cliObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cliObs.observe(cliWindow);
+  }
+
+  // ── Rotating graph node activation ──
+  const graphNodes = document.querySelectorAll('.graph-visual .graph-node:not(.hub)');
+  let gnIdx = 0;
+  setInterval(() => {
+    graphNodes.forEach(n => n.classList.remove('active'));
+    if (graphNodes.length) {
+      graphNodes[gnIdx % graphNodes.length].classList.add('active');
+      gnIdx++;
+    }
+  }, 1800);
+</script>
+
+</body>
+</html>
