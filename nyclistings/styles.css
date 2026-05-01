@@ -479,6 +479,20 @@ input:focus, textarea:focus {
   .marker { width: 26px; height: 26px; }
 }
 
+/* NYU Brooklyn campus landmark — white star */
+.landmark-icon { background: transparent !important; border: none !important; }
+.landmark-star {
+  display: block;
+  filter: drop-shadow(0 2px 5px oklch(0% 0 0 / 0.85));
+  cursor: pointer;
+  transition: transform var(--duration) var(--ease);
+}
+.landmark-star:hover { transform: scale(1.15); }
+
+@media (pointer: coarse) {
+  .landmark-star { width: 34px; height: 34px; }
+}
+
 /* leaflet popup overrides */
 .leaflet-popup-content-wrapper {
   background: var(--bg-elev);
