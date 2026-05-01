@@ -124,6 +124,9 @@ h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; font
   position: absolute;
   inset: 0;
   background: var(--bg-2);
+  /* Hand all touch gestures to Leaflet so the browser doesn't try to
+     pan/zoom the page on top of the map. */
+  touch-action: none;
 }
 
 /* mobile-only chrome (hidden on desktop) */

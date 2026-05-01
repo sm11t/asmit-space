@@ -217,13 +217,15 @@
   // ---------- map ----------
   function setupMap() {
     const map = L.map('map', {
-      zoomControl: true,
+      zoomControl: false, // re-added below in bottom-right so it doesn't
+                          // overlap the Filters FAB on mobile
       preferCanvas: false,
       maxBounds: L.latLngBounds(BBOX.sw, BBOX.ne).pad(0.4),
       maxBoundsViscosity: 0.7,
       minZoom: 11,
       maxZoom: 18,
     });
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors © CARTO · subway/bus shapes © MTA',
@@ -913,7 +915,25 @@
 
     if (fab) fab.addEventListener('click', openDrawer);
     if (close) close.addEventListener('click', closeDrawer);
-    if (scrim) scrim.addEventListener('click', () => { closeDrawer(); collapseSheet(); });
+    if (scrim) {
+      // Track if the touch sequence had >1 active fingers — if so, treat it
+      // as a pinch / multi-touch gesture and DO NOT close the drawer when
+      // the finger lifts. Otherwise pinch-zooming near the drawer edge
+      // would dismiss it.
+      let multitouch = false;
+      scrim.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) multitouch = true;
+      }, { passive: true });
+      scrim.addEventListener('touchend', () => {
+        // reset on the next macrotask so the click handler below can read it
+        setTimeout(() => { multitouch = false; }, 0);
+      }, { passive: true });
+      scrim.addEventListener('click', () => {
+        if (multitouch) return;
+        closeDrawer();
+        collapseSheet();
+      });
+    }
     if (handle) handle.addEventListener('click', toggleSheet);
 
     // Close drawer on Escape; collapse sheet on second Escape
