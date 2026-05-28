@@ -88,6 +88,43 @@ h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; font
 }
 .brand-sub { color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; letter-spacing: 0.04em; font-weight: 400; }
 
+/* preset / saved-views dropdown */
+.preset { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.preset-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.preset-select {
+  appearance: none;
+  -webkit-appearance: none;
+  font: 500 0.8rem/1 'Inter', sans-serif;
+  color: var(--text);
+  background-color: var(--bg-elev);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b9c0cc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.42rem 1.9rem 0.42rem 0.85rem;
+  cursor: pointer;
+  max-width: 230px;
+  text-overflow: ellipsis;
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+}
+.preset-select:hover { border-color: var(--line-strong); }
+.preset-select:focus { outline: none; border-color: var(--accent); }
+.preset-select.is-active {
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+  color: var(--text);
+}
+.preset-select option { background: var(--bg-1); color: var(--text); }
+
 .meta { display: flex; gap: 0.5rem; flex-shrink: 0; }
 .pill {
   font-family: 'JetBrains Mono', monospace;
@@ -528,9 +565,13 @@ input:focus, textarea:focus {
 @media (max-width: 900px) {
   :root { --col-detail: 100%; }
 
-  .topbar { padding: 0.6rem 0.85rem; padding-top: calc(0.6rem + var(--safe-top)); }
+  .topbar { padding: 0.6rem 0.85rem; padding-top: calc(0.6rem + var(--safe-top)); flex-wrap: wrap; row-gap: 0.55rem; }
   .topbar h1 { font-size: 1.05rem; }
   .brand-sub { display: none; }
+
+  /* preset drops to its own full-width row below brand + pills */
+  .preset { order: 3; flex-basis: 100%; }
+  .preset-select { flex: 1; max-width: none; }
 
   .layout {
     grid-template-columns: 1fr;

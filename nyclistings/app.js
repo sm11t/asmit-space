@@ -43,7 +43,7 @@
 
   const state = {
     listings: [],
-    filters: { search: '', minPrice: null, maxPrice: null, leases: new Set(), hoods: new Set() },
+    filters: { search: '', minPrice: null, maxPrice: null, leases: new Set(), hoods: new Set(), dateAdded: '' },
     selectedId: null,
     author: localStorage.getItem(STORAGE_AUTHOR) || '',
     notesByListing: {},   // { listingId: [{ id, text, author, uid, createdAt }] }
@@ -91,6 +91,17 @@
     return '—';
   }
 
+  // Capture date ("date I saved this") is the YYYY-MM-DD prefix on the id.
+  function captureDate(l) {
+    const m = /^(\d{4}-\d{2}-\d{2})/.exec(l.id || '');
+    return m ? m[1] : null;
+  }
+  function fmtCaptureDate(iso) {
+    const [y, mo, d] = iso.split('-').map(Number);
+    // Local-time constructor avoids the UTC-parse day shift of new Date(iso).
+    return new Date(y, mo - 1, d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
   // ---------- bootstrap ----------
   async function init() {
     let payload;
@@ -119,6 +130,7 @@
     renderMarkers();
     renderQuickList();
     setupFilters();
+    setupPresets();
     setupSearch();
     setupChrome();
     bindKeyboard();
@@ -500,6 +512,47 @@
     el('#reset').addEventListener('click', resetFilters);
   }
 
+  // Preset dropdown (topbar): filter by the date a listing was saved.
+  function setupPresets() {
+    const sel = el('#preset-select');
+    if (!sel) return;
+
+    const counts = countBy(state.listings.filter(captureDate), captureDate);
+    const dates = Object.keys(counts).sort().reverse(); // newest first
+
+    sel.innerHTML = '';
+    const all = document.createElement('option');
+    all.value = '';
+    all.textContent = `All dates · ${state.listings.length}`;
+    sel.appendChild(all);
+    dates.forEach((d) => {
+      const o = document.createElement('option');
+      o.value = d;
+      o.textContent = `${fmtCaptureDate(d)} · ${counts[d]}`;
+      sel.appendChild(o);
+    });
+
+    sel.value = state.filters.dateAdded || '';
+    sel.classList.toggle('is-active', !!sel.value);
+    sel.addEventListener('change', () => {
+      state.filters.dateAdded = sel.value;
+      sel.classList.toggle('is-active', !!sel.value);
+      renderMarkers();
+      renderQuickList();
+      if (sel.value) fitToVisible();
+    });
+  }
+
+  function fitToVisible() {
+    if (!state.map) return;
+    const pts = filteredListings()
+      .filter((l) => l.lat != null && l.lng != null)
+      .map((l) => [l.lat, l.lng]);
+    if (pts.length) {
+      state.map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 15 });
+    }
+  }
+
   function setupSearch() {
     el('#search').addEventListener('input', (e) => {
       state.filters.search = e.target.value.trim().toLowerCase();
@@ -522,17 +575,20 @@
   }
 
   function resetFilters() {
-    state.filters = { search: '', minPrice: null, maxPrice: null, leases: new Set(), hoods: new Set() };
+    state.filters = { search: '', minPrice: null, maxPrice: null, leases: new Set(), hoods: new Set(), dateAdded: '' };
     el('#search').value = '';
     el('#price-min').value = '';
     el('#price-max').value = '';
+    const ps = el('#preset-select');
+    if (ps) { ps.value = ''; ps.classList.remove('is-active'); }
     refreshChipStates();
     renderMarkers(); renderQuickList();
   }
 
   function filteredListings() {
-    const { search, minPrice, maxPrice, leases, hoods } = state.filters;
+    const { search, minPrice, maxPrice, leases, hoods, dateAdded } = state.filters;
     return state.listings.filter((l) => {
+      if (dateAdded && captureDate(l) !== dateAdded) return false;
       if (search) {
         const hay = [l.title, l.address, l.neighborhood, l.operator, l.contact_phone, l.listing_type, l.lease_term]
           .filter(Boolean).join(' ').toLowerCase();
