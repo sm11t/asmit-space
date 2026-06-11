@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <g stroke="#D7D7D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M52 86 Q50 78 58 74 Q64 60 82 58 Q98 58 106 68 Q114 78 118 88 Q134 102 144 120 Q156 140 154 160 Q152 178 140 186"/>
+    <path vector-effect="non-scaling-stroke" d="M52 86 Q50 92 56 94 Q63 96 67 92 Q74 104 76 118 Q79 138 79 158 L79 182 Q79 188 85 188 L100 188 Q104 188 104 184 L104 146"/>
+    <path vector-effect="non-scaling-stroke" d="M104 150 Q114 152 122 158"/>
+    <path vector-effect="non-scaling-stroke" d="M120 152 Q114 172 128 183"/>
+    <path vector-effect="non-scaling-stroke" d="M124 188 H148 Q153 188 152 183"/>
+    <path vector-effect="non-scaling-stroke" d="M152 160 Q172 158 178 142 Q180 134 174 130"/>
+    <path vector-effect="non-scaling-stroke" d="M86 58 Q92 42 102 46 Q110 50 104 64 Q101 70 95 67"/>
+    <path vector-effect="non-scaling-stroke" d="M74 100 Q90 110 112 96"/>
+    <path vector-effect="non-scaling-stroke" d="M48 196 H192"/>
+    <circle cx="72" cy="76" r="2.2" fill="#D7D7D7" stroke="none"/>
+    <circle cx="54" cy="85" r="2.5" fill="#D7D7D7" stroke="none"/>
+  </g>
+  <g stroke="#F5A26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M92 105 V110"/>
+    <circle vector-effect="non-scaling-stroke" cx="92" cy="114.5" r="4.5"/>
+  </g>
+</svg>

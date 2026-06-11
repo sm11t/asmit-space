@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunroom · technical deep-dive</title>
+<meta name="description" content="The engineering behind the agent-native rental marketplace: observability, the approval spine, signed negotiation limits, compliance rails, and the PLACE integration surface.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23F97316'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/sunroom/styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="/sunroom">sunroom<span class="dot">.</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="/sunroom">← Back to the memo</a>
+      <a href="#stack">Stack</a>
+      <a href="#spine">Approval spine</a>
+      <a href="#mandates">Limits</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#integration">Integration</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section style="padding-top: clamp(4rem, 6vw, 6rem);">
+    <div class="container">
+      <span class="eyebrow"><span class="idx">Technical deep-dive</span> · June 2026</span>
+      <h1 style="font-size:var(--text-2xl);">What's under the hood, and why it's built this way.</h1>
+      <p class="standfirst" style="margin-top:1.25rem;">Two rules override convenience everywhere in this codebase. First, <strong>full observability</strong>: every agent action is traced, and known failure modes get graded tests. Second, <strong>people approve every binding moment</strong>: agents draft and propose, people decide.</p>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section id="stack">
+    <div class="container section-rule">
+      <span class="eyebrow reveal"><span class="idx">T1</span> · The stack</span>
+      <h2 class="reveal">Boring where it should be, sharp where it counts.</h2>
+      <table class="matrix reveal">
+        <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Web</td><td>Next.js 16 (App Router) · React 19 · TypeScript</td><td>One codebase serves the renter, landlord, operator, and partner portals. Server actions keep state changes atomic.</td></tr>
+          <tr><td>Data</td><td>Postgres (Neon) · Drizzle ORM · pgvector</td><td>A relational core for the proposals and audit spine, plus vector search for listings and dossiers.</td></tr>
+          <tr><td>Agents</td><td>Vercel AI SDK v6 · Claude (reasoning) · Haiku (classification)</td><td>The right model for each task. Judgment calls get the strong model. Narrow, frequent tasks get the fast one. Ranking 15 listings takes about 3 seconds instead of 67.</td></tr>
+          <tr><td>Documents</td><td>Multimodal models over uploaded files</td><td>Leases, floor plans, inspection reports, and bills are read page by page. Each extracted fact lands in the dossier with a link back to its source page, so a human can always check where a number came from.</td></tr>
+          <tr><td>Virtual tours</td><td>Photo stitching from owner phone photos</td><td>Ordinary phone photos become a room-to-room walkthrough, the way Street View is stitched from car photos. No special camera, no visit from us.</td></tr>
+          <tr><td>Observability</td><td>Langfuse v5 over OpenTelemetry</td><td>Every agent call is traced with inputs, outputs, and cost from day one. Framework noise is filtered out so traces stay readable.</td></tr>
+          <tr><td>Maps</td><td>MapLibre + react-map-gl</td><td>A real interactive NYC map with a subway overlay, with no API key lock-in.</td></tr>
+          <tr><td>Identity</td><td>Clerk · Stripe Identity · ACRIS/HPD checks</td><td>One sign-in for every role. Identity checks run at the right moments: before first contact for renters, before publishing for landlords.</td></tr>
+        </tbody>
+      </table>
+      <p class="footnote reveal">Six agent surfaces run today: renter intake, listing ranking (cached scoring plus parallel reasoning), per-property Q&A, outreach drafting, reply classification and follow-up, and landlord dossier intake on the supply side.</p>
+    </div>
+  </section>
+
+  <!-- ============ APPROVAL SPINE ============ -->
+  <section id="spine">
+    <div class="container section-rule">
+      <div class="cols-2">
+        <div class="reveal">
+          <span class="eyebrow"><span class="idx">T2</span> · The approval spine</span>
+          <h2>Agents propose. People approve. The database enforces it.</h2>
+        </div>
+        <div>
+          <p class="reveal">Every binding action in the system, like sending outreach, accepting a counter-offer, or confirming a tour, must pass through a <strong>proposal row</strong>. The row carries the draft, the agent's reasoning, the data it used, and the other options it considered. Approval is one atomic database update, so two approvals at the same moment can never both win. Every decision also writes a permanent audit log entry.</p>
+          <p class="reveal" style="margin-top:1rem;">This is not UX polish. It is the trust architecture. When a regulator, a landlord, or a renter asks "why did the agent do that?", the answer is a record you can query, not a shrug.</p>
+        </div>
+      </div>
+      <div class="frame reveal" style="max-width:760px;margin-block:3rem;">
+        <div class="frame-bar"><span class="fdot"></span><span class="fdot"></span><span class="fdot"></span><span class="furl">proposal lifecycle</span></div>
+        <div class="mock">
+          <div class="statestrip">
+            <span class="state done">agent drafts</span><span class="state-arrow">→</span>
+            <span class="state done">evidence attached</span><span class="state-arrow">→</span>
+            <span class="state now">pending human</span><span class="state-arrow">→</span>
+            <span class="state">approved · atomic claim</span><span class="state-arrow">→</span>
+            <span class="state">executed · audit logged</span>
+          </div>
+          <div class="mock-row"><span class="mock-kv"><b>Draft</b> · the exact message or action the agent wants to take</span></div>
+          <div class="mock-row"><span class="mock-kv"><b>Reasoning</b> · the why, in plain language the human can veto</span></div>
+          <div class="mock-row"><span class="mock-kv"><b>Evidence</b> · the listings, dossier facts, and preferences it used</span></div>
+          <div class="mock-row"><span class="mock-kv"><b>Alternatives</b> · what the agent considered and rejected</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIGNED LIMITS ============ -->
+  <section id="mandates">
+    <div class="container section-rule">
+      <div class="cols-2">
+        <div class="reveal">
+          <span class="eyebrow"><span class="idx">T3</span> · Signed limits</span>
+          <h2>Negotiation where a bad deal cannot happen.</h2>
+        </div>
+        <div>
+          <p class="reveal">Negotiation runs on <strong>signed limits</strong>. Each person authorizes a scoped set of terms with an expiry date: a rent ceiling or floor, acceptable lease lengths, what they are willing to trade, and a move-in window. Agents negotiate only where the two sets overlap, through fixed offer steps (<code>offer → counter → conditional accept → human approval → bound</code>). Terms outside the limits are not just discouraged. The system cannot express them.</p>
+          <p class="reveal" style="margin-top:1rem;">This follows the only machine-negotiation patterns people have actually accepted: supplier bots that negotiate inside human-set limits (75% of suppliers preferred the bot), and payment networks that record exactly what a real human authorized. Both sides also run the <strong>same model tier</strong>, so negotiation is fair by design. No bring-your-own-agent platform can make that promise.</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step reveal" style="--i:0"><div class="snum">1</div><h4>Set your limits</h4><p>Once, in plain terms: "up to $4,000, 12 to 24 months, can move in early, expires in 14 days."</p></div>
+        <div class="step reveal" style="--i:1"><div class="snum">2</div><h4>Agents trade terms</h4><p>Lease length, move-in date, free months, rent. Trades humans skip because the conversation never gets that detailed.</p></div>
+        <div class="step reveal" style="--i:2"><div class="snum">3</div><h4>Optional auto-accept</h4><p>A landlord rule like: "verified renter at 40x rent, 12 months, $3,900 or more, then send me the draft to sign." Speed without giving up the pen.</p></div>
+        <div class="step reveal" style="--i:3"><div class="snum">4</div><h4>Deal receipt</h4><p>A sealed log of every step, shared with both people at close: what was offered, what was traded, and why. The record for any dispute or audit.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPLIANCE ============ -->
+  <section id="compliance">
+    <div class="container section-rule">
+      <div class="cols-2">
+        <div class="reveal">
+          <span class="eyebrow"><span class="idx">T4</span> · Compliance by design</span>
+          <h2>The rules live in the workflow, not the training data.</h2>
+        </div>
+        <div>
+          <p class="reveal">Rental housing is one of the most regulated consumer markets in America, and 2025-26 added more rules. We treat each one as a design input:</p>
+        </div>
+      </div>
+      <table class="matrix reveal">
+        <thead><tr><th>Rule</th><th>How the platform handles it</th></tr></thead>
+        <tbody>
+          <tr><td>Fair housing</td><td>Agents never vary recommendations, terms, or negotiation behavior by protected class or stand-ins for it, including voucher status (protected under NY law). Match and negotiation outcomes get regular bias audits.</td></tr>
+          <tr><td>Fair Chance for Housing (NYC)</td><td>Criminal history checks can only run after a conditional offer. The workflow cannot run them earlier.</td></tr>
+          <tr><td>FARE Act</td><td>Fee disclosure is structured data on every listing. The renter's agent flags illegal fee demands automatically.</td></tr>
+          <tr><td>Algorithmic pricing law (the RealPage lesson)</td><td>Each landlord's agent negotiates on its own. Pricing data is never pooled across landlords. Every recommendation can be overridden by a human. Our design is the legal opposite of coordinated pricing.</td></tr>
+          <tr><td>AI disclosure laws (CA SB 243 and others)</td><td>Every agent message states which agent sent it, for which verified person, and with what authority. Disclosure is built in, not a policy.</td></tr>
+          <tr><td>FCRA / screening</td><td>The Renter Passport runs on consumer-initiated, FCRA-compliant verification services. Landlords get yes/no answers, never raw documents. The platform shares the minimum data needed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ INTEGRATION ============ -->
+  <section id="integration">
+    <div class="container section-rule">
+      <div class="cols-2">
+        <div class="reveal">
+          <span class="eyebrow"><span class="idx">T5</span> · PLACE integration surface</span>
+          <h2>Plugs into seams that exist today.</h2>
+        </div>
+        <div>
+          <p class="reveal">A pilot needs no Brivity engineering. The integration takes in and returns leads through interfaces that already ship:</p>
+        </div>
+      </div>
+      <table class="matrix reveal">
+        <thead><tr><th>Seam</th><th>Mechanism</th><th>Flow</th></tr></thead>
+        <tbody>
+          <tr><td>Lead handoff in</td><td>Brivity App Store webhooks (<code>new_lead</code>, lead updated) / Zapier</td><td>"Not ready to buy" leads route to a Sunroom renter agent with consent. Status syncs back to the original Brivity record.</td></tr>
+          <tr><td>Lead return out</td><td>Brivity API (token auth)</td><td>Renters who closed a lease return as nurtured future buyers, with move-in date, lease term, and verified payment history as CRM fields.</td></tr>
+          <tr><td>Gabbi handoff</td><td>Agent-to-agent endpoint (we expose an MCP server)</td><td>Gabbi qualifies "renter, not buyer," then hands off with the conversation context. No cold restart.</td></tr>
+          <tr><td>Lease e-signing</td><td>Remine Docs+</td><td>Our human-approved close step signs through PLACE's own e-signature rail.</td></tr>
+          <tr><td>Mortgage pipeline</td><td>Renter Passport into BKCO Mortgage</td><td>Verified income, identity, and 24 months of payment history as a warm, consented handoff at lease renewal time.</td></tr>
+          <tr><td>Operator distribution</td><td>Landlord onboarding links per team</td><td>PLACE operators onboard their landlord and investor clients through conversation. Attribution and revenue share are tracked per team.</td></tr>
+        </tbody>
+      </table>
+      <p class="footnote reveal">We also publish an agent-readable inventory feed (llms.txt, an MCP server, and structured listing data with required fee disclosures, screening criteria, and negotiability flags). Assistants like ChatGPT and Claude can read verified inventory directly. Distribution through other people's agents, not in spite of them.</p>
+      <p class="reveal" style="margin-top:2rem;"><a href="/sunroom">← Back to the memo</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>sunroom<span style="color:var(--accent)">.</span> · technical deep-dive</span>
+    <span>NYC · June 2026</span>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  const io = new IntersectionObserver((es) => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <g stroke="#D7D7D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M56 216 H184"/>
+    <path vector-effect="non-scaling-stroke" d="M72 44 V216 M168 44 V216"/>
+    <path vector-effect="non-scaling-stroke" d="M64 44 H176 M68 36 H172 M64 44 L68 36 M176 44 L172 36"/>
+    <path vector-effect="non-scaling-stroke" d="M82 56 H98 V74 H82 Z M82 65 H98"/>
+    <path vector-effect="non-scaling-stroke" d="M112 56 H128 V74 H112 Z M112 65 H128"/>
+    <path vector-effect="non-scaling-stroke" d="M142 56 H158 V74 H142 Z M142 65 H158"/>
+    <path vector-effect="non-scaling-stroke" d="M82 92 H98 V110 H82 Z M82 101 H98"/>
+    <path vector-effect="non-scaling-stroke" d="M112 92 H128 V110 H112 Z M112 101 H128"/>
+    <path vector-effect="non-scaling-stroke" d="M82 128 H98 V146 H82 Z M82 137 H98"/>
+    <path vector-effect="non-scaling-stroke" d="M112 128 H128 V146 H112 Z M112 137 H128"/>
+    <path vector-effect="non-scaling-stroke" d="M142 128 H158 V146 H142 Z M142 137 H158"/>
+    <path vector-effect="non-scaling-stroke" d="M82 164 H98 V182 H82 Z M82 173 H98"/>
+    <path vector-effect="non-scaling-stroke" d="M142 164 H158 V182 H142 Z M142 173 H158"/>
+    <path vector-effect="non-scaling-stroke" d="M112 216 V192 Q112 186 120 186 Q128 186 128 192 V216"/>
+    <circle vector-effect="non-scaling-stroke" cx="124" cy="204" r="1.5"/>
+    <path vector-effect="non-scaling-stroke" d="M104 78 H136 M104 78 V66 M136 78 V66 M104 66 H136"/>
+    <path vector-effect="non-scaling-stroke" d="M104 114 H136 M104 114 V102 M136 114 V102 M104 102 H136"/>
+    <path vector-effect="non-scaling-stroke" d="M104 150 H136 M104 150 V138 M136 150 V138 M104 138 H136"/>
+    <path vector-effect="non-scaling-stroke" d="M134 80 L108 112"/>
+    <path vector-effect="non-scaling-stroke" d="M106 116 L134 148"/>
+    <path vector-effect="non-scaling-stroke" d="M106 152 L134 184"/>
+  </g>
+  <g stroke="#F5A26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M142 92 H158 V110 H142 Z M142 101 H158"/>
+  </g>
+</svg>

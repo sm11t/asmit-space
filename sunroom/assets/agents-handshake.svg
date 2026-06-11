@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <g stroke="#D7D7D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M60 70 H128 Q140 70 140 82 V138 Q140 150 128 150 H76 L56 168 L62 150 Q48 150 48 138 V82 Q48 70 60 70 Z"/>
+    <path vector-effect="non-scaling-stroke" d="M124 90 H180 Q192 90 192 102 V158 Q192 170 180 170 L186 188 L166 170 H124 Q112 170 112 158 V102 Q112 90 124 90 Z"/>
+    <path vector-effect="non-scaling-stroke" d="M62 96 H104 M62 110 H92"/>
+    <path vector-effect="non-scaling-stroke" d="M148 134 H180 M156 148 H180"/>
+  </g>
+  <g stroke="#F5A26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M114 120 L124 131 L142 108"/>
+  </g>
+</svg>

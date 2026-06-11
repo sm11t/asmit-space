@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <g stroke="#D7D7D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle vector-effect="non-scaling-stroke" cx="120" cy="78" r="26"/>
+    <circle vector-effect="non-scaling-stroke" cx="97" cy="104" r="9"/>
+    <path vector-effect="non-scaling-stroke" d="M96 113 L88 162"/>
+    <path vector-effect="non-scaling-stroke" d="M88 162 L96 163.5"/>
+    <path vector-effect="non-scaling-stroke" d="M90 150 L97 151.5"/>
+    <circle vector-effect="non-scaling-stroke" cx="143" cy="103" r="9"/>
+    <path vector-effect="non-scaling-stroke" d="M144 112 L150 160"/>
+    <path vector-effect="non-scaling-stroke" d="M150 160 L142 161.5"/>
+    <path vector-effect="non-scaling-stroke" d="M148.5 148 L141 149.5"/>
+  </g>
+  <g stroke="#F5A26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle vector-effect="non-scaling-stroke" cx="120" cy="106" r="4"/>
+    <path vector-effect="non-scaling-stroke" d="M120 110 V120"/>
+    <path vector-effect="non-scaling-stroke" d="M104 134 L120 120 L136 134 V158 H104 Z"/>
+    <path vector-effect="non-scaling-stroke" d="M114 158 V146 H126 V158"/>
+  </g>
+</svg>

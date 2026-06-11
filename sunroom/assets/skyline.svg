@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <g stroke="#D7D7D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M24 200 H216"/>
+    <path vector-effect="non-scaling-stroke" d="M32 200 V132 H60 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M40 146 H52 M40 158 H52 M40 170 H52"/>
+    <path vector-effect="non-scaling-stroke" d="M60 200 V96 H88 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M74 96 V78"/>
+    <path vector-effect="non-scaling-stroke" d="M68 110 H80 M68 124 H80 M68 138 H80 M68 152 H80"/>
+    <path vector-effect="non-scaling-stroke" d="M88 200 V148 H116 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M96 160 H108 M96 172 H108"/>
+    <path vector-effect="non-scaling-stroke" d="M116 200 V100 H122 V64 H144 V100 H150 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M128 76 H138 M128 88 H138 M126 112 H140 M126 126 H140 M126 140 H140"/>
+    <path vector-effect="non-scaling-stroke" d="M150 200 V136 H180 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M158 150 H172 M158 162 H172"/>
+    <path vector-effect="non-scaling-stroke" d="M180 200 V160 H208 V200"/>
+    <path vector-effect="non-scaling-stroke" d="M188 172 H200 M188 184 H200"/>
+  </g>
+  <g stroke="#F5A26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path vector-effect="non-scaling-stroke" d="M158 136 V120 M174 136 V120"/>
+    <path vector-effect="non-scaling-stroke" d="M156 120 V102 H176 V120 H156"/>
+    <path vector-effect="non-scaling-stroke" d="M154 102 L166 88 L178 102"/>
+    <path vector-effect="non-scaling-stroke" d="M166 88 V82"/>
+  </g>
+</svg>
