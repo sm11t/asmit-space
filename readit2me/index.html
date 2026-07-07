@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ReadIt2Me — your book, read aloud</title>
+  <meta name="description" content="Photograph the pages of the book you're reading and listen to them as beautifully narrated audio." />
+  <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/player.css" />
+</head>
+<body>
+
+  <!-- Persistent audio element: created in markup so it exists before first tap.
+       It is "blessed" by the first user gesture and reused for the whole session. -->
+  <audio id="narrator" preload="auto" playsinline></audio>
+
+  <header class="topbar" id="topbar">
+    <button class="topbar-back" id="btn-back" hidden aria-label="Back">&#8592;</button>
+    <h1 class="topbar-title" id="topbar-title">ReadIt2Me</h1>
+    <button class="topbar-account" id="btn-account" aria-label="Account">
+      <span id="account-glyph">&#9679;</span>
+    </button>
+  </header>
+
+  <div class="offline-banner" id="offline-banner" hidden>Offline — playing from your device</div>
+  <div class="link-nudge" id="link-nudge" hidden>
+    <span>Save your library to your Google account so it's never lost.</span>
+    <button id="btn-link-google">Link Google</button>
+    <button class="link-nudge-dismiss" id="btn-nudge-dismiss" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <main id="main">
+    <!-- ═══ LIBRARY ═══ -->
+    <section class="view" id="view-library" hidden>
+      <div class="resume-card" id="resume-card" hidden></div>
+      <div class="library-head">
+        <h2 class="view-heading">Your books</h2>
+      </div>
+      <div class="library-grid" id="library-grid"></div>
+      <div class="library-empty" id="library-empty" hidden>
+        <p class="empty-glyph">&#128214;</p>
+        <p>Photograph the pages of the book you're reading and listen to them read aloud, beautifully.</p>
+      </div>
+      <button class="fab" id="btn-new-book" aria-label="Add a book">+ New book</button>
+    </section>
+
+    <!-- ═══ CAPTURE ═══ -->
+    <section class="view" id="view-capture" hidden>
+      <div class="capture-meta">
+        <input type="text" id="capture-title" class="capture-title-input" placeholder="Book title" autocomplete="off" />
+      </div>
+      <div class="capture-hints" id="capture-hints">
+        <span>&#9728; good light</span><span>&#128213; flatten the page</span><span>&#128247; fill the frame</span>
+      </div>
+      <div class="capture-tray" id="capture-tray"></div>
+      <div class="capture-actions">
+        <label class="btn btn-camera" for="camera-input">&#128247; Snap page</label>
+        <input type="file" id="camera-input" accept="image/*" capture="environment" multiple hidden />
+        <button class="btn btn-primary" id="btn-process" disabled>Create transcript</button>
+      </div>
+    </section>
+
+    <!-- ═══ PROCESSING ═══ -->
+    <section class="view" id="view-processing" hidden>
+      <h2 class="view-heading" id="processing-title">Reading your pages&hellip;</h2>
+      <ul class="processing-list" id="processing-list"></ul>
+      <div class="processing-footer">
+        <button class="btn btn-primary" id="btn-open-book" hidden>Open book</button>
+      </div>
+    </section>
+
+    <!-- ═══ PLAYER / NOW READING ═══ -->
+    <section class="view view-player" id="view-player" hidden>
+      <div class="page-indicator"><span id="player-pageno">1</span><span class="page-of">of <span id="player-pagecount">1</span></span></div>
+      <article class="transcript" id="transcript" aria-live="off"></article>
+    </section>
+  </main>
+
+  <!-- Mini player (bottom sheet, collapsed) -->
+  <div class="miniplayer" id="miniplayer" hidden>
+    <div class="miniplayer-progress"><div class="miniplayer-progress-fill" id="mini-progress"></div></div>
+    <button class="miniplayer-main" id="mini-open">
+      <span class="miniplayer-title" id="mini-title"></span>
+      <span class="miniplayer-sub" id="mini-sub"></span>
+    </button>
+    <button class="miniplayer-play" id="mini-play" aria-label="Play or pause">&#9654;</button>
+  </div>
+
+  <!-- Full player controls (shown on player view) -->
+  <div class="player-controls" id="player-controls" hidden>
+    <div class="player-scrub">
+      <span class="scrub-time" id="scrub-now">0:00</span>
+      <input type="range" id="scrub" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
+      <span class="scrub-time" id="scrub-total">0:00</span>
+    </div>
+    <div class="player-buttons">
+      <button class="pbtn" id="btn-speed">1&times;</button>
+      <button class="pbtn pbtn-skip" id="btn-back15" aria-label="Back 15 seconds">&#8634;<small>15</small></button>
+      <button class="pbtn pbtn-play" id="btn-play" aria-label="Play or pause">&#9654;</button>
+      <button class="pbtn pbtn-skip" id="btn-fwd15" aria-label="Forward 15 seconds">&#8635;<small>15</small></button>
+      <button class="pbtn" id="btn-sleep" aria-label="Sleep timer">&#127769;</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

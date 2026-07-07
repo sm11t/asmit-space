@@ -1,0 +1,18 @@
+rules_version = '2';
+
+// ReadIt2Me: narrated page audio lives at users/{uid}/books/{bookId}/pages/{n}.mp3
+// Files are WRITTEN by the generateAudio Cloud Function (admin SDK bypasses
+// rules); clients only ever need to read their own files. Keep client write
+// closed so nobody can fill the bucket.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /users/{uid}/{allPaths=**} {
+      // delete allowed so removing a book can clean up its audio
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if false;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

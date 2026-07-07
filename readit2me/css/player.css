@@ -1,0 +1,110 @@
+/* Player + karaoke transcript — styled like a well-set book page. */
+
+.view-player { max-width: 640px; }
+
+.page-indicator {
+  display: flex; align-items: baseline; gap: 8px; margin: 6px 0 18px;
+}
+.page-indicator > span:first-child {
+  font-family: var(--serif); font-size: clamp(3rem, 2rem + 5vw, 5rem);
+  font-weight: 600; line-height: 1; color: var(--ink);
+}
+.page-of { font-size: 0.8rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.12em; }
+
+.transcript {
+  font-family: var(--serif);
+  font-size: var(--text-transcript);
+  line-height: 1.75;
+  color: var(--ink);
+  padding-bottom: 30vh; /* room to center-scroll the last sentences */
+}
+.transcript p { margin: 0 0 1.1em; text-indent: 1.4em; }
+.transcript p:first-of-type, .transcript h3 + p { text-indent: 0; }
+.transcript h3 {
+  font-size: 1.5em; font-weight: 600; margin: 1.4em 0 0.8em; text-indent: 0;
+}
+.transcript .sen {
+  border-radius: 4px;
+  transition: background-color 300ms var(--ease);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.transcript .sen.active {
+  background: var(--highlight);
+  box-shadow: 0 0 0 3px var(--highlight);
+}
+.transcript em { font-style: italic; }
+
+/* ── Mini player (collapsed bottom sheet) ────────────── */
+.miniplayer {
+  position: fixed; left: 10px; right: 10px; bottom: calc(10px + var(--safe-bottom)); z-index: 40;
+  display: flex; align-items: center;
+  background: var(--paper-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.miniplayer-progress { position: absolute; top: 0; left: 0; right: 0; height: 2.5px; background: var(--rule); }
+.miniplayer-progress-fill { height: 100%; width: 0%; background: var(--accent); }
+.miniplayer-main { flex: 1; text-align: left; padding: 12px 16px; min-width: 0; }
+.miniplayer-title {
+  display: block; font-family: var(--serif); font-weight: 600; font-size: 0.95rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.miniplayer-sub { display: block; font-size: 0.72rem; color: var(--ink-faint); }
+.miniplayer-play {
+  width: 52px; height: 52px; font-size: 1.15rem; color: var(--accent);
+  display: grid; place-items: center;
+}
+
+/* ── Full player controls ────────────────────────────── */
+.player-controls {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  padding: 12px var(--space) calc(16px + var(--safe-bottom));
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--rule);
+}
+.player-scrub { display: flex; align-items: center; gap: 10px; }
+.scrub-time { font-size: 0.72rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; min-width: 4ch; }
+#scrub {
+  flex: 1; appearance: none; -webkit-appearance: none; height: 4px; border-radius: 2px;
+  background: var(--rule); accent-color: var(--accent);
+}
+#scrub::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); border: none;
+}
+.player-buttons {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 420px; margin: 8px auto 0;
+}
+.pbtn {
+  color: var(--ink-soft); font-size: 1.05rem; padding: 10px;
+  min-width: 56px; text-align: center; font-weight: 600;
+  transition: transform var(--duration) var(--ease);
+}
+.pbtn:active { transform: scale(0.9); }
+.pbtn-skip { font-size: 1.5rem; position: relative; }
+.pbtn-skip small { position: absolute; inset: 0; display: grid; place-items: center; font-size: 0.5rem; font-weight: 700; padding-top: 3px; }
+.pbtn-play {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--ink); color: var(--paper); font-size: 1.5rem;
+  display: grid; place-items: center; box-shadow: var(--shadow);
+}
+.pbtn.sleep-armed { color: var(--accent); }
+
+/* Sleep timer sheet */
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+  background: var(--paper-raised); border-top: 1px solid var(--rule);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 18px var(--space) calc(22px + var(--safe-bottom));
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
+}
+.sheet h4 { font-family: var(--serif); margin-bottom: 12px; }
+.sheet-options { display: flex; flex-wrap: wrap; gap: 10px; }
+.sheet-options button {
+  padding: 10px 16px; border: 1.5px solid var(--rule); border-radius: 999px; font-size: 0.9rem;
+}
+.sheet-options button.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.sheet-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.35); }

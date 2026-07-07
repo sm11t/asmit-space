@@ -1,0 +1,34 @@
+rules_version = '2';
+
+// ReadIt2Me rules. IMPORTANT: the nyclistings-6d00e project already has rules
+// for `listings` (and possibly `pageviews` from the analytics branch) deployed
+// via the console. When publishing, ADD the blocks below to the existing
+// ruleset — do not replace it wholesale.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── ReadIt2Me: everything a user owns lives under users/{uid} ──
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Hardening: playback position is the hottest write path — validate it.
+    match /users/{uid}/progress/{bookId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.pageNo is int
+        && request.resource.data.pageNo >= 1
+        && request.resource.data.offsetSec is number
+        && request.resource.data.offsetSec >= 0
+        && request.resource.data.deviceId is string
+        && request.resource.data.deviceId.size() <= 40;
+    }
+
+    // ── TTS quota counters: written ONLY by the Cloud Function (admin) ──
+    match /usage/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}
