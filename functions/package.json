@@ -14,7 +14,7 @@
     "@google/genai": "^1.9.0",
     "firebase-admin": "^13.0.0",
     "firebase-functions": "^6.3.0",
-    "lamejs": "^1.2.1"
+    "@breezystack/lamejs": "^1.2.7"
   },
   "private": true
 }

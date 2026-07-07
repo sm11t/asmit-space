@@ -42,9 +42,15 @@ firebase use nyclistings-6d00e       # once
 firebase functions:secrets:set GEMINI_API_KEY   # paste a key from aistudio.google.com
 cd functions && npm install && cd ..
 firebase deploy --only functions,storage
-# firestore rules: deploy only after merging existing console rules into firestore.rules
-firebase deploy --only firestore:rules
 ```
+
+**Firestore rules: publish via the console, not the CLI.** `firestore.rules` in
+this repo contains ONLY the readit2me blocks; the live project also has
+`listings` (and maybe `pageviews`) rules that exist only in the console.
+Running `firebase deploy --only firestore:rules` would replace the whole
+ruleset and break the other apps. Paste the blocks from `firestore.rules` into
+**Firestore → Rules** alongside the existing ones instead (or first copy the
+console rules into the file, then CLI-deploy).
 
 ## Deploy the app
 
@@ -65,13 +71,23 @@ it — everything else is client-side.
 
 ## Costs & limits
 
-- `generateAudio` enforces **120 narrated pages/user/day** (`usage/{uid}`).
+- `generateAudio` enforces **120 narrated pages/user/day** (`usage/{uid}`) plus
+  a **1,000 pages/day project-wide circuit breaker** (`usage/_global`).
 - OCR uses AI Logic's free-tier quota first; TTS is ~$0.03/page.
+- OCR has no server-side meter — it's protected by App Check enforcement plus
+  the AI Logic per-project quota. Set a conservative **requests-per-day quota
+  on the Gemini API key / AI Logic** in the Google Cloud console so a stolen
+  App Check token can't run up the vision bill.
 - A 300-page book ≈ $9 one-time to narrate fully, ~300 MB of Storage (~$0.008/mo).
 
 ## Notes
 
 - The Gemini TTS voice defaults to `Sulafat`; set `ttsVoice`/`styleHint` on a
   book doc to change narrator or emotional direction.
-- `APPCHECK_SITE_KEY` empty = App Check disabled — acceptable only while
-  developing locally. Set it before the public deploy.
+- `APPCHECK_SITE_KEY` empty = App Check in debug mode — the app **refuses to
+  boot outside localhost** without a real key. Set it before the public deploy.
+- Known limitation: when an anonymous library is merged into an existing Google
+  account, the old anonymous UID's Firestore docs and Storage MP3s stay behind
+  (unreachable, small). Enable auto-delete of stale anonymous accounts in
+  Authentication settings, and sweep `users/` with admin tooling if it ever
+  matters.

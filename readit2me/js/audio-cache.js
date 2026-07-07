@@ -29,8 +29,10 @@ function idb(mode, fn) {
     (db) =>
       new Promise((resolve, reject) => {
         const tx = db.transaction(STORE, mode);
-        const result = fn(tx.objectStore(STORE));
-        tx.oncomplete = () => resolve(result.result !== undefined ? result.result : result);
+        const req = fn(tx.objectStore(STORE));
+        // Resolve the request's result (undefined on a get-miss) — never the
+        // IDBRequest object itself.
+        tx.oncomplete = () => resolve(req instanceof IDBRequest ? req.result : undefined);
         tx.onerror = () => reject(tx.error);
       }),
   );

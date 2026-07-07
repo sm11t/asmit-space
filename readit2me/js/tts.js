@@ -58,6 +58,7 @@ export function pageSentences(text) {
 
 let synthQueue = [];
 let synthActive = false;
+let synthPaused = false;
 
 export function speechFallbackAvailable() {
   return 'speechSynthesis' in window;
@@ -67,6 +68,7 @@ export function speakPage(text, { rate = 1, onSentence, onEnd } = {}) {
   stopSpeaking();
   const sentences = pageSentences(toSpeakable(text));
   synthActive = true;
+  synthPaused = false;
   synthQueue = sentences.map((s, i) => {
     const u = new SpeechSynthesisUtterance(s);
     u.rate = rate;
@@ -81,11 +83,17 @@ export function speakPage(text, { rate = 1, onSentence, onEnd } = {}) {
   synthQueue.forEach((u) => speechSynthesis.speak(u));
 }
 
-export function pauseSpeaking() { if (synthActive) speechSynthesis.pause(); }
-export function resumeSpeaking() { if (synthActive) speechSynthesis.resume(); }
+export function pauseSpeaking() {
+  if (synthActive) { speechSynthesis.pause(); synthPaused = true; }
+}
+export function resumeSpeaking() {
+  if (synthActive && synthPaused) { speechSynthesis.resume(); synthPaused = false; }
+}
 export function stopSpeaking() {
   synthActive = false;
+  synthPaused = false;
   synthQueue = [];
   try { speechSynthesis.cancel(); } catch {}
 }
-export function isSpeaking() { return synthActive; }
+export function isSpeaking() { return synthActive && !synthPaused; }
+export function isPausedSpeaking() { return synthActive && synthPaused; }

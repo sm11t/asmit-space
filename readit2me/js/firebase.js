@@ -32,15 +32,25 @@ const functionsMod = await import(`${SDK}/firebase-functions.js`);
 export const app = appMod.initializeApp(CONFIG, 'readit2me');
 
 // App Check must be initialized before any other service makes a request.
-if (APPCHECK_SITE_KEY) {
+// On localhost without a site key, the SDK's debug provider takes over (the
+// debug flag must be set BEFORE initializeAppCheck; the token it prints in
+// the console gets registered in Firebase console → App Check → debug tokens).
+// A production deploy without a key fails LOUDLY rather than running with the
+// Gemini quota unprotected.
+const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+if (!APPCHECK_SITE_KEY && !isLocal) {
+  throw new Error(
+    '[readit2me] APPCHECK_SITE_KEY is not set — refusing to run unprotected ' +
+    'outside localhost. See README-READIT2ME.md step 3.',
+  );
+}
+{
   const appCheckMod = await import(`${SDK}/firebase-app-check.js`);
+  if (!APPCHECK_SITE_KEY) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
   appCheckMod.initializeAppCheck(app, {
-    provider: new appCheckMod.ReCaptchaV3Provider(APPCHECK_SITE_KEY),
+    provider: new appCheckMod.ReCaptchaV3Provider(APPCHECK_SITE_KEY || 'debug-placeholder'),
     isTokenAutoRefreshEnabled: true,
   });
-} else if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-  // Lets AI Logic / callable requests through during development.
-  self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
 }
 
 export const auth = authMod.getAuth(app);
@@ -87,22 +97,23 @@ export function isLinked() {
 
 /* Link the anonymous account to Google. Keeps the same UID (no data migration).
  * On `credential-already-in-use` (the Google account already owns another
- * Firebase user), falls back to a merge: sign in as the existing user, copy
- * this anonymous UID's data over, then let the caller refresh.
+ * Firebase user) we merge instead: `takeSnapshot()` is awaited while we are
+ * STILL the anonymous user (rules forbid cross-uid reads, so this is the only
+ * moment the data is readable), and only then do we switch to the existing
+ * account. The caller restores the snapshot afterwards.
  * Returns { merged: boolean }. */
-export async function linkGoogle(migrateData) {
+export async function linkGoogle(takeSnapshot) {
   const provider = new authMod.GoogleAuthProvider();
-  const anonUid = auth.currentUser.uid;
   try {
     await authMod.linkWithPopup(auth.currentUser, provider);
     return { merged: false };
   } catch (err) {
     if (err.code !== 'auth/credential-already-in-use') throw err;
     const cred = authMod.GoogleAuthProvider.credentialFromError(err);
-    const { user: existing } = await authMod.signInWithCredential(auth, cred);
-    if (typeof migrateData === 'function' && existing.uid !== anonUid) {
-      await migrateData(anonUid, existing.uid);
+    if (typeof takeSnapshot === 'function') {
+      await takeSnapshot(); // MUST complete before the auth switch below
     }
+    await authMod.signInWithCredential(auth, cred);
     return { merged: true };
   }
 }

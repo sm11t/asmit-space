@@ -13,7 +13,15 @@ const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { defineSecret } = require('firebase-functions/params');
 const admin = require('firebase-admin');
 const { GoogleGenAI } = require('@google/genai');
-const lamejs = require('lamejs');
+// NOTE: upstream lamejs@1.2.1 is broken in Node (its module entry references
+// browser-bundle globals like MPEGMode). The @breezystack fork works but is
+// ESM-only under Node (its CJS entry is an IIFE that exports nothing), so it
+// must be loaded via dynamic import.
+let lamejsPromise = null;
+function loadLamejs() {
+  if (!lamejsPromise) lamejsPromise = import('@breezystack/lamejs');
+  return lamejsPromise;
+}
 
 admin.initializeApp();
 
@@ -23,8 +31,20 @@ const TTS_MODEL = 'gemini-2.5-flash-preview-tts';
 const DEFAULT_VOICE = 'Sulafat';
 const SAMPLE_RATE = 24000;
 const MP3_KBPS = 64;
-const DAILY_PAGE_LIMIT = 120;
+const DAILY_PAGE_LIMIT = 120;      // per user
+const GLOBAL_DAILY_LIMIT = 1000;   // whole project — circuit breaker: anonymous
+                                   // UIDs are free to mint, so a per-user cap
+                                   // alone can't bound worst-case spend
 const MAX_TEXT_CHARS = 12000;
+
+// Gemini prebuilt voices — reject anything else before spending quota.
+const VOICES = new Set([
+  'Zephyr', 'Puck', 'Charon', 'Kore', 'Fenrir', 'Leda', 'Orus', 'Aoede',
+  'Callirrhoe', 'Autonoe', 'Enceladus', 'Iapetus', 'Umbriel', 'Algieba',
+  'Despina', 'Erinome', 'Algenib', 'Rasalgethi', 'Laomedeia', 'Achernar',
+  'Alnilam', 'Schedar', 'Gacrux', 'Pulcherrima', 'Achird', 'Zubenelgenubi',
+  'Vindemiatrix', 'Sadachbia', 'Sadaltager', 'Sulafat',
+]);
 
 exports.generateAudio = onCall(
   {
@@ -58,7 +78,7 @@ exports.generateAudio = onCall(
     const page = pageSnap.data();
 
     // Idempotent: if audio already exists for this voice, return it.
-    const wantVoice = typeof voice === 'string' && voice ? voice : DEFAULT_VOICE;
+    const wantVoice = typeof voice === 'string' && VOICES.has(voice) ? voice : DEFAULT_VOICE;
     if (page.audio && page.audio.path && page.audio.voice === wantVoice) {
       return page.audio;
     }
@@ -102,7 +122,7 @@ exports.generateAudio = onCall(
     const pcm = Buffer.from(part.inlineData.data, 'base64'); // s16le mono 24kHz
 
     // ── PCM → MP3 ───────────────────────────────────────────────────────
-    const mp3 = encodeMp3(pcm);
+    const mp3 = await encodeMp3(pcm);
     const durationSec = pcm.length / 2 / SAMPLE_RATE;
 
     // ── Store + record ──────────────────────────────────────────────────
@@ -124,21 +144,32 @@ exports.generateAudio = onCall(
   },
 );
 
-/* Per-user daily quota via a usage/{uid} doc — bounds worst-case spend. */
+/* Per-user + project-wide daily quotas via usage/ docs — bounds worst-case
+ * spend even against minted anonymous UIDs. */
 async function checkDailyQuota(db, uid) {
   const today = new Date().toISOString().slice(0, 10);
-  const ref = db.doc(`usage/${uid}`);
+  const userRef = db.doc(`usage/${uid}`);
+  const globalRef = db.doc('usage/_global');
   await db.runTransaction(async (tx) => {
-    const snap = await tx.get(ref);
-    const data = snap.exists ? snap.data() : {};
-    const count = data.day === today ? data.pages || 0 : 0;
-    if (count >= DAILY_PAGE_LIMIT) {
+    const [userSnap, globalSnap] = await Promise.all([tx.get(userRef), tx.get(globalRef)]);
+    const u = userSnap.exists ? userSnap.data() : {};
+    const g = globalSnap.exists ? globalSnap.data() : {};
+    const userCount = u.day === today ? u.pages || 0 : 0;
+    const globalCount = g.day === today ? g.pages || 0 : 0;
+    if (userCount >= DAILY_PAGE_LIMIT) {
       throw new HttpsError(
         'resource-exhausted',
         `Daily limit of ${DAILY_PAGE_LIMIT} narrated pages reached — try tomorrow.`,
       );
     }
-    tx.set(ref, { day: today, pages: count + 1 }, { merge: true });
+    if (globalCount >= GLOBAL_DAILY_LIMIT) {
+      throw new HttpsError(
+        'resource-exhausted',
+        'The narration service is at capacity today — try tomorrow.',
+      );
+    }
+    tx.set(userRef, { day: today, pages: userCount + 1 }, { merge: true });
+    tx.set(globalRef, { day: today, pages: globalCount + 1 }, { merge: true });
   });
 }
 
@@ -158,13 +189,14 @@ function speakable(text) {
     .trim();
 }
 
-function encodeMp3(pcmBuffer) {
+async function encodeMp3(pcmBuffer) {
+  const { Mp3Encoder } = await loadLamejs();
   const samples = new Int16Array(
     pcmBuffer.buffer,
     pcmBuffer.byteOffset,
     Math.floor(pcmBuffer.length / 2),
   );
-  const encoder = new lamejs.Mp3Encoder(1, SAMPLE_RATE, MP3_KBPS);
+  const encoder = new Mp3Encoder(1, SAMPLE_RATE, MP3_KBPS);
   const chunks = [];
   const BLOCK = 1152;
   for (let i = 0; i < samples.length; i += BLOCK) {

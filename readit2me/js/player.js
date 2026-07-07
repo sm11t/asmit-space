@@ -29,10 +29,12 @@ const state = {
   book: null,
   pages: [],           // [{n, text, audio, timings}]
   idx: -1,             // index into pages
-  cache: new Map(),    // n -> {url, timings, durationSec}
+  cache: new Map(),    // "bookId:n" -> {url, timings, durationSec}
+  pending: new Map(),  // "bookId:n" -> Promise<entry> (dedupes in-flight TTS)
   mode: null,          // 'cloud' | 'speech'
   speed: 1,
   sleepUntil: 0,       // epoch ms; -1 = end of page
+  sleepChoiceMin: 0,   // which sheet option is armed (0=off, -1=end of page)
   activeSen: -1,
   blessed: false,
   onStateChange: null, // notify app.js (mini player)
@@ -49,19 +51,27 @@ export function initPlayer(onStateChange) {
     el[id] = document.getElementById(id);
   }
 
-  // Bless the element on the very first tap anywhere.
+  // Bless the element on the very first tap anywhere: iOS only lets a
+  // gesture-started media element keep playing after src changes, so play a
+  // tiny silent WAV during the gesture. Listeners stay attached until a
+  // play() actually succeeds.
+  const SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
   const bless = () => {
-    if (state.blessed) return;
-    state.blessed = true;
+    if (state.blessed || audio.currentSrc && !audio.paused) return;
+    if (audio.src && audio.src !== SILENT_WAV) return; // real audio already loaded
+    audio.src = SILENT_WAV;
     audio.muted = true;
-    audio.play().then(() => { audio.pause(); audio.muted = false; }).catch(() => {
-      state.blessed = false; audio.muted = false;
-    });
-    document.removeEventListener('touchend', bless);
-    document.removeEventListener('click', bless);
+    audio.play().then(() => {
+      state.blessed = true;
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.muted = false;
+      document.removeEventListener('touchend', bless);
+      document.removeEventListener('click', bless);
+    }).catch(() => { audio.muted = false; });
   };
-  document.addEventListener('touchend', bless, { once: false });
-  document.addEventListener('click', bless, { once: false });
+  document.addEventListener('touchend', bless);
+  document.addEventListener('click', bless);
 
   audio.addEventListener('timeupdate', onTimeUpdate);
   audio.addEventListener('ended', () => advance(1, true));
@@ -105,22 +115,45 @@ export async function openBook(book, { resume = true } = {}) {
     const prog = await store.getProgress(book.id);
     if (prog) { startN = prog.pageNo; offset = prog.offsetSec || 0; }
   }
-  const idx = Math.max(0, state.pages.findIndex((p) => p.n === startN));
+  let idx = state.pages.findIndex((p) => p.n === startN);
+  if (idx === -1) { idx = 0; offset = 0; } // saved page gone — don't seek page 1 to its offset
   await loadPage(idx, offset, /*autoplay*/ false);
   persistStorage();
 }
 
 /* ── Page loading + playback ─────────────────────────────────────────────── */
 
-async function preparePage(idx) {
+function cacheKey(n) {
+  return `${state.book.id}:${n}`;
+}
+
+function preparePage(idx) {
   const page = state.pages[idx];
-  if (!page) return null;
-  if (state.cache.has(page.n)) return state.cache.get(page.n);
-  const { blob, audio: ref, timings } = await tts.ensurePageAudio(state.book, page.n, page);
-  const entry = { url: URL.createObjectURL(blob), timings, durationSec: ref.durationSec };
-  page.audio = ref;
-  state.cache.set(page.n, entry);
-  return entry;
+  if (!page) return Promise.resolve(null);
+  const book = state.book;
+  const key = `${book.id}:${page.n}`;
+  if (state.cache.has(key)) return Promise.resolve(state.cache.get(key));
+  if (state.pending.has(key)) return state.pending.get(key);
+
+  // The promise is stored BEFORE any await, so a concurrent auto-advance and
+  // background warm-up share one generateAudio call instead of billing twice.
+  const p = tts.ensurePageAudio(book, page.n, page).then(({ blob, audio: ref, timings }) => {
+    state.pending.delete(key);
+    // If the user opened a different book while this generated, don't let a
+    // stale resolution pollute the new book's cache.
+    if (state.book !== book) {
+      return null;
+    }
+    const entry = { url: URL.createObjectURL(blob), timings, durationSec: ref.durationSec };
+    page.audio = ref;
+    state.cache.set(key, entry);
+    return entry;
+  }, (err) => {
+    state.pending.delete(key);
+    throw err;
+  });
+  state.pending.set(key, p);
+  return p;
 }
 
 async function loadPage(idx, offsetSec, autoplay) {
@@ -132,9 +165,10 @@ async function loadPage(idx, offsetSec, autoplay) {
   el['player-pageno'].textContent = page.n;
   syncUi('Narrating…');
 
+  const bookAtLoad = state.book;
   try {
     const entry = await preparePage(idx);
-    if (state.idx !== idx) return; // user moved on while we generated
+    if (state.idx !== idx || state.book !== bookAtLoad || !entry) return; // user moved on
     state.mode = 'cloud';
     audio.src = entry.url;
     audio.playbackRate = state.speed;
@@ -144,7 +178,7 @@ async function loadPage(idx, offsetSec, autoplay) {
     warmNextPage(idx);
   } catch (err) {
     console.warn('[player] cloud narration unavailable, using device voice', err);
-    if (state.idx !== idx) return;
+    if (state.idx !== idx || state.book !== bookAtLoad) return;
     state.mode = 'speech';
     toast('Cloud narration unavailable — using device voice');
     if (autoplay) speakCurrent();
@@ -156,7 +190,11 @@ function speakCurrent() {
   const page = state.pages[state.idx];
   tts.speakPage(page.text, {
     rate: state.speed,
-    onSentence: (i) => highlightSentence(i),
+    onSentence: (i) => {
+      highlightSentence(i);
+      // No real clock in speech mode — save the page so resume lands close.
+      store.reportProgress(state.book.id, page.n, 0);
+    },
     onEnd: () => advance(1, true),
   });
   syncUi();
@@ -173,6 +211,7 @@ async function advance(delta, autoplay) {
   // Sleep timer "end of page"
   if (state.sleepUntil === -1 && delta > 0) {
     state.sleepUntil = 0;
+    state.sleepChoiceMin = 0;
     syncUi();
     store.flushProgress();
     return;
@@ -191,7 +230,9 @@ async function advance(delta, autoplay) {
 
 export function togglePlay() {
   if (state.mode === 'speech') {
-    if (tts.isSpeaking()) { tts.pauseSpeaking(); } else { speakCurrent(); }
+    if (tts.isSpeaking()) tts.pauseSpeaking();
+    else if (tts.isPausedSpeaking()) tts.resumeSpeaking();
+    else speakCurrent();
     syncUi();
     return;
   }
@@ -229,12 +270,9 @@ function openSleepSheet() {
   for (const c of SLEEP_CHOICES) {
     const b = document.createElement('button');
     b.textContent = c.label;
-    const armed =
-      (c.min === 0 && !state.sleepUntil) ||
-      (c.min === -1 && state.sleepUntil === -1) ||
-      (c.min > 0 && state.sleepUntil > 0);
-    if (armed) b.classList.add('on');
+    if (c.min === state.sleepChoiceMin) b.classList.add('on');
     b.addEventListener('click', () => {
+      state.sleepChoiceMin = c.min;
       state.sleepUntil = c.min === 0 ? 0 : c.min === -1 ? -1 : Date.now() + c.min * 60000;
       closeSleepSheet();
       syncUi();
@@ -258,6 +296,7 @@ function stopAll() {
   audio.removeAttribute('src');
   for (const entry of state.cache.values()) URL.revokeObjectURL(entry.url);
   state.cache.clear();
+  state.pending.clear(); // in-flight promises self-discard via the book check
   state.sleepUntil = 0;
 }
 
@@ -271,11 +310,12 @@ function onTimeUpdate() {
   // Sleep timer — checked here, not with setTimeout (timers throttle in bg).
   if (state.sleepUntil > 0 && Date.now() >= state.sleepUntil) {
     state.sleepUntil = 0;
+    state.sleepChoiceMin = 0;
     fadeOutAndPause();
   }
 
   // Karaoke: latest sentence whose start <= now.
-  const entry = state.cache.get(page?.n);
+  const entry = page ? state.cache.get(cacheKey(page.n)) : null;
   if (entry && entry.timings) {
     let i = -1;
     const t = audio.currentTime;
@@ -366,7 +406,7 @@ function setStyledText(node, text) {
 function onSentenceTap(e) {
   const i = Number(e.currentTarget.dataset.sen);
   const page = state.pages[state.idx];
-  const entry = state.cache.get(page?.n);
+  const entry = page ? state.cache.get(cacheKey(page.n)) : null;
   if (state.mode === 'cloud' && entry && entry.timings && entry.timings[i]) {
     audio.currentTime = entry.timings[i].s;
     if (audio.paused) audio.play().catch(() => {});

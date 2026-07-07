@@ -153,14 +153,14 @@ function summarize(text) {
 
 async function doLinkGoogle() {
   try {
+    let snapshot = null;
     const { merged } = await linkGoogle(async () => {
-      // The Google account already owns a user: snapshot the anonymous data
-      // BEFORE the sign-in switch, restore it after.
-      window.__r2mSnapshot = await store.snapshotUserData();
+      // The Google account already owns a user: linkGoogle invokes this while
+      // we are STILL the anonymous user, before the sign-in switch.
+      snapshot = await store.snapshotUserData();
     });
-    if (merged && window.__r2mSnapshot) {
-      await store.restoreUserData(window.__r2mSnapshot);
-      window.__r2mSnapshot = null;
+    if (merged && snapshot) {
+      await store.restoreUserData(snapshot);
     }
     $('link-nudge').hidden = true;
     updateAccountGlyph();
