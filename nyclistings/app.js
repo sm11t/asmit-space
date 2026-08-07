@@ -12,6 +12,10 @@
   const STORAGE_STATUS  = 'nyc-listings:status:v1';
   const STORAGE_AUTHOR  = 'nyc-listings:author:v1';
   const STATUS_OPTIONS  = ['interested', 'contacted', 'scheduled', 'visited', 'rejected'];
+  // Who can post notes. Picking a name is how you identify yourself — there are
+  // no accounts and no password, so this is an honour-system byline.
+  const PEOPLE = ['Jay', 'Viktor', 'Zeyad', 'Asmit'];
+  const STORAGE_NOTES_OPEN = 'nyc-listings:notes-open:v1';
   const BBOX = { sw: [40.55, -74.12], ne: [40.92, -73.78] };
 
   const SUBWAY_COLORS = {
@@ -45,7 +49,7 @@
     listings: [],
     filters: { search: '', minPrice: null, maxPrice: null, leases: new Set(), hoods: new Set(), dateAdded: '' },
     selectedId: null,
-    author: localStorage.getItem(STORAGE_AUTHOR) || '',
+    author: PEOPLE.includes(localStorage.getItem(STORAGE_AUTHOR)) ? localStorage.getItem(STORAGE_AUTHOR) : '',
     notesByListing: {},   // { listingId: [{ id, text, author, uid, createdAt }] }
     noteCounts:    {},    // { listingId: count }  used for marker dot + sheet meta
     status:        {},    // { listingId: 'interested' | ... }
@@ -84,7 +88,23 @@
     if (t.includes('11')) return '11mo';
     return 'standard';
   }
+  // Listings in these collections are quoted as whole-unit rent (portal
+  // listings), so that is the headline number — not the derived per-room price.
+  // A listing can override either way with `price_display: total | room`.
+  const TOTAL_PRICE_COLLECTIONS = new Set(['JAVZ']);
+
+  function priceMode(l) {
+    if (l.price_display === 'total' || l.price_display === 'room') return l.price_display;
+    if (l.price_total && TOTAL_PRICE_COLLECTIONS.has(l.collection)) return 'total';
+    return 'room';
+  }
+  // Short unit suffix for compact rows ("/mo" vs "/rm").
+  function priceUnit(l) {
+    return priceMode(l) === 'total' ? '/mo' : '/rm';
+  }
+
   function fmtPrice(l) {
+    if (priceMode(l) === 'total') return `$${l.price_total.toLocaleString()}`;
     if (l.price_per_bedroom) return `$${l.price_per_bedroom.toLocaleString()}`;
     if (l.price_per_bedroom_low && l.price_per_bedroom_high)
       return `$${l.price_per_bedroom_low.toLocaleString()}–$${l.price_per_bedroom_high.toLocaleString()}`;
@@ -96,6 +116,16 @@
     const m = /^(\d{4}-\d{2}-\d{2})/.exec(l.id || '');
     return m ? m[1] : null;
   }
+
+  // A listing belongs to a named collection (frontmatter `collection: JAVZ`)
+  // if it has one, otherwise it falls back to its capture date. Named
+  // collections are curated lists — viewings — and outrank the date batches.
+  function groupKey(l) {
+    return l.collection ? `c:${l.collection}` : (captureDate(l) ? `d:${captureDate(l)}` : null);
+  }
+  function groupLabel(key) {
+    return key.startsWith('c:') ? key.slice(2) : fmtCaptureDate(key.slice(2));
+  }
   function fmtCaptureDate(iso) {
     const [y, mo, d] = iso.split('-').map(Number);
     // Local-time constructor avoids the UTC-parse day shift of new Date(iso).
@@ -106,8 +136,7 @@
   async function init() {
     let payload;
     try {
-      // gate.js handles plaintext (dev) or encrypted (portfolio) automatically
-      payload = await window.NYCGate.loadListings();
+      payload = await window.NYCData.loadListings();
     } catch (err) {
       showFatal(`Could not load listings — ${err.message}. ` +
         `If you opened this file directly, serve the folder over HTTP instead (e.g. python -m http.server inside the web/ folder).`);
@@ -182,7 +211,7 @@
               migrated[id] = [{
                 id: 'legacy',
                 text,
-                author: state.author || 'you',
+                author: state.author,
                 createdAt: Date.now(),
                 uid: 'local',
               }];
@@ -464,7 +493,7 @@
     const subl = isSublet(l) ? ' · sublet' : '';
     return `
       <p class="pop-title">${escape(l.address || l.title)}</p>
-      <p class="pop-meta">${fmtPrice(l)}/rm · ${escape(l.neighborhood || '—')}${subl}</p>
+      <p class="pop-meta">${fmtPrice(l)}${priceUnit(l)} · ${escape(l.neighborhood || '—')}${subl}</p>
     `;
   }
 
@@ -517,20 +546,32 @@
     const sel = el('#preset-select');
     if (!sel) return;
 
-    const counts = countBy(state.listings.filter(captureDate), captureDate);
-    const dates = Object.keys(counts).sort().reverse(); // newest first
+    const counts = countBy(state.listings.filter(groupKey), groupKey);
+    const keys = Object.keys(counts);
+    // Named collections first (newest-added on top), then date batches newest-first.
+    const named = keys.filter((k) => k.startsWith('c:')).sort();
+    const dates = keys.filter((k) => k.startsWith('d:')).sort().reverse();
 
     sel.innerHTML = '';
     const all = document.createElement('option');
     all.value = '';
-    all.textContent = `All dates · ${state.listings.length}`;
+    all.textContent = `All listings · ${state.listings.length}`;
     sel.appendChild(all);
-    dates.forEach((d) => {
-      const o = document.createElement('option');
-      o.value = d;
-      o.textContent = `${fmtCaptureDate(d)} · ${counts[d]}`;
-      sel.appendChild(o);
-    });
+
+    const addGroup = (label, list) => {
+      if (!list.length) return;
+      const grp = document.createElement('optgroup');
+      grp.label = label;
+      list.forEach((k) => {
+        const o = document.createElement('option');
+        o.value = k;
+        o.textContent = `${groupLabel(k)} · ${counts[k]}`;
+        grp.appendChild(o);
+      });
+      sel.appendChild(grp);
+    };
+    addGroup('Lists', named);
+    addGroup('Saved on', dates);
 
     sel.value = state.filters.dateAdded || '';
     sel.classList.toggle('is-active', !!sel.value);
@@ -588,7 +629,7 @@
   function filteredListings() {
     const { search, minPrice, maxPrice, leases, hoods, dateAdded } = state.filters;
     return state.listings.filter((l) => {
-      if (dateAdded && captureDate(l) !== dateAdded) return false;
+      if (dateAdded && groupKey(l) !== dateAdded) return false;
       if (search) {
         const hay = [l.title, l.address, l.neighborhood, l.operator, l.contact_phone, l.listing_type, l.lease_term]
           .filter(Boolean).join(' ').toLowerCase();
@@ -627,7 +668,10 @@
       const li = document.createElement('li');
       li.innerHTML = `
         <span class="qa-head">${escape(l.address || l.title)}</span>
-        <span class="qa-meta">${fmtPrice(l)} · ${l.miles_to_nyu ?? '—'}mi</span>
+        <span class="qa-meta">${fmtPrice(l)}${
+          priceMode(l) === 'room' && l.price_total && l.beds_in_unit > 1
+            ? `<span class="qa-whole"> ($${l.price_total.toLocaleString()} unit)</span>` : ''
+        } · ${l.miles_to_nyu ?? '—'}mi</span>
       `;
       li.addEventListener('click', () => selectListing(l.id, { fly: true, openSheet: true }));
       ul.appendChild(li);
@@ -651,6 +695,8 @@
   }
 
   function renderDetail(l) {
+    state.exitNotesFullscreen?.();
+    state.exitNotesFullscreen = null;
     const root = el('#detail-scroll');
     const tpl = el('#detail-template').content.cloneNode(true);
     const card = tpl.querySelector('.detail-card');
@@ -659,9 +705,12 @@
     bindText(card, 'title', l.title || l.address);
     bindText(card, 'address', l.address || '');
 
+    renderGallery(card, l);
+
     // Grid
     const grid = card.querySelector('.detail-grid');
-    grid.appendChild(field('Price / room', priceCell(l), { className: 'span-2' }));
+    grid.appendChild(field(priceMode(l) === 'total' ? 'Rent / month' : 'Price / room',
+                          priceCell(l), { className: 'span-2' }));
     grid.appendChild(field('Beds / Baths', `${l.beds_in_unit ?? '—'} / ${l.baths ?? '—'}`));
     grid.appendChild(field('Sq ft', l.sqft ? `${l.sqft}` : '—'));
     grid.appendChild(field('Distance to NYU', l.miles_to_nyu != null ? `${l.miles_to_nyu} mi` : '—'));
@@ -705,7 +754,86 @@
 
     root.innerHTML = '';
     root.appendChild(card);
+    // Must run once the card is in the document — refreshIdentityUI() queries
+    // document-wide, so a detached fragment would be invisible to it.
+    refreshIdentityUI();
     root.scrollTop = 0;
+  }
+
+  // ---------- photo gallery ----------
+
+  // Local copies (downloaded at parse time) are authoritative; the remote CDN
+  // URLs are a fallback for listings saved before photos were pulled, and for
+  // any file that failed to download.
+  function photoSources(l) {
+    const local = Array.isArray(l.photo_files) ? l.photo_files : [];
+    const remote = Array.isArray(l.photo_urls) ? l.photo_urls : [];
+    return local.length ? local.map((p, i) => ({ src: p, fallback: remote[i] || null }))
+                        : remote.map((u) => ({ src: u, fallback: null }));
+  }
+
+  function renderGallery(card, l) {
+    const shots = photoSources(l);
+    const sec = card.querySelector('.detail-gallery');
+    if (!sec || !shots.length) return;
+    sec.hidden = false;
+    const strip = sec.querySelector('[data-slot="gallery"]');
+
+    shots.forEach(({ src, fallback }, i) => {
+      const fig = document.createElement('button');
+      fig.type = 'button';
+      fig.className = 'gallery-item';
+      fig.setAttribute('aria-label', `Photo ${i + 1} of ${shots.length} — click to enlarge`);
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `${l.address || 'Listing'} — photo ${i + 1}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      if (fallback) {
+        img.addEventListener('error', () => { img.src = fallback; }, { once: true });
+      }
+      fig.appendChild(img);
+      fig.addEventListener('click', () => openLightbox(shots, i, l));
+      strip.appendChild(fig);
+    });
+  }
+
+  function openLightbox(shots, startIndex, l) {
+    let i = startIndex;
+    const box = document.createElement('div');
+    box.className = 'lightbox';
+    box.innerHTML = `
+      <button class="lb-close" type="button" aria-label="Close">&times;</button>
+      <button class="lb-nav lb-prev" type="button" aria-label="Previous photo">&#8249;</button>
+      <img class="lb-img" alt="">
+      <button class="lb-nav lb-next" type="button" aria-label="Next photo">&#8250;</button>
+      <p class="lb-caption"></p>`;
+
+    const img = box.querySelector('.lb-img');
+    const cap = box.querySelector('.lb-caption');
+    const show = () => {
+      const s = shots[i];
+      img.src = s.src;
+      img.onerror = s.fallback ? () => { img.src = s.fallback; img.onerror = null; } : null;
+      img.alt = `${l.address || 'Listing'} — photo ${i + 1}`;
+      cap.textContent = `${i + 1} / ${shots.length} · ${l.address || ''}`;
+    };
+    const step = (d) => { i = (i + d + shots.length) % shots.length; show(); };
+    const close = () => { box.remove(); document.removeEventListener('keydown', onKey); };
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'ArrowLeft') step(-1);
+    }
+
+    box.querySelector('.lb-close').addEventListener('click', close);
+    box.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
+    box.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); step(1); });
+    box.addEventListener('click', (e) => { if (e.target === box) close(); });
+    document.addEventListener('keydown', onKey);
+
+    show();
+    document.body.appendChild(box);
   }
 
   // ---------- notes thread ----------
@@ -713,15 +841,22 @@
     const threadEl = card.querySelector('[data-slot="thread"]');
     const composerTa = card.querySelector('[data-slot="composer"]');
     const postBtn = card.querySelector('[data-action="post-note"]');
-    const authorBadge = card.querySelector('[data-slot="composer-author"]');
+    const countEls = card.querySelectorAll('[data-slot="note-count"]');
 
-    authorBadge.textContent = state.author || 'anonymous';
+    renderWhoChips(card.querySelector('[data-slot="who-chips"]'));
 
     const renderThread = (notes) => {
       state.notesByListing[l.id] = notes;
       state.noteCounts[l.id] = notes.length;
       threadEl.innerHTML = '';
+      if (!notes.length) {
+        const li = document.createElement('li');
+        li.className = 'thread-empty';
+        li.textContent = 'No notes yet — add the first one.';
+        threadEl.appendChild(li);
+      }
       notes.forEach((n) => threadEl.appendChild(noteCard(n, l)));
+      countEls.forEach((c) => { c.textContent = notes.length; });
       // refresh marker dot for this listing only
       const m = state.markers.get(l.id);
       if (m) m.setIcon(buildIcon(l, { selected: state.selectedId === l.id }));
@@ -747,17 +882,18 @@
     const post = async () => {
       const text = composerTa.value.trim();
       if (!text) return;
+      if (!state.author) { setStatus('pick your name first', true); return; }
       postBtn.disabled = true;
       try {
         if (state.backend === 'firebase' && window.NYCFirebase) {
-          await window.NYCFirebase.addNote(l.id, text, state.author || 'anonymous');
+          await window.NYCFirebase.addNote(l.id, text, state.author);
         } else {
           // local fallback
           const list = state.notesByListing[l.id] || [];
           list.push({
             id: 'local-' + Date.now(),
             text,
-            author: state.author || 'you',
+            author: state.author,
             uid: 'local',
             createdAt: Date.now(),
           });
@@ -778,6 +914,77 @@
     postBtn.addEventListener('click', post);
     composerTa.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); post(); }
+    });
+    // Grow with content so long notes stay readable while typing on a phone.
+    const autogrow = () => {
+      composerTa.style.height = 'auto';
+      composerTa.style.height = Math.min(composerTa.scrollHeight, 180) + 'px';
+    };
+    composerTa.addEventListener('input', autogrow);
+    autogrow();
+
+    setupNotesChrome(card);
+  }
+
+  /** Collapse/expand the notes block, and the full-screen focus mode. */
+  function setupNotesChrome(card) {
+    const section = card.querySelector('.detail-notes');
+    if (!section) return;
+
+    const open = localStorage.getItem(STORAGE_NOTES_OPEN) !== '0';
+    const applyOpen = (isOpen) => {
+      section.classList.toggle('is-collapsed', !isOpen);
+      card.querySelector('[data-action="toggle-notes"]')?.setAttribute('aria-expanded', String(isOpen));
+      localStorage.setItem(STORAGE_NOTES_OPEN, isOpen ? '1' : '0');
+    };
+    applyOpen(open);
+
+    card.querySelector('[data-action="toggle-notes"]')?.addEventListener('click', () => {
+      applyOpen(section.classList.contains('is-collapsed'));
+    });
+
+    // The mobile sheet is transform:translateY(...), which makes it the
+    // containing block for position:fixed — an overlay left inside it renders
+    // *under* the topbar and Leaflet controls. Portal to <body> instead.
+    let placeholder = null;
+
+    const enterFullscreen = () => {
+      if (placeholder) return;
+      placeholder = document.createComment('notes-slot');
+      section.parentNode.insertBefore(placeholder, section);
+      document.body.appendChild(section);
+      document.body.classList.add('notes-fullscreen');
+      applyOpen(true);
+      setExpandLabel(true);
+      section.querySelector('[data-slot="composer"]')?.focus({ preventScroll: true });
+    };
+
+    const exitFullscreen = () => {
+      if (placeholder && placeholder.parentNode) {
+        placeholder.parentNode.insertBefore(section, placeholder);
+        placeholder.remove();
+      }
+      placeholder = null;
+      document.body.classList.remove('notes-fullscreen');
+      setExpandLabel(false);
+    };
+
+    function setExpandLabel(on) {
+      card.querySelectorAll('.notes-expand').forEach((b) => {
+        b.setAttribute('aria-label', on ? 'Close full screen notes' : 'Expand notes to full screen');
+        b.title = on ? 'Close' : 'Expand notes';
+      });
+    }
+
+    // Let Escape / selecting another listing tear the overlay down properly,
+    // not just drop the class and strand the section on <body>.
+    state.exitNotesFullscreen = exitFullscreen;
+
+    card.querySelectorAll('[data-action="expand-notes"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (document.body.classList.contains('notes-fullscreen')) exitFullscreen();
+        else enterFullscreen();
+      });
     });
   }
 
@@ -894,8 +1101,21 @@
     return frag;
   }
 
+  // Whole-unit rent, when the listing is priced for the entire apartment
+  // (portals quote it that way) rather than per room. Only meaningful on
+  // multi-bed units — on a 1-bed the total and the per-room price are the same.
+  function wholeUnitRent(l) {
+    if (!l.price_total || !l.beds_in_unit || l.beds_in_unit < 2) return null;
+    return `$${l.price_total.toLocaleString()}/mo whole unit · ${l.beds_in_unit} beds`;
+  }
+
   function priceCell(l) {
-    return `<span class="price">${fmtPrice(l)}<small>/ room / mo</small></span>`;
+    if (priceMode(l) === 'total') {
+      return `<span class="price">${fmtPrice(l)}<small>/ mo</small></span>`;
+    }
+    const whole = wholeUnitRent(l);
+    return `<span class="price">${fmtPrice(l)}<small>/ room / mo</small></span>`
+      + (whole ? `<span class="price-whole">${escape(whole)}</span>` : '');
   }
 
   function formatContact(l) {
@@ -1039,7 +1259,10 @@
         titleEl.textContent = l.address || l.title;
         const noteN = state.noteCounts[l.id] || 0;
         const noteStr = noteN ? ` · ${noteN} note${noteN === 1 ? '' : 's'}` : '';
-        metaEl.textContent = `${fmtPrice(l)}/rm · ${l.miles_to_nyu ?? '—'}mi${noteStr}`;
+        const wholeStr = priceMode(l) === 'room' && l.price_total && l.beds_in_unit > 1
+          ? ` · $${l.price_total.toLocaleString()} unit` : '';
+        metaEl.textContent =
+          `${fmtPrice(l)}${priceUnit(l)}${wholeStr} · ${l.miles_to_nyu ?? '—'}mi${noteStr}`;
         return;
       }
     }
@@ -1048,28 +1271,62 @@
   }
 
   // ---------- author ----------
-  function setupAuthorInput() {
-    const input = el('#author-input');
-    if (!input) return;
-    input.value = state.author || '';
-    input.addEventListener('change', () => {
-      const v = input.value.trim().slice(0, 40);
-      state.author = v;
-      if (v) localStorage.setItem(STORAGE_AUTHOR, v);
-      else localStorage.removeItem(STORAGE_AUTHOR);
-      // refresh composer byline if open
-      const badge = el('[data-slot="composer-author"]');
-      if (badge) badge.textContent = v || 'anonymous';
+  // ---------- identity ----------
+
+  /** Render the roster as a radio-style chip group into `host`. */
+  function renderWhoChips(host) {
+    if (!host) return;
+    host.innerHTML = '';
+    PEOPLE.forEach((name) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'who-chip';
+      b.dataset.person = name;
+      b.textContent = name;
+      b.setAttribute('role', 'radio');
+      b.setAttribute('aria-checked', String(state.author === name));
+      b.classList.toggle('active', state.author === name);
+      b.addEventListener('click', () => setAuthor(state.author === name ? '' : name));
+      host.appendChild(b);
     });
+  }
+
+  function setAuthor(name) {
+    state.author = name;
+    if (name) localStorage.setItem(STORAGE_AUTHOR, name);
+    else localStorage.removeItem(STORAGE_AUTHOR);
+    refreshIdentityUI();
+  }
+
+  /** Keep every chip group + composer byline in sync after a change. */
+  function refreshIdentityUI() {
+    els('.who-chips').forEach(renderWhoChips);
+    els('[data-action="post-note"]').forEach((btn) => { btn.disabled = !state.author; });
+    els('[data-slot="composer-hint"]').forEach((h) => {
+      h.textContent = state.author ? `Posting as ${state.author}` : 'Pick your name to post';
+      h.classList.toggle('is-warn', !state.author);
+    });
+  }
+
+  function setupAuthorInput() {
+    renderWhoChips(el('#author-chips'));
+    refreshIdentityUI();
   }
 
   // ---------- keyboard ----------
   function bindKeyboard() {
     document.addEventListener('keydown', (e) => {
+      // Full-screen notes swallow the first Escape, so it can't also deselect.
+      if (e.key === 'Escape' && document.body.classList.contains('notes-fullscreen')) {
+        state.exitNotesFullscreen?.();
+        return;
+      }
       if (e.key === 'Escape' && state.selectedId
           && !document.body.classList.contains('drawer-open')
           && !document.body.classList.contains('sheet-expanded')) {
         state.selectedId = null;
+        state.exitNotesFullscreen?.();
+        state.exitNotesFullscreen = null;
         if (state.currentNoteUnsub) { state.currentNoteUnsub(); state.currentNoteUnsub = null; }
         refreshSelectedMarker();
         const root = el('#detail-scroll');

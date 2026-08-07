@@ -29,10 +29,9 @@
        then ES-module bridge that initializes the SDK and exposes window.NYCFirebase. -->
   <script defer src="firebase-config.js"></script>
   <script type="module" src="firebase.js"></script>
-  <!-- gate.js exposes window.NYCGate.loadListings(); it auto-detects whether
-       to fetch plaintext (dev) or run a password gate against the encrypted
-       blob (portfolio deploy). Must load before app.js. -->
-  <script defer src="gate.js"></script>
+  <!-- load-data.js exposes window.NYCData.loadListings(), which reads
+       data/listings.json. No gate, no password. Must load before app.js. -->
+  <script defer src="load-data.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -42,9 +41,9 @@
       <h1>NYC Listings <span class="brand-sub">/ Brooklyn · Manhattan</span></h1>
     </div>
     <div class="preset">
-      <label class="preset-label" for="preset-select">Saved</label>
-      <select id="preset-select" class="preset-select" aria-label="Filter listings by date added">
-        <option value="">All dates</option>
+      <label class="preset-label" for="preset-select">List</label>
+      <select id="preset-select" class="preset-select" aria-label="Filter listings by list or date added">
+        <option value="">All listings</option>
       </select>
     </div>
     <div class="meta">
@@ -125,9 +124,9 @@
       </section>
 
       <section class="control-group identity">
-        <p class="control-label">Your name</p>
-        <input id="author-input" type="text" placeholder="appears on your notes" maxlength="40" autocomplete="nickname" />
-        <p class="hint">Saved on this device. Used as the byline for any notes you post.</p>
+        <p class="control-label">Who are you?</p>
+        <div id="author-chips" class="who-chips" role="radiogroup" aria-label="Who are you"></div>
+        <p class="hint">Saved on this device. Used as the byline on notes you post.</p>
       </section>
     </aside>
 
@@ -163,9 +162,58 @@
         <p class="detail-eyebrow" data-bind="neighborhood"></p>
         <h2 data-bind="title"></h2>
         <p class="detail-address" data-bind="address"></p>
+        <button class="head-notes" type="button" data-action="expand-notes">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Notes</span>
+          <span class="note-count" data-slot="note-count">0</span>
+        </button>
       </header>
 
+      <section class="detail-gallery" hidden>
+        <div class="gallery-strip" data-slot="gallery"></div>
+      </section>
+
       <dl class="detail-grid"></dl>
+
+      <section class="detail-section detail-notes" id="notes-section">
+        <header class="notes-head">
+          <button class="notes-toggle" type="button" data-action="toggle-notes" aria-expanded="true">
+            <span class="notes-chev" aria-hidden="true"></span>
+            <h3>Notes <span class="note-count" data-slot="note-count">0</span></h3>
+          </button>
+          <span class="note-status" data-bind="note-status"></span>
+          <button class="notes-expand" type="button" data-action="expand-notes"
+                  aria-label="Expand notes to full screen" title="Expand notes">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+          </button>
+        </header>
+
+        <div class="notes-body" data-slot="notes-body">
+          <ul class="thread" data-slot="thread" aria-live="polite"></ul>
+
+          <div class="composer">
+            <div class="composer-who">
+              <span class="composer-who-label">Posting as</span>
+              <div class="who-chips who-chips-inline" data-slot="who-chips"
+                   role="radiogroup" aria-label="Post as"></div>
+            </div>
+            <textarea data-slot="composer" rows="2" maxlength="2000"
+                      enterkeyhint="send" autocapitalize="sentences"
+                      placeholder="Add a note — everyone viewing this map sees it."></textarea>
+            <div class="composer-foot">
+              <span class="hint" data-slot="composer-hint"></span>
+              <button class="primary-btn" data-action="post-note" type="button">post note</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="detail-section detail-rooms" hidden>
         <h3>Rooms posted</h3>
@@ -175,18 +223,6 @@
       <section class="detail-section detail-amenities" hidden>
         <h3>Amenities</h3>
         <ul data-slot="amenities" class="tag-list"></ul>
-      </section>
-
-      <section class="detail-section detail-notes">
-        <h3>Notes <span class="note-status" data-bind="note-status"></span></h3>
-        <ul class="thread" data-slot="thread" aria-live="polite"></ul>
-        <div class="composer">
-          <textarea data-slot="composer" placeholder="Add a note — visible to everyone viewing this map." maxlength="2000" rows="2"></textarea>
-          <div class="composer-foot">
-            <span class="hint" data-slot="composer-hint">Posts as <span data-slot="composer-author">anonymous</span></span>
-            <button class="primary-btn" data-action="post-note" type="button">post note</button>
-          </div>
-        </div>
       </section>
 
       <section class="detail-section">
