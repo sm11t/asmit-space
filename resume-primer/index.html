@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asmit Datta — Resume</title>
+  <meta name="description" content="Asmit Datta - resume. Full Stack Software Engineering Intern application, Primer." />
+  <meta name="robots" content="noindex" />
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --border: #1f1f1f;
+      --text: #e0e0e0;
+      --text-dim: #8a8a8a;
+      --text-muted: #555;
+      --accent: #e74c3c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', 'Roboto Mono', monospace;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2.2rem clamp(1.2rem, 5vw, 4rem) 1.6rem;
+    }
+    .name {
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+    .contact {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.9rem;
+    }
+    .contact a { text-decoration: none; border-bottom: 1px solid var(--text-muted); }
+    .contact a:hover, .contact a:focus-visible { color: #fff; border-bottom-color: var(--accent); }
+
+    .bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1rem clamp(1.2rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .download {
+      font-size: 0.82rem;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.95rem;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+    .download:hover, .download:focus-visible {
+      border-color: var(--accent);
+      background: rgba(231, 76, 60, 0.08);
+      color: #fff;
+    }
+
+    main { flex: 1; padding: clamp(1rem, 3vw, 2rem) clamp(1.2rem, 5vw, 4rem) 2.5rem; }
+    .viewer {
+      width: 100%;
+      height: min(78vh, 1100px);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .viewer object, .viewer iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+    }
+
+    footer {
+      padding: 1.2rem clamp(1.2rem, 5vw, 4rem) 2.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { text-decoration: none; border-bottom: 1px solid var(--text-muted); }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="name">Asmit Datta</h1>
+    <p class="contact">
+      <span>New York, NY</span>
+      <a href="mailto:asmit77@icloud.com">asmit77@icloud.com</a>
+      <a href="https://www.asmit.space">asmit.space</a>
+      <a href="https://github.com/sm11t">github.com/sm11t</a>
+      <a href="https://linkedin.com/in/asmitrajeet">linkedin.com/in/asmitrajeet</a>
+    </p>
+  </header>
+
+  <div class="bar">
+    <span class="label">Resume — Full Stack Software Engineering Intern</span>
+    <a class="download" href="asmit-datta-resume.pdf" download>Download PDF</a>
+  </div>
+
+  <main>
+    <div class="viewer">
+      <object data="asmit-datta-resume.pdf" type="application/pdf">
+        <iframe src="asmit-datta-resume.pdf" title="Asmit Datta resume">
+          <p class="fallback">
+            Your browser cannot display the PDF inline.
+            <a href="asmit-datta-resume.pdf">Open the resume</a>.
+          </p>
+        </iframe>
+      </object>
+    </div>
+  </main>
+
+  <footer>
+    Direct file: <a href="asmit-datta-resume.pdf">asmit.space/resume-primer/asmit-datta-resume.pdf</a>
+  </footer>
+</body>
+</html>
